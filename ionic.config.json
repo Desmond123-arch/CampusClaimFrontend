@@ -1,0 +1,7 @@
+{
+  "name": "CampusClaimFrontend",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
