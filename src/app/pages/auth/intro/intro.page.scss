@@ -1,0 +1,41 @@
+.header{
+  margin-top: 1.5rem;
+  font-size: 2em;
+  font-weight: bolder;
+  font-family: var(--font-roboto);
+}
+.special {
+  position: relative;
+  display: inline-block;
+}
+.special:before,
+.special:after {
+  opacity: 1;
+  content: 'i';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  font: inherit;
+}
+/* The 0.35 might have to be adjusted for other fonts. */
+.special:before {
+  color: #EDB03F;
+  clip: rect(auto, auto, 6em, auto);
+}
+.special:after {
+  clip: rect(0.5em, auto, auto, auto);
+}
+.special i {
+  font: inherit;
+  opacity: 0;
+}
+
+.started-btn{
+  text-transform: none;
+  background: var(--ion-color-primary);
+  width: 78%;
+  margin: auto;
+  border: 2px solid;
+  border-radius: 0.8em;
+}
