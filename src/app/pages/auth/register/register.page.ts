@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -8,9 +7,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterPage implements OnInit {
 
-  constructor() { }
+  showPassword = false;
+  showConfirmPassword = false;
+  constructor() {
+  }
 
   ngOnInit() {
   }
 
+  togglePasswordVisibility(){
+    this.showPassword = !this.showPassword;
+  }
+  toggleConfirmPassword(){
+    this.showConfirmPassword = !this.showConfirmPassword
+  }
 }

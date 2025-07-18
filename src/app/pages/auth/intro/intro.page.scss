@@ -1,41 +1,30 @@
-.header{
-  margin-top: 1.5rem;
-  font-size: 2em;
-  font-weight: bolder;
-  font-family: var(--font-roboto);
-}
-.special {
-  position: relative;
-  display: inline-block;
-}
-.special:before,
-.special:after {
-  opacity: 1;
-  content: 'i';
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  font: inherit;
-}
-/* The 0.35 might have to be adjusted for other fonts. */
-.special:before {
-  color: #EDB03F;
-  clip: rect(auto, auto, 6em, auto);
-}
-.special:after {
-  clip: rect(0.5em, auto, auto, auto);
-}
-.special i {
-  font: inherit;
-  opacity: 0;
+
+
+// Image Container
+.image-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0 1rem;
+  margin-top: 2rem;
+
+  @media (min-width: 768px) {
+    margin-top: 0rem;
+    padding: 0 2rem;
+  }
 }
 
-.started-btn{
-  text-transform: none;
-  background: var(--ion-color-primary);
-  width: 78%;
-  margin: auto;
-  border: 2px solid;
-  border-radius: 0.8em;
+// Image Wrapper
+.image-wrapper {
+  width: 100%;
+  max-width: 20rem;
+
+  @media (min-width: 768px) {
+    max-width: 24rem;
+  }
+
+  @media (min-width: 1024px) {
+    max-width: 28rem;
+  }
 }

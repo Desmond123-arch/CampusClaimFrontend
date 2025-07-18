@@ -1,29 +1,21 @@
-<ion-header [translucent]="true" class="ion-text-center ion-no-border">
-  <ion-toolbar>
-    <ion-title color="primary" class="header">
-      CampusCla<span class="special"><i>i</i></span
-      >m
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-page-header></app-page-header>
 
 <ion-content [fullscreen]="true">
-  <div class="flex items-center justify-center w-[95%] mx-auto mt-5">
-    <ion-img src="/assets/intro.png"></ion-img>
+  <div class="flex items-center justify-center sm:w-[95%] mx-auto mt-5 md:mt-0 md:p-0">
+    <div class="image-container">
+      <div class="image-wrapper">
+        <ion-img src="/assets/intro.png"></ion-img>
+      </div>
+    </div>
   </div>
   <div class="flex flex-col items-center justify-center gap-2 p-0 mb-4">
     <h1 class="text-primary text-2xl font-semibold w-max">
       Lost & Found Made Easy
     </h1>
-    <p class="text-center w-[70%]">
+    <p class="text-center w-[70%] md:w-[40%]">
       Quickly report your lost items or help others Find theirs. together we can
       reunite what's been misplaced...
     </p>
   </div>
-  <ion-button (click)="getStarted()" expand="block" fill="clear" shape="round" color="light" class="started-btn">
-    Get Started
-  </ion-button>
 </ion-content>
-
-
 

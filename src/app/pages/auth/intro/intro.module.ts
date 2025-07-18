@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { IntroPageRoutingModule } from './intro-routing.module';
 
 import { IntroPage } from './intro.page';
+import { PageHeaderComponent } from "src/app/components/page-header/page-header.component";
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { IntroPage } from './intro.page';
     FormsModule,
     IonicModule,
     IntroPageRoutingModule,
-  ],
+    PageHeaderComponent
+],
   declarations: [IntroPage],
   exports: [IntroPage]
 })

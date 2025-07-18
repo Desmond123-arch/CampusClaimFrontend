@@ -14,6 +14,6 @@ export class IntroPage implements OnInit {
   ngOnInit() {
   }
   getStarted(){
-    this.router.navigateByUrl('/auth/register', {replaceUrl: true})
+    this.router.navigateByUrl('/auth/register', {replaceUrl: false})
   }
 }

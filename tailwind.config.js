@@ -14,6 +14,11 @@ module.exports = {
         light: 'var(--ion-color-light)',
         medium: 'var(--ion-color-medium)',
         dark: 'var(--ion-color-dark)',
+        subtitle: 'var(--subtitle-color)'
+      },
+      fontFamily: {
+        roboto: ['var(--font-roboto)'],
+        inter:['var(--font-inter)']
       },
     },
   },
