@@ -1,7 +1,9 @@
 <app-page-header></app-page-header>
 
 <ion-content [fullscreen]="true">
-  <div class="flex items-center justify-center sm:w-[95%] mx-auto mt-5 md:mt-0 md:p-0">
+  <div
+    class="flex items-center justify-center sm:w-[95%] mx-auto mt-5 md:mt-0 md:p-0"
+  >
     <div class="image-container">
       <div class="image-wrapper">
         <ion-img src="/assets/intro.png"></ion-img>
@@ -17,5 +19,14 @@
       reunite what's been misplaced...
     </p>
   </div>
+  <ion-button
+    expand="block"
+    fill="clear"
+    shape="round"
+    color="light"
+    class="started-btn"
+    (click)="getStarted()"
+  >
+    Get Started
+  </ion-button>
 </ion-content>
-
