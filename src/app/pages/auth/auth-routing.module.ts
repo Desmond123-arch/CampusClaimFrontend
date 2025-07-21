@@ -14,15 +14,12 @@ const routes: Routes = [
   {
     path: 'register',
     loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
+  },
+  {
+    path: 'verify',
+    loadChildren: () => import('./verify/verify.module').then( m => m.VerifyPageModule)
   }
-  // {
-  //   path: 'login',
-  //   loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule)
-  // },
-  // {
-  //   path: 'register',
-  //   loadChildren: () => import('./register/register.module').then(m => m.RegisterPageModule)
-  // }
+
 ];
 
 @NgModule({

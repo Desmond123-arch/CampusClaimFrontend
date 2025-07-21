@@ -1,0 +1,51 @@
+<app-page-header></app-page-header>
+
+<ion-content [fullscreen]="true">
+  <div class="relative flex items-center mt-2">
+    <ion-buttons slot="start" class="z-10">
+      <ion-back-button icon="chevron-back-sharp" defaultHref="/home" />
+    </ion-buttons>
+
+    <h1
+      class="absolute left-1/2 -translate-x-1/2 font-semibold text-2xl text-center"
+    >
+      OTP Verification
+    </h1>
+  </div>
+  <p class="text-base text-primary px-6 mt-6 text-center">
+    Enter the OTP sent to your school email
+  </p>
+  <form [formGroup]="otpForms">
+
+    <ion-input-otp
+      size="large"
+      color="primary"
+      class="has-focus"
+      formControlName="otp"
+      inputmode="numeric"
+    >
+      <div
+        *ngIf="otpForms.get('otp')?.invalid && otpForms.get('otp')?.touched"
+        class="text-red-500 text-xs"
+      >
+        <div *ngIf="otpForms.get('otp')?.errors?.['otpLength']">
+          OTP must be at least 4 characters.
+        </div>
+      </div>
+      Didn't get a code?
+      <a href="#" class="text-primary underline">Resend the code</a>
+    </ion-input-otp>
+
+    <ion-button
+      id="verify"
+      expand="block"
+      fill="clear"
+      shape="round"
+      color="light"
+      class="started-btn started-btn-2"
+      (click)="verifyOTP()"
+    >
+      Verify
+    </ion-button>
+  </form>
+</ion-content>

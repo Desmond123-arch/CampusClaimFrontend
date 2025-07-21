@@ -4,26 +4,26 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { RegisterPageRoutingModule } from './register-routing.module';
+import { VerifyPageRoutingModule } from './verify-routing.module';
 
-import { RegisterPage } from './register.page';
+import { VerifyPage } from './verify.page';
 import { PageHeaderComponent } from "src/app/components/page-header/page-header.component";
-import { NgIconsModule, provideIcons } from '@ng-icons/core';
-import {ionLogoGoogle} from '@ng-icons/ionicons'
+import {ionChevronBackSharp} from '@ng-icons/ionicons'
+import { provideIcons, NgIcon } from '@ng-icons/core';
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    RegisterPageRoutingModule,
+    VerifyPageRoutingModule,
     PageHeaderComponent,
     ReactiveFormsModule,
-    NgIconsModule
+    NgIcon
 ],
-  declarations: [RegisterPage],
-  exports: [RegisterPage],
+  declarations: [VerifyPage],
+  exports: [VerifyPage],
   providers: [
-    provideIcons({ ionLogoGoogle })
+    provideIcons({ionChevronBackSharp})
   ]
 })
-export class RegisterPageModule {}
+export class VerifyPageModule {}
