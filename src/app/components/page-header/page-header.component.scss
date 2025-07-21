@@ -3,6 +3,14 @@
   font-size: 2em;
   font-weight: bolder;
   font-family: var(--font-roboto);
+
+  @media (min-width: 768px) {
+    font-size: 4em;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 3em;
+  }
 }
 
 .special {

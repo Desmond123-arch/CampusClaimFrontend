@@ -5,7 +5,11 @@
 >
   <h1 class="font-semibold text-xl text-subtitle">Create Your Account</h1>
   <ion-list class="form-container">
-    <form action="" class="text-2xl w-full border-none mb-3 md:mb-5 font-inter">
+    <form
+      action=""
+      class="text-2xl w-full border-none mb-3 md:mb-5 font-inter"
+      [formGroup]="myForm"
+    >
       <div class="mb-4 w-[80%] md:w-[35%] mx-auto">
         <label
           class="block text-neutral-500 text-base font-light mb-2 ml-2 text-start"
@@ -13,10 +17,33 @@
           Enter Name
         </label>
         <input
+          formControlName="name"
           type="text"
           placeholder="Name"
           class="placeholder-neutral-300 text-black w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
+        <div
+          *ngIf="myForm.controls['name'] &&
+               (myForm.controls['name'].dirty || myForm.controls['name'].touched)"
+          class="text-xs text-red-600 text-start"
+        >
+          <div *ngIf="myForm.controls['name'].hasError('required')">
+            A valid name is required.
+          </div>
+          <div *ngIf="myForm.controls['name'].hasError('minlength')">
+            Name should be at least {{
+            myForm.controls['name'].errors?.['minlength']?.requiredLength }}
+            characters long.
+          </div>
+          <div *ngIf="myForm.controls['name'].hasError('maxlength')">
+            Name should not exceed {{
+            myForm.controls['name'].errors?.['maxlength']?.requiredLength }}
+            characters.
+          </div>
+          <div *ngIf="myForm.controls['name'].hasError('pattern')">
+            Name can only contain letters and spaces.
+          </div>
+        </div>
       </div>
       <div class="mb-4 w-[80%] md:w-[35%] mx-auto">
         <label
@@ -25,11 +52,28 @@
           Enter Phone Number
         </label>
         <input
+          formControlName="phone"
           type="text"
           placeholder="+233 24 123 2345"
           class="placeholder-neutral-300 text-black w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
+        <div
+          *ngIf="myForm.controls['phone']  && (myForm.controls['phone'].dirty || myForm.controls['phone'].touched)"
+          class="text-xs text-red-600 text-start"
+        >
+          <div *ngIf="myForm.controls['phone'].hasError('required')">
+            Phone number is required.
+          </div>
+
+          <div
+            *ngIf="myForm.controls['phone'].hasError('invalidGhanaianPhoneNumber')"
+          >
+            Please enter a valid Ghanaian phone number (e.g. 0241234567 or
+            +233551234567).
+          </div>
+        </div>
       </div>
+      <!-- EMAIL -->
       <div class="mb-4 w-[80%] md:w-[35%] mx-auto">
         <label
           class="block text-neutral-500 text-base font-light mb-2 ml-2 text-start"
@@ -37,10 +81,24 @@
           Enter Email
         </label>
         <input
+          formControlName="email"
           type="text"
           placeholder="School Email"
           class="placeholder-neutral-300 text-black w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
+        <div
+          *ngIf="myForm.controls['email']  && (myForm.controls['email'].dirty || myForm.controls['email'].touched)"
+          class="text-xs text-red-600 text-start"
+        >
+          <div *ngIf="myForm.controls['email'].hasError('required')">
+            Email is required.
+          </div>
+
+          <div *ngIf="myForm.controls['email'].hasError('invalidSchoolEmail')">
+            Please enter a valid student email (e.g.
+            domends6421&#64;st.umat.edu.gh).
+          </div>
+        </div>
       </div>
       <!-- PASSWORD -->
       <div class="mb-4 w-[80%] md:w-[35%] mx-auto">
@@ -51,6 +109,7 @@
         </label>
         <div class="relative">
           <input
+            formControlName="password"
             [type]="showPassword ? 'text' : 'password'"
             placeholder="**************"
             class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -58,12 +117,31 @@
           <button
             (click)="togglePasswordVisibility()"
             class="absolute inset-y-0 right-0 flex items-center px-4 text-gray-500"
+             type="button"
           >
             <ion-icon
               slot="icon-only"
               [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
             ></ion-icon>
           </button>
+        </div>
+        <div
+          *ngIf="myForm.controls['password'].invalid && (myForm.controls['password'].dirty || myForm.controls['password'].touched)"
+          class="text-xs text-red-600 text-start mt-1"
+        >
+          <div *ngIf="myForm.controls['password'].hasError('required')">
+            Password is required.
+          </div>
+          <div *ngIf="myForm.controls['password'].hasError('minLength')">
+            Password must be at least 8 characters long.
+          </div>
+          <div *ngIf="myForm.controls['password'].hasError('requireDigit')">
+            Password must contain at least one number.
+          </div>
+          <!-- Add other strength errors as needed -->
+          <div *ngIf="myForm.controls['password'].hasError('requireUppercase')">
+            Password must contain an uppercase letter.
+          </div>
         </div>
       </div>
       <!-- CONFIRM PASSWORD -->
@@ -75,6 +153,7 @@
         </label>
         <div class="relative">
           <input
+            formControlName="confirmPassword"
             [type]="showConfirmPassword ? 'text' : 'password'"
             placeholder="**************"
             class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -82,12 +161,33 @@
           <button
             (click)="toggleConfirmPassword()"
             class="absolute inset-y-0 right-0 flex items-center px-4 text-gray-500"
+            type="button"
           >
             <ion-icon
               slot="icon-only"
               [name]="showConfirmPassword ? 'eye-off-outline' : 'eye-outline'"
             ></ion-icon>
           </button>
+        </div>
+        <div
+          *ngIf="myForm.controls['confirmPassword'].invalid && (myForm.controls['confirmPassword'].dirty || myForm.controls['confirmPassword'].touched)"
+          class="text-xs text-red-600 text-start mt-1"
+        >
+          <div
+            *ngIf="myForm.controls['confirmPassword'].invalid && (myForm.controls['confirmPassword'].dirty || myForm.controls['confirmPassword'].touched)"
+            class="text-xs text-red-600 text-start mt-1"
+          >
+            <div
+              *ngIf="myForm.controls['confirmPassword'].hasError('required')"
+            >
+              Please confirm your password.
+            </div>
+            <div
+              *ngIf="myForm.controls['confirmPassword'].hasError('passwordsMatch')"
+            >
+              Passwords do not match.
+            </div>
+          </div>
         </div>
       </div>
       <ion-button
@@ -96,6 +196,8 @@
         shape="round"
         color="light"
         class="started-btn"
+        type="submit"
+        (click)="submitForm()"
       >
         Create Account
       </ion-button>
