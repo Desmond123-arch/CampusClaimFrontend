@@ -1,33 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ghanaianPhoneNumberValidator, passwordsMatchValidator, passwordStrengthValidator, UmatEmailValidator } from 'src/app/validators/registration';
+import { passwordStrengthValidator, passwordsMatchValidator } from 'src/app/validators/registration';
+
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.page.html',
-  styleUrls: ['./register.page.scss'],
+  selector: 'app-reset-password',
+  templateUrl: './reset-password.page.html',
+  styleUrls: ['./reset-password.page.scss'],
   standalone: false,
 })
-export class RegisterPage implements OnInit {
-
-  showPassword = false;
-  showConfirmPassword = false;
+export class ResetPasswordPage implements OnInit {
   public myForm: FormGroup = new FormGroup({});
-
-  constructor(public formBuilder: FormBuilder, private router: Router) {
-  }
+  showConfirmPassword = false;
+  showPassword = false;
+  constructor(public formBuilder: FormBuilder, private router: Router) { }
 
   ngOnInit() {
     this.myForm = this.formBuilder.group({
-      name: ['',
-        ([
-          Validators.minLength(4),
-          Validators.maxLength(30),
-          Validators.pattern('[a-zA-Z ]*'),
-          Validators.required])
-      ],
-      phone: ['', [Validators.required, ghanaianPhoneNumberValidator()]],
-      email: ['', [Validators.required, UmatEmailValidator()]],
       password: ['', [
         Validators.required,
         passwordStrengthValidator({
@@ -41,10 +30,6 @@ export class RegisterPage implements OnInit {
       validators: passwordsMatchValidator('password', 'confirmPassword')
     });
   }
-
-  get name() { return this.myForm.get('name'); }
-  get phone() { return this.myForm.get('phone'); }
-  get email() { return this.myForm.get('email'); }
   get password() { return this.myForm.get('password'); }
   get confirmPassword() { return this.myForm.get('confirmPassword'); }
 
@@ -55,10 +40,8 @@ export class RegisterPage implements OnInit {
   toggleConfirmPassword() {
     this.showConfirmPassword = !this.showConfirmPassword
   }
-  navigateToSignIn() {
-    this.router.navigateByUrl('/auth/login')
-  }
-  submitForm(): void {
+
+  resetPassword(): void {
 
     if (this.myForm.invalid) {
       console.log('Form is invalid. Please check the fields.');
@@ -67,22 +50,12 @@ export class RegisterPage implements OnInit {
 
       return;
     }
-
-    console.log('Form is valid! Submitting...');
-
-    console.log('Raw form data:', this.myForm.value);
-
     const formValue = this.myForm.value;
+    console.log(this.myForm)
     const payload = {
-      name: formValue.name,
-      phone: formValue.phone,
-      email: formValue.email,
       password: formValue.password,
       confirm_password: formValue.confirmPassword
     };
-
     console.log('Clean payload to send to API:', payload);
-    // this.myForm.reset();
-    // this.router.navigateByUrl('/auth/verify');
   }
 }
