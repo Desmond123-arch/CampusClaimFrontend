@@ -38,8 +38,12 @@ export class VerifyPage implements OnInit {
     const loading = await this.loadingCtrl.create({
       cssClass: 'custom-loading',
       spinner: 'circles',
+      duration: 500, //NOTE REMOVE LATER
     })
     loading.present()
+  }
+  async closeLoading(){
+    const loading = await this.loadingCtrl.dismiss();
   }
 
   verifyOTP(){

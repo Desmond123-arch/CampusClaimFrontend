@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ghanaianPhoneNumberValidator, passwordsMatchValidator, passwordStrengthValidator, UmatEmailValidator } from 'src/app/validators/registration';
 @Component({
   selector: 'app-register',
@@ -13,7 +14,7 @@ export class RegisterPage implements OnInit {
   showConfirmPassword = false;
   public myForm: FormGroup = new FormGroup({});
 
-  constructor(public formBuilder: FormBuilder) {
+  constructor(public formBuilder: FormBuilder, private router: Router) {
   }
 
   ngOnInit() {
@@ -79,5 +80,6 @@ export class RegisterPage implements OnInit {
 
     console.log('Clean payload to send to API:', payload);
     // this.myForm.reset();
+    // this.router.navigateByUrl('/auth/verify');
   }
 }
