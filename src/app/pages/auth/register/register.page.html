@@ -1,10 +1,13 @@
-<app-page-header></app-page-header>
+<div class="mt-6">
+  <app-page-header></app-page-header>
+</div>
 <ion-content
+  #content
   [fullscreen]="true"
   class="ion-justify-content-center ion-align-items-center ion-text-center ion-padding-top"
 >
   <h1 class="font-semibold text-xl text-subtitle">Create Your Account</h1>
-  <ion-list class="form-container">
+  <div class="w-full overflow-y-auto">
     <form
       action=""
       class="text-2xl w-full border-none mb-3 md:mb-5 font-inter"
@@ -17,6 +20,8 @@
           Enter Name
         </label>
         <input
+          id="name"
+          (focus)="scrollToField('name')"
           formControlName="name"
           type="text"
           placeholder="Name"
@@ -25,9 +30,9 @@
         <div
           *ngIf="myForm.controls['name'] &&
                (myForm.controls['name'].dirty || myForm.controls['name'].touched)"
-          class="text-xs text-red-600 text-start"
+          class="text-xs text-red-600 text-start error-container"
         >
-          <div *ngIf="myForm.controls['name'].hasError('required')">
+          <div *ngIf="myForm.controls['name'].hasError('required') && submitted">
             A valid name is required.
           </div>
           <div *ngIf="myForm.controls['name'].hasError('minlength')">
@@ -52,6 +57,8 @@
           Enter Phone Number
         </label>
         <input
+          id="phone"
+          (focus)="scrollToField('phone')"
           formControlName="phone"
           type="text"
           placeholder="+233 24 123 2345"
@@ -59,9 +66,9 @@
         />
         <div
           *ngIf="myForm.controls['phone']  && (myForm.controls['phone'].dirty || myForm.controls['phone'].touched)"
-          class="text-xs text-red-600 text-start"
+          class="text-xs text-red-600 text-start error-container "
         >
-          <div *ngIf="myForm.controls['phone'].hasError('required')">
+          <div *ngIf="myForm.controls['phone'].hasError('required') && submitted">
             Phone number is required.
           </div>
 
@@ -81,6 +88,8 @@
           Enter Email
         </label>
         <input
+          id="email"
+          (focus)="scrollToField('email')"
           formControlName="email"
           type="text"
           placeholder="School Email"
@@ -88,9 +97,9 @@
         />
         <div
           *ngIf="myForm.controls['email']  && (myForm.controls['email'].dirty || myForm.controls['email'].touched)"
-          class="text-xs text-red-600 text-start"
+          class="text-xs text-red-600 text-start error-container "
         >
-          <div *ngIf="myForm.controls['email'].hasError('required')">
+          <div *ngIf="myForm.controls['email'].hasError('required') && submitted">
             Email is required.
           </div>
 
@@ -109,6 +118,8 @@
         </label>
         <div class="relative">
           <input
+            id="password"
+            (focus)="scrollToField('password')"
             formControlName="password"
             [type]="showPassword ? 'text' : 'password'"
             placeholder="**************"
@@ -117,7 +128,7 @@
           <button
             (click)="togglePasswordVisibility()"
             class="absolute inset-y-0 right-0 flex items-center px-4 text-gray-500"
-             type="button"
+            type="button"
           >
             <ion-icon
               slot="icon-only"
@@ -127,9 +138,9 @@
         </div>
         <div
           *ngIf="myForm.controls['password'].invalid && (myForm.controls['password'].dirty || myForm.controls['password'].touched)"
-          class="text-xs text-red-600 text-start mt-1"
+          class="text-xs text-red-600 text-start mt-1 error-container "
         >
-          <div *ngIf="myForm.controls['password'].hasError('required')">
+          <div *ngIf="myForm.controls['password'].hasError('required') && submitted">
             Password is required.
           </div>
           <div *ngIf="myForm.controls['password'].hasError('minLength')">
@@ -153,6 +164,8 @@
         </label>
         <div class="relative">
           <input
+            id="confirmPassword"
+            (focus)="scrollToField('confirmPassword', true)"
             formControlName="confirmPassword"
             [type]="showConfirmPassword ? 'text' : 'password'"
             placeholder="**************"
@@ -171,14 +184,14 @@
         </div>
         <div
           *ngIf="myForm.controls['confirmPassword'].invalid && (myForm.controls['confirmPassword'].dirty || myForm.controls['confirmPassword'].touched)"
-          class="text-xs text-red-600 text-start mt-1"
+          class="text-xs text-red-600 text-start mt-1 error-container "
         >
           <div
             *ngIf="myForm.controls['confirmPassword'].invalid && (myForm.controls['confirmPassword'].dirty || myForm.controls['confirmPassword'].touched)"
-            class="text-xs text-red-600 text-start mt-1"
+            class="text-xs text-red-600 text-start mt-1 error-container "
           >
             <div
-              *ngIf="myForm.controls['confirmPassword'].hasError('required')"
+              *ngIf="myForm.controls['confirmPassword'].hasError('required') && submitted"
             >
               Please confirm your password.
             </div>
@@ -207,7 +220,13 @@
     <div
       class="flex items-center justify-center w-full md:w-[40%] mx-auto gap-2 text-black"
     >
-      <ion-button expand="block" fill="clear" shape="round" class="rounded-btn" (click)="navigateToSignIn()">
+      <ion-button
+        expand="block"
+        fill="clear"
+        shape="round"
+        class="rounded-btn"
+        (click)="navigateToSignIn()"
+      >
         SIGN IN
       </ion-button>
       <ion-button expand="block" fill="clear" shape="round" class="rounded-btn">
@@ -219,5 +238,5 @@
         />
       </ion-button>
     </div>
-  </ion-list>
+  </div>
 </ion-content>
