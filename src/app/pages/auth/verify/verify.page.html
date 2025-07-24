@@ -26,7 +26,7 @@
     >
       <div
         *ngIf="otpForms.get('otp')?.invalid && otpForms.get('otp')?.touched"
-        class="text-red-500 text-sm"
+        class="text-red-500 text-xs"
       >
         <div *ngIf="otpForms.get('otp')?.errors?.['otpLength']">
           OTP must be at least 4 characters.

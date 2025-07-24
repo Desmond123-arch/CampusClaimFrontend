@@ -69,7 +69,9 @@
   }
 }
 .started-btn-2{
-  width: 87%;
+  @media (min-width: 1024px) {
+    max-width: 100%;
+  }
 }
 
 .rounded-btn {

@@ -3,7 +3,7 @@
 }
 .header {
   font-size: 2em;
-  padding-left: 4.5rem;
+  padding-left: 5rem;
   font-weight: bolder;
   font-family: var(--font-roboto);
   // background-color: black;
@@ -22,11 +22,15 @@
 
 .theme-switcher {
   margin-top: 3rem;
-  // background-color: red;
   width: max-content;
   padding-inline: 0;
+
   margin: 0;
   height: max-content;
+
+  @media(min-width: 768px) {
+    padding-right: 1rem;
+  }
 
 }
 .special {
