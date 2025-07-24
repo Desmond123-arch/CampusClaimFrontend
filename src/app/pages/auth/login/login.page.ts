@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { IonContent } from '@ionic/angular';
 import { UmatEmailValidator, passwordStrengthValidator } from 'src/app/validators/registration';
 
 @Component({
@@ -10,6 +11,7 @@ import { UmatEmailValidator, passwordStrengthValidator } from 'src/app/validator
   standalone: false
 })
 export class LoginPage implements OnInit {
+  @ViewChild('content', { static: false }) contentRef!: IonContent;
   myForm: FormGroup = new FormGroup({})
   showPassword = false;
 
@@ -57,4 +59,22 @@ export class LoginPage implements OnInit {
   navigateToConfirmEmail(){
     this.router.navigateByUrl('/auth/request-password-reset');
   }
+  scrollToField(id: string) {
+    if (this.contentRef) return;
+
+    const inputEl = document.getElementById(id)
+    if (!inputEl) return;
+
+    setTimeout(() => {
+      const rect = inputEl.getBoundingClientRect();
+
+      this.contentRef.getScrollElement().then(scrollEl => {
+        const contentScrollTop = scrollEl.scrollTop;
+
+        const scrollToPosition = contentScrollTop + rect.top - 100;
+
+        this.contentRef.scrollToPoint(0, scrollToPosition, 300);
+      });
+    }, 300);
+    }
 }

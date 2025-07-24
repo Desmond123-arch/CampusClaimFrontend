@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { SplashScreen } from '@capacitor/splash-screen';
+import { ThemeService } from './service/theme.service';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -7,8 +8,9 @@ import { SplashScreen } from '@capacitor/splash-screen';
   standalone: false,
 })
 export class AppComponent {
-  constructor() {
+  constructor(theme: ThemeService) {
     this.initializeApp()
+    theme.enableDark();
   }
   async initializeApp() {
     await SplashScreen.hide()

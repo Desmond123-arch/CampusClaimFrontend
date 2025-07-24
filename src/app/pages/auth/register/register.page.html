@@ -1,4 +1,4 @@
-<div class="mt-6">
+<div>
   <app-page-header></app-page-header>
 </div>
 <ion-content
@@ -25,7 +25,7 @@
           formControlName="name"
           type="text"
           placeholder="Name"
-          class="placeholder-neutral-300 text-black w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+          class="placeholder-neutral-300 dark:placeholder-neutral-500 dark:text-white text-black w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <div
           *ngIf="myForm.controls['name'] &&
@@ -62,7 +62,7 @@
           formControlName="phone"
           type="text"
           placeholder="+233 24 123 2345"
-          class="placeholder-neutral-300 text-black w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    class="placeholder-neutral-300 dark:placeholder-neutral-500 dark:text-white text-black w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <div
           *ngIf="myForm.controls['phone']  && (myForm.controls['phone'].dirty || myForm.controls['phone'].touched)"
@@ -93,8 +93,8 @@
           formControlName="email"
           type="text"
           placeholder="School Email"
-          class="placeholder-neutral-300text-black w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 lowercase placeholder:normal-case"
-        />
+          class="placeholder-neutral-300 dark:placeholder-neutral-500 dark:text-white text-black w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
         <div
           *ngIf="myForm.controls['email']  && (myForm.controls['email'].dirty || myForm.controls['email'].touched)"
           class="text-xs text-red-600 text-start error-container "
@@ -123,7 +123,9 @@
             formControlName="password"
             [type]="showPassword ? 'text' : 'password'"
             placeholder="**************"
-            class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+
+            class="placeholder-neutral-300 dark:placeholder-neutral-500 dark:text-white text-black w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+
           />
           <button
             (click)="togglePasswordVisibility()"
@@ -169,7 +171,8 @@
             formControlName="confirmPassword"
             [type]="showConfirmPassword ? 'text' : 'password'"
             placeholder="**************"
-            class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="placeholder-neutral-300 dark:placeholder-neutral-500 dark:text-white text-black w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+
           />
           <button
             (click)="toggleConfirmPassword()"
@@ -207,7 +210,6 @@
         expand="block"
         fill="clear"
         shape="round"
-        color="light"
         class="started-btn"
         type="submit"
         (click)="submitForm()"
@@ -215,8 +217,8 @@
         Create Account
       </ion-button>
     </form>
-    <p class="text-black font-semibold mb-2">or</p>
-    <p>Already have an account?</p>
+    <p class="text-black font-semibold mb-2 dark:text-[#3C3744]">or</p>
+    <p class="dark:text-[#3C3744]">Already have an account?</p>
     <div
       class="flex items-center justify-center w-full md:w-[40%] mx-auto gap-2 text-black"
     >

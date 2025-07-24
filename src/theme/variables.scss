@@ -16,14 +16,8 @@
   --ion-color-primary-contrast-rgb: 255, 255, 255;
   --ion-color-primary-shade: #3171e0;
   --ion-color-primary-tint: #4c8dff;
+  --ion-color-btn: white;
 
-  /** Favorite (Light Mode) **/
-  --ion-color-favorite: #69bb7b;
-  --ion-color-favorite-rgb: 105, 187, 123;
-  --ion-color-favorite-contrast: #ffffff;
-  --ion-color-favorite-contrast-rgb: 255, 255, 255;
-  --ion-color-favorite-shade: #5ca56c;
-  --ion-color-favorite-tint: #78c288;
 }
 
 
@@ -39,8 +33,29 @@ body.dark {
   --ion-color-favorite-shade: #417e4f;
   --ion-color-favorite-tint: #5c9a6a;
 
+  --ion-color-btn: black;
+
+    --ion-background-color: black;
+  ion-content,ion-header, input {
+    --ion-background-color: black;
+  }
+
+
+  ion-button {
+    --color: #3C3744;
+    --border-color: none;
+    // --background: var(--ion-color-primary);
+  }
+  ion-header{
+    --color: var(--ion-color-primary);
+  }
+  input {
+    background-color: black;
+  }
 
 }
+
+
 
 .ion-color-favorite {
   --ion-color-base: var(--ion-color-favorite);

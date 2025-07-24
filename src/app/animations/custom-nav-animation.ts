@@ -8,6 +8,12 @@ import {
 export const customNavAnimatoin = (_: HTMLElement, opts: any) => {
   const enteringEl = opts.enteringEl;
   const leavingEl = opts.leavingEl;
+  const duration = 600;
+  const OFF_RIGHT = '100%';
+  const CENTER = '0%';
+  const OFF_LEFT = '-33%';
+
+  const easing = 'cubic-bezier(0.36,0.66,0.04,1)';
 
   const enterAnimation = createAnimation()
   .addElement(enteringEl)
@@ -15,14 +21,14 @@ export const customNavAnimatoin = (_: HTMLElement, opts: any) => {
   .easing('ease-in')
   .fromTo('opacity', 0, 1)
 
-  const leaveAnimation = createAnimation()
-  .addElement(leavingEl)
-  .duration(350)
-  .easing('ease-out')
-  .fromTo('opacity', 1, 0);
-
+  const leavingAnimation = createAnimation()
+    .addElement(leavingEl)
+    .duration(duration)
+    .easing(easing)
+    .fromTo('transform', `translateX(${CENTER})`, `translateX(${OFF_LEFT})`)
+    .fromTo('opacity', 1, 0.8);
   return createAnimation()
-  .addAnimation([enterAnimation, leaveAnimation])
+  .addAnimation([enterAnimation, leavingAnimation])
 }
 
 export const slowIosTransition = (_: HTMLElement, opts: any): Animation => {
