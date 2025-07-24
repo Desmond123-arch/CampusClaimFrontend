@@ -17,6 +17,9 @@
   --ion-color-primary-shade: #3171e0;
   --ion-color-primary-tint: #4c8dff;
   --ion-color-btn: white;
+  --ion-color-error: ##EF4444
+  --ion-color-themeswitcher: black;
+
 
 }
 
@@ -24,7 +27,8 @@
 body.dark {
   /** Primary **/
   --ion-color-primary: #428cff;
-
+  --ion-color-themeswitcher: #428cff;
+  --ion-color-error: #F87171
   /** Favorite (Dark Mode) **/
   --ion-color-favorite: #ff0;
   --ion-color-favorite-rgb: 74, 143, 89;
@@ -32,6 +36,8 @@ body.dark {
   --ion-color-favorite-contrast-rgb: 255, 255, 255;
   --ion-color-favorite-shade: #417e4f;
   --ion-color-favorite-tint: #5c9a6a;
+
+
 
   --ion-color-btn: black;
 
@@ -51,6 +57,7 @@ body.dark {
   }
   input {
     background-color: black;
+    color: white;
   }
 
 }

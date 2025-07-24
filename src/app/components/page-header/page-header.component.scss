@@ -1,9 +1,14 @@
-.header{
+.header-container {
   margin-top: 3rem;
+}
+.header {
   font-size: 2em;
+  padding-left: 4.5rem;
   font-weight: bolder;
   font-family: var(--font-roboto);
-
+  // background-color: black;
+  width: max-content;
+  margin-inline: auto;
 
   @media (min-width: 768px) {
     font-size: 4em;
@@ -15,6 +20,15 @@
   }
 }
 
+.theme-switcher {
+  margin-top: 3rem;
+  // background-color: red;
+  width: max-content;
+  padding-inline: 0;
+  margin: 0;
+  height: max-content;
+
+}
 .special {
   position: relative;
   display: inline-block;
@@ -22,7 +36,7 @@
 .special:before,
 .special:after {
   opacity: 1;
-  content: 'i';
+  content: "i";
   display: block;
   position: absolute;
   top: 0;
@@ -31,7 +45,7 @@
 }
 /* The 0.35 might have to be adjusted for other fonts. */
 .special:before {
-  color: #EDB03F;
+  color: #edb03f;
   clip: rect(auto, auto, 6em, auto);
 }
 .special:after {

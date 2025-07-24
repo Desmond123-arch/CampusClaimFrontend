@@ -19,7 +19,7 @@
       />
       <div
         *ngIf="myForm.controls['email']  && (myForm.controls['email'].dirty || myForm.controls['email'].touched)"
-        class="text-xs text-red-600 text-start"
+        class="text-sm text-red-600 dark:text-red-400  text-start"
       >
         <div *ngIf="myForm.controls['email'].hasError('required')">
           Email is required.
@@ -60,7 +60,7 @@
       </div>
       <div
         *ngIf="myForm.controls['password'].invalid && (myForm.controls['password'].dirty || myForm.controls['password'].touched)"
-        class="text-xs text-red-600 text-start mt-1"
+        class="text-sm text-red-600 dark:text-red-400 text-start mt-1"
       >
         <div *ngIf="myForm.controls['password'].hasError('required')">
           Password is required.
