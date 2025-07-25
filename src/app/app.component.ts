@@ -10,6 +10,7 @@ import { ThemeService } from './service/theme.service';
 export class AppComponent {
   constructor(theme: ThemeService) {
     this.initializeApp()
+
   }
   async initializeApp() {
     await SplashScreen.hide()

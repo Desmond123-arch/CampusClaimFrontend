@@ -5,6 +5,7 @@
  :root {
   /**Fonts for reference**/
 
+  --ion-color-bg: white;
   --font-roboto: 'Roboto', sans-serif;
   --font-inter:'Inter', sans-serif;
   --subtitle-color:#4E5D6B;
@@ -26,6 +27,8 @@
 
 body.dark {
   /** Primary **/
+
+  --ion-color-bg: black;
   --ion-color-primary: #428cff;
   --ion-color-themeswitcher: #428cff;
   --ion-color-error: #F87171

@@ -8,12 +8,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SplashScreenPageModule } from './pages/splash-screen/splash-screen.module';
 import { customNavAnimation } from './animations/custom-nav-animation';
+import { MainRoutingModule } from './pages/main/main-routing.module';
+import { AuthGuardService } from './service/auth-guard.service';
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, IonicModule.forRoot(
     { navAnimation: customNavAnimation }
-  ), AppRoutingModule, SplashScreenPageModule],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  ), AppRoutingModule, SplashScreenPageModule, MainRoutingModule],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, AuthGuardService],
   bootstrap: [AppComponent],
 })
 export class AppModule {

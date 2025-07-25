@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DOCUMENT, OnInit } from '@angular/core';
 import { IonicModule } from "@ionic/angular";
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ThemeService } from 'src/app/service/theme.service';
 import { provideIcons, NgIcon } from '@ng-icons/core';
-import {ionSunnyOutline, ionMoonOutline} from '@ng-icons/ionicons';
+import { ionSunnyOutline, ionMoonOutline } from '@ng-icons/ionicons';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-page-header',
   templateUrl: './page-header.component.html',
@@ -14,22 +15,55 @@ import {ionSunnyOutline, ionMoonOutline} from '@ng-icons/ionicons';
     CommonModule,
     FormsModule,
     ReactiveFormsModule, NgIcon],
-    viewProviders:[provideIcons({ionSunnyOutline, ionMoonOutline})]
+  viewProviders: [provideIcons({ ionSunnyOutline, ionMoonOutline })]
 })
 export class PageHeaderComponent implements OnInit {
 
   isDark = false;
-  constructor(public theme: ThemeService) { }
+  mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+  private themeSubscription: Subscription = new Subscription();
+  constructor(public theme: ThemeService) {
+  }
 
-  ngOnInit() { }
+  ngOnInit() {
+    const storedTheme = localStorage.getItem('theme');
+    if (storedTheme === 'dark') {
+      this.theme.enableDark();
+    } else if (storedTheme === 'light') {
+      this.theme.enableLight();
+    } else {
+      this.mediaQuery.addEventListener('change', (event) => {
+        if (!localStorage.getItem('theme')) {
+          if (event.matches) {
+            this.theme.enableDark();
+          } else {
+            this.theme.enableLight();
+          }
+        }
+      });
+    }
+    this.themeSubscription = this.theme.isDark$.subscribe(isDark => {
+      this.isDark = isDark;
+    });
+    this.mediaQuery.addEventListener('change', (event) => {
+      if (!localStorage.getItem('theme')) {
+        if (event.matches) {
+          this.theme.enableDark();
+        } else {
+          this.theme.enableLight();
+        }
+      }
+    });
+  }
+  ngOnDestroy() {
+    this.themeSubscription.unsubscribe();
+  }
 
   changeTheme() {
-    this.isDark = !this.isDark;
     if (this.isDark) {
-      this.theme.enableDark()
+      this.theme.enableLight();
     } else {
-      this.theme.enableLight()
+      this.theme.enableDark();
     }
-
   }
 }
