@@ -1,20 +1,28 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { MainPage } from './main.page';
 
 const routes: Routes = [
 
   {
     path: '',
-    redirectTo: 'home',
-    pathMatch: 'full',
+    component: MainPage,
+    children: [
+      {
+        path: 'home',
+        loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
+      },
+      {
+        path: '',
+        redirectTo: '/main/home',
+        pathMatch: 'full'
+      }
+    ],
   },
-  {
-    path: 'home',
-    loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
-  }
+
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
 })
-export class MainRoutingModule {}
+export class MainRoutingModule { }

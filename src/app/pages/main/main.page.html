@@ -1,0 +1,39 @@
+<ion-router-outlet></ion-router-outlet>
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="home" href="/tabs/home" color="primary">
+      <ion-icon aria-hidden="true" name="home"></ion-icon>
+      <ion-label>Home</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="search" href="/tabs/search" color="primary">
+      <ion-icon aria-hidden="true" name="search"></ion-icon>
+      <ion-label>Search</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button class="fab-placeholder" disabled>
+      <ion-label >Report</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="messages" href="/tabs/messages" color="primary">
+      <ion-icon aria-hidden="true" name="chatbubble-outline"></ion-icon>
+      <ion-label>Messages</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="profile" href="/tabs/profile" color="primary">
+      <ion-icon aria-hidden="true" name="person-outline"></ion-icon>
+      <ion-label>Profile</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+
+  <ion-fab
+    vertical="bottom"
+    horizontal="center"
+    slot="fixed"
+    class="report-fab"
+  >
+    <ion-fab-button color="primary" href="/tabs/report">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-tabs>

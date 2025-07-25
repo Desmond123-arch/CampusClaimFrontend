@@ -8,7 +8,7 @@ export class AuthGuardService implements CanActivate {
   constructor() { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): MaybeAsync<GuardResult> {
-    return false;
+    return true;
   }
 }
 

@@ -8,7 +8,7 @@ import { ThemeService } from './service/theme.service';
   standalone: false,
 })
 export class AppComponent {
-  constructor(theme: ThemeService) {
+  constructor() {
     this.initializeApp()
 
   }
