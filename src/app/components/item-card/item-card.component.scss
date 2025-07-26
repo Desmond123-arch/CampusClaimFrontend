@@ -1,0 +1,95 @@
+.item-card {
+  background-color: #f0f4ff;
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 280px;
+  flex-shrink: 0;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+
+.item-image {
+  width: 70px;
+  height: 70px;
+  border-radius: 12px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.item-details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.item-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.status-tag {
+  background-color: #a7f3d0;
+  color: #065f46;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  align-self: flex-start;
+}
+
+.info-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #4b5563;
+  font-size: 0.9rem;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.info-icon {
+  font-size: 18px;
+  color: #1f2937;
+}
+
+.dot {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #9ca3af;
+  padding: 0 4px;
+}
+
+.claim-button {
+  --background: #3b82f6;
+  --border-radius: 12px;
+  --box-shadow: none;
+  height: 48px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-transform: none;
+  --color: white;
+  margin-top: 8px;
+}
+
+.notification-text {
+  font-size: 0.8rem;
+  color: #6b7280;
+  text-align: center;
+  margin: 0;
+  padding: 0 8px;
+}

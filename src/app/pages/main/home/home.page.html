@@ -1,14 +1,106 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>home</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" color="white">
+  <div color="primary" class="main-toolbar bg-primary">
+    <ion-row>
+      <div class="w-14 h-14">
+        <ion-img src="assets/icon/icon.svg"> </ion-img>
+      </div>
+      <ion-title>Hi {{name}}</ion-title>
+      <div
+        class="relative bg-indigo-200/20 px-4 rounded-md flex items-center shadow-md"
+      >
+        <ion-icon name="notifications-outline"></ion-icon>
+      </div>
+    </ion-row>
+  </div>
+  <div class="floating-card">
+    <p class="font-bold self-start text-start w-full">Lost Something?</p>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">home</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <ion-icon name="search-outline" class="search-icon"></ion-icon>
+        <input
+          class="text-lg w-[85%] md:w-full border-none outline-none focus:border-none text-black"
+          placeholder="Search for Items"
+          type="text"
+          enterkeyhint="search"
+          style="outline: none"
+        />
+      </div>
+
+      <div class="action-icons">
+        <ion-icon src="assets/icon/upload.svg"> </ion-icon>
+        <ion-icon name="filter-outline" class="action-icon"></ion-icon>
+      </div>
+    </div>
+  </div>
+
+  <div class="px-4 md:px-8">
+    <!-- SKELETON -->
+    <div *ngIf="isLoading">
+      <section class="items-carousel-section">
+        <div class="carousel-header">
+          <h2 class="section-title">Found Items</h2>
+          <a href="#" class="view-all-link">view all ›</a>
+        </div>
+        <div class="items-carousel-container">
+          <app-item-card-skeleton></app-item-card-skeleton>
+          <app-item-card-skeleton></app-item-card-skeleton>
+          <app-item-card-skeleton></app-item-card-skeleton>
+          <app-item-card-skeleton></app-item-card-skeleton>
+          <app-item-card-skeleton></app-item-card-skeleton>
+        </div>
+      </section>
+    </div>
+
+    <div *ngIf="!isLoading">
+      <section class="items-carousel-section">
+        <div class="carousel-header">
+          <h2 class="section-title">Found Items</h2>
+          <a href="#" class="view-all-link">view all ›</a>
+        </div>
+
+        <div class="items-carousel-container">
+          <app-item-card
+            *ngFor="let item of items"
+            [item]="item"
+          ></app-item-card>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="px-4 md:px-8">
+    <!-- SKELETON -->
+    <div *ngIf="isLoading">
+      <section class="items-carousel-section">
+        <div class="carousel-header">
+          <h2 class="section-title">Lost Items</h2>
+          <a href="#" class="view-all-link">view all ›</a>
+        </div>
+        <div class="items-carousel-container">
+          <app-item-card-skeleton></app-item-card-skeleton>
+          <app-item-card-skeleton></app-item-card-skeleton>
+          <app-item-card-skeleton></app-item-card-skeleton>
+          <app-item-card-skeleton></app-item-card-skeleton>
+          <app-item-card-skeleton></app-item-card-skeleton>
+        </div>
+      </section>
+    </div>
+
+    <div *ngIf="!isLoading">
+      <section class="items-carousel-section">
+        <div class="carousel-header">
+          <h2 class="section-title">Lost Items</h2>
+          <a href="#" class="view-all-link">view all ›</a>
+        </div>
+
+        <div class="items-carousel-container">
+          <app-item-card
+            *ngFor="let item of items"
+            [item]="item"
+          ></app-item-card>
+        </div>
+      </section>
+    </div>
+  </div>
 </ion-content>

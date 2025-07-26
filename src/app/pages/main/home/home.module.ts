@@ -8,6 +8,9 @@ import { HomePageRoutingModule } from './home-routing.module';
 
 import { HomePage } from './home.page';
 import { ExploreContainerComponentModule } from "src/app/explore-container/explore-container.module";
+import { ItemCardSkeletonComponent } from "src/app/components/item-card-skeleton/item-card-skeleton.component";
+import { ItemCardComponent } from 'src/app/components/item-card/item-card.component';
+
 
 @NgModule({
   imports: [
@@ -15,7 +18,9 @@ import { ExploreContainerComponentModule } from "src/app/explore-container/explo
     FormsModule,
     IonicModule,
     HomePageRoutingModule,
-    ExploreContainerComponentModule
+    ExploreContainerComponentModule,
+    ItemCardSkeletonComponent,
+    ItemCardComponent
 ],
   declarations: [HomePage],
   exports: [HomePage]

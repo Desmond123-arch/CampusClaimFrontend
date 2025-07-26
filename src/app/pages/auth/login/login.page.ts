@@ -45,6 +45,8 @@ export class LoginPage implements OnInit {
       return;
     }
 
+    this.router.navigateByUrl("/home")
+
     console.log('Form is valid! Submitting...');
 
     console.log('Raw form data:', this.myForm.value);
@@ -55,6 +57,7 @@ export class LoginPage implements OnInit {
       password: formValue.password,
     };
     console.log('Clean payload to send to API:', payload);
+
   }
   navigateToConfirmEmail(){
     this.router.navigateByUrl('/auth/request-password-reset');
