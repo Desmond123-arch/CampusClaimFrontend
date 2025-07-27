@@ -12,8 +12,12 @@ import { IonicModule } from '@ionic/angular';
 export class ItemCardComponent  implements OnInit {
 
   @Input() item: any;
+
+
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.item);
+  }
 
 }
