@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
+import { Item } from 'src/types/item';
 
 @Component({
   selector: 'app-item-card',
@@ -9,15 +10,33 @@ import { IonicModule } from '@ionic/angular';
   imports: [CommonModule, IonicModule],
   standalone: true
 })
-export class ItemCardComponent  implements OnInit {
+export class ItemCardComponent  implements OnInit, OnDestroy {
 
-  @Input() item: any;
+  @Input()
+  item!: Item;
 
 
   constructor() { }
 
+  currentImageIndex = 0;
+  private imageInterval!: ReturnType<typeof setInterval>;
+
   ngOnInit() {
-    console.log(this.item);
+    this.startImageRotation();
   }
 
+  startImageRotation() {
+    if (!this.item?.image_urls?.length) return;
+
+    this.imageInterval = setInterval(() => {
+      this.currentImageIndex =
+        (this.currentImageIndex + 1) % this.item.image_urls.length;
+    }, 5000);
+  }
+
+  ngOnDestroy() {
+    if (this.imageInterval) {
+      clearInterval(this.imageInterval);
+    }
+  }
 }

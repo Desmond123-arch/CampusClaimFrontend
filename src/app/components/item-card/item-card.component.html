@@ -1,6 +1,6 @@
 <div class="item-card">
   <div class="card-header">
-    <ion-img [src]="item.imageUrl" class="item-image"></ion-img>
+    <ion-img [src]="item.image_urls[currentImageIndex]" class="item-image"></ion-img>
     <div class="item-details">
       <h3 class="item-title">{{ item.title }}</h3>
       <span class="status-tag">{{ item.status }}</span>
@@ -9,11 +9,11 @@
   <div class="info-line">
     <div class="info-item">
       <ion-icon name="location-outline" class="info-icon"></ion-icon>
-      <span>{{ item.location }}</span>
+      <span>{{ item.found_at }}</span>
     </div>
     <span class="dot">•</span>
     <div class="info-item">
-      <span>{{ item.date }}</span>
+      <span>{{ item.created_at }}</span>
     </div>
   </div>
   <ion-button expand="block" class="claim-button">Claim</ion-button>

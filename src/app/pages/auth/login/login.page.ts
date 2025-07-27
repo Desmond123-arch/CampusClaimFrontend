@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IonContent } from '@ionic/angular';
+import { IonContent, LoadingController } from '@ionic/angular';
+import { closeLoading, showLoading } from 'src/app/utils/loading';
 import { UmatEmailValidator, passwordStrengthValidator } from 'src/app/validators/registration';
 
 @Component({
@@ -15,7 +16,8 @@ export class LoginPage implements OnInit {
   myForm: FormGroup = new FormGroup({})
   showPassword = false;
 
-  constructor(public formBuilder: FormBuilder, private router: Router) { }
+
+  constructor(public formBuilder: FormBuilder, private router: Router,private loadingCtrl: LoadingController) { }
 
   ngOnInit() {
     this.myForm = this.formBuilder.group({
@@ -35,8 +37,9 @@ export class LoginPage implements OnInit {
   navigateToSignUp() {
     this.router.navigateByUrl('/auth/register')
   }
-  submitForm(): void {
 
+
+  async submitForm(): Promise<void> {
     if (this.myForm.invalid) {
       console.log('Form is invalid. Please check the fields.');
 
@@ -45,20 +48,36 @@ export class LoginPage implements OnInit {
       return;
     }
 
-    this.router.navigateByUrl("/home")
-
+    showLoading(this.loadingCtrl);
     console.log('Form is valid! Submitting...');
 
     console.log('Raw form data:', this.myForm.value);
 
     const formValue = this.myForm.value;
+
     const payload = {
       email: formValue.email,
       password: formValue.password,
     };
     console.log('Clean payload to send to API:', payload);
+    try {
+      const fn = await new Promise<() => void>((resolve) => {
+        setTimeout(() => {
+          resolve(() => {
+            this.router.navigateByUrl("\home");
+          });
+        }, 1000);
+      });
+      fn();
+    } catch (err) {
+      console.log(err);
+    } finally {
+      closeLoading(this.loadingCtrl)
+    }
 
   }
+
+
   navigateToConfirmEmail(){
     this.router.navigateByUrl('/auth/request-password-reset');
   }
