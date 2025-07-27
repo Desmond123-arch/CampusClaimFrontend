@@ -13,7 +13,8 @@
     </div>
     <span class="dot">•</span>
     <div class="info-item">
-      <span>{{ item.created_at }}</span>
+      <ion-icon name="calendar-outline" class="info-icon"></ion-icon>
+      <span>{{ item.created_at | date:'EEE, dd MMM yyyy' }}</span>
     </div>
   </div>
   <ion-button expand="block" class="claim-button">Claim</ion-button>
