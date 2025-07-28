@@ -1,0 +1,47 @@
+// Container for the whole page content for consistent padding
+.page-container {
+  margin-top: 10000px;
+  margin: auto;
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.items-grid {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+
+  gap: 16px;
+}
+
+.items-grid app-item-card {
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  }
+}
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 60vh;
+    color: var(--ion-color-medium);
+
+    ion-icon {
+        font-size: 4rem;
+        margin-bottom: 16px;
+    }
+    h2 {
+        font-weight: bold;
+    }
+    p {
+        color: var(--ion-color-step-550, #737373);
+    }
+}

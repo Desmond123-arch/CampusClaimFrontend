@@ -15,7 +15,6 @@ export class ItemCardComponent  implements OnInit, OnDestroy {
   @Input()
   item!: Item;
 
-
   constructor() { }
 
   currentImageIndex = 0;

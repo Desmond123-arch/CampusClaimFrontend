@@ -16,12 +16,12 @@ const routes: Routes = [
         path: '',
         redirectTo: '/main/home',
         pathMatch: 'full'
-      }
+      },
+      {
+        path: 'items',
+        loadChildren: () => import('./item/item.module').then(m => m.ItemPageModule)
+      },
     ],
-  },
-  {
-    path: 'item',
-    loadChildren: () => import('./item/item.module').then( m => m.ItemPageModule)
   },
 
 ];

@@ -1,7 +1,7 @@
 <app-page-header></app-page-header>
 <ion-content [fullscreen]="true" class="ion-text-center" #content>
   <h1 class="font-semibold text-3xl text-subtitle mt-3">Sign In</h1>
-  <form action="" [formGroup]="myForm" class="mt-10 mb-5 font-inter">
+  <form action="" [formGroup]="myForm" class="mt-10 mb-5 font-inter" (ngSubmit)="submitForm()">
     <!-- EMAIL -->
     <div class="mb-4 w-[80%] md:w-[35%] mx-auto">
       <label
@@ -90,7 +90,6 @@
       shape="round"
       class="started-btn"
       type="submit"
-      (click)="submitForm()"
     >
       Login
     </ion-button>

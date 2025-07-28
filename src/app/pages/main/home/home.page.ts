@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { ItemDetailModalComponent } from 'src/app/components/item-detail-modal/item-detail-modal.component';
 import { Item } from 'src/types/item';
+import { register } from 'swiper/element';
 
+register();
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -210,9 +214,18 @@ export class HomePage implements OnInit {
 
   name = "Ethan"
   isLoading: any = false;
-  constructor() { }
+  constructor(private modalController: ModalController) { }
 
   ngOnInit() {
   }
 
+  async openItemDetail(item: Item) {
+    const modal = await this.modalController.create({
+      component: ItemDetailModalComponent,
+      componentProps: {
+        item: item
+      }, 
+    })
+    await modal.present();
+  }
 }

@@ -5,7 +5,9 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  width: 280px;
+  width: 80%;
+  min-width: 300px;
+  margin: auto;
   flex-shrink: 0;
 }
 
