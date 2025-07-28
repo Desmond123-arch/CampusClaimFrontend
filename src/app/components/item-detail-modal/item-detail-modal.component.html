@@ -1,0 +1,54 @@
+<ion-content>
+  <ion-card>
+    <div class="close-button-container">
+      <ion-button fill="clear" (click)="dismiss()">
+        <ion-icon name="close" slot="icon-only"></ion-icon>
+      </ion-button>
+    </div>
+    <swiper-container
+      [loop]="true"
+      [pagination]="true"
+      [navigation]="true"
+      autoplay="true"
+      [duration]="1000"
+    >
+      <swiper-slide *ngFor="let img_url of item.image_urls" lazy="true">
+        <img decoding="async" part="image" [src]="img_url" alt="Item Image" />
+      </swiper-slide>
+    </swiper-container>
+
+    <ion-card-content>
+      <div class="item-header">
+        <div class="item-title-group">
+          <h2>{{ item.title }}</h2>
+          <p class="category">{{ item.category }}</p>
+        </div>
+        <ion-chip class="status-chip">{{ item.status }}</ion-chip>
+      </div>
+
+      <p class="description">
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consequatur
+        dolores at iste ipsam minus quaerat saepe dolorum reiciendis ex nemo
+        veritatis iure obcaecati repellat, rerum sed error ratione consequuntur
+        quidem?
+      </p>
+
+      <div class="info-row">
+        <div class="info-item">
+          <ion-icon name="location-outline" color="medium"></ion-icon>
+          <span>{{ item.found_at }}</span>
+        </div>
+        <div class="info-item">
+          <ion-icon name="calendar-outline" color="medium"></ion-icon>
+          <span>{{ item.created_at | date : "dd MMM yyyy" }}</span>
+        </div>
+        <div class="info-item">
+          <ion-icon name="time-outline" color="medium"></ion-icon>
+          <span>{{ item.created_at | date : "h:mm a" }}</span>
+        </div>
+      </div>
+
+      <ion-button expand="block" class="claim-button"> Claim Item </ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
