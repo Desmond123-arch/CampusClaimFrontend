@@ -10,7 +10,7 @@ import { HomePage } from './home.page';
 import { ExploreContainerComponentModule } from "src/app/explore-container/explore-container.module";
 import { ItemCardSkeletonComponent } from "src/app/components/item-card-skeleton/item-card-skeleton.component";
 import { ItemCardComponent } from 'src/app/components/item-card/item-card.component';
-
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @NgModule({
   imports: [
@@ -23,6 +23,7 @@ import { ItemCardComponent } from 'src/app/components/item-card/item-card.compon
     ItemCardComponent
 ],
   declarations: [HomePage],
-  exports: [HomePage]
+  exports: [HomePage],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class HomePageModule {}

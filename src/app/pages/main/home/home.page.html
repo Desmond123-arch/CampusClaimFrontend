@@ -56,14 +56,14 @@
       <section class="items-carousel-section">
         <div class="carousel-header">
           <h2 class="section-title">Found Items</h2>
-          <a href="/items?status=Found" class="view-all-link">view all ›</a>
+          <button (click)="navigateToFound('Found')" class="view-all-link">view all ›</button>
         </div>
 
         <div class="items-carousel-container">
           <app-item-card
             *ngFor="let item of items"
             [item]="item"
-            (click)="openItemDetail(item)"
+            (click)="openItemDetail(item, $event)"
             style="cursor: pointer;"
           ></app-item-card>
         </div>
@@ -93,14 +93,14 @@
       <section class="items-carousel-section">
         <div class="carousel-header">
           <h2 class="section-title">Lost Items</h2>
-          <a href="/items?status=Lost" class="view-all-link">view all ›</a>
+          <button (click)="navigateToFound('Lost')" class="view-all-link">view all ›</button>
         </div>
 
         <div class="items-carousel-container">
           <app-item-card
             *ngFor="let item of items"
             [item]="item"
-             (click)="openItemDetail(item)"
+             (click)="openItemDetail(item, $event)"
               style="cursor: pointer;"
           ></app-item-card>
         </div>

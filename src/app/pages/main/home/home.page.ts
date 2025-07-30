@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { ItemDetailModalComponent } from 'src/app/components/item-detail-modal/item-detail-modal.component';
 import { Item } from 'src/types/item';
-import { register } from 'swiper/element';
+import { register } from 'swiper/element/bundle';
 
 register();
 @Component({
@@ -214,18 +215,29 @@ export class HomePage implements OnInit {
 
   name = "Ethan"
   isLoading: any = false;
-  constructor(private modalController: ModalController) { }
+  constructor(private modalController: ModalController, private router: Router) { }
 
   ngOnInit() {
   }
 
-  async openItemDetail(item: Item) {
+  async openItemDetail(item: Item, event: MouseEvent) {
+    const target = event.target as HTMLElement;
     const modal = await this.modalController.create({
       component: ItemDetailModalComponent,
       componentProps: {
         item: item
-      }, 
+      },
+      breakpoints: [0, 0.5, 0.8],
+      initialBreakpoint: 1.2,
     })
+    if (target.closest('.no-bubble')) {
+      return;
+    }
     await modal.present();
   }
+
+  navigateToFound(status: string) {
+    return this.router.navigateByUrl(`/items?status=${status}`)
+  }
+
 }

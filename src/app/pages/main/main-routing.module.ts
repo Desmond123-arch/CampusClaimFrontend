@@ -21,8 +21,13 @@ const routes: Routes = [
         path: 'items',
         loadChildren: () => import('./item/item.module').then(m => m.ItemPageModule)
       },
+      {
+        path: 'report',
+        loadChildren: () => import('./report-found-items/report-found-items.module').then( m => m.ReportFoundItemsPageModule)
+      },
     ],
   },
+
 
 ];
 

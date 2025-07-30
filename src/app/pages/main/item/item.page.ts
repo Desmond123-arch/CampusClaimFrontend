@@ -236,9 +236,11 @@ export class ItemPage implements OnInit {
     const modal = await this.modalController.create({
       component: ItemDetailModalComponent,
       componentProps: {
-        item: item,
+        item: item
       },
-    });
+      breakpoints: [0, 0.5, 0.8],
+      initialBreakpoint: 1.2,
+    })
     await modal.present();
   }
 }
