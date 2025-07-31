@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonContent, LoadingController } from '@ionic/angular';
@@ -17,7 +17,7 @@ export class LoginPage implements OnInit {
   showPassword = false;
 
 
-  constructor(public formBuilder: FormBuilder, private router: Router,private loadingCtrl: LoadingController) { }
+  constructor(public formBuilder: FormBuilder, private router: Router,private loadingCtrl: LoadingController,  private ngZone: NgZone) { }
 
   ngOnInit() {
     this.myForm = this.formBuilder.group({
@@ -42,7 +42,7 @@ export class LoginPage implements OnInit {
   async submitForm(): Promise<void> {
     if (this.myForm.invalid) {
       console.log('Form is invalid. Please check the fields.');
-
+      console.log(this.myForm.errors)
       this.myForm.markAllAsTouched();
 
       return;
@@ -61,15 +61,14 @@ export class LoginPage implements OnInit {
     };
     console.log('Clean payload to send to API:', payload);
     try {
-      const fn = await new Promise<() => void>((resolve) => {
-        setTimeout(() => {
-          resolve(() => {
-            this.router.navigateByUrl("\home");
-          });
-        }, 1000);
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      this.ngZone.run(() => {
+
+        this.router.navigateByUrl("/main/home", { replaceUrl: true });
       });
-      fn();
-    } catch (err) {
+    }
+     catch (err) {
       console.log(err);
     } finally {
       closeLoading(this.loadingCtrl)

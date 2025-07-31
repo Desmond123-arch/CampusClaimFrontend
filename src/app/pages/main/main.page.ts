@@ -43,4 +43,5 @@ export class MainPage implements OnInit, AfterViewInit {
       }, 10);
     }
   }
+  
 }

@@ -14,10 +14,6 @@ const routes: Routes = [
       import('./pages/splash-screen/splash-screen.module').then((m) => m.SplashScreenPageModule),
   },
   {
-    path: 'tabs',
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
-  },
-  {
     path: 'auth',
     loadChildren: () => import('./pages/auth/auth.module').then((m) => m.AuthModule),
   }, 
@@ -25,7 +21,7 @@ const routes: Routes = [
     path: 'main',
     loadChildren: () => import('./pages/main/main.module').then(m=> m.MainModule),
     canActivate: [AuthGuardService]
-  }
+  },
 ];
 @NgModule({
   imports: [

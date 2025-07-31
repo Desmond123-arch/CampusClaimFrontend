@@ -1,9 +1,13 @@
-<ion-content>
+<ion-content class="items-container">
   <div class="flex items-center mt-10">
-    <ion-buttons slot="start">
+    <ion-buttons slot="start" class="button-container">
       <ion-back-button defaultHref="home"></ion-back-button>
     </ion-buttons>
     <h1 class="w-full text-2xl font-semibold">Report Found Item</h1>
   </div>
-  <app-found-item-form (formSubmitted)="onReportSubmit($event)"></app-found-item-form>
+  <div class="w-90% md:w-[50%] mx-auto">
+    <app-found-item-form
+      (formSubmitted)="onReportSubmit($event)"
+    ></app-found-item-form>
+  </div>
 </ion-content>

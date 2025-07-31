@@ -1,0 +1,162 @@
+<div class="w-full">
+  <form [formGroup]="foundItemForm" (ngSubmit)="submitForm()">
+    <ion-list class="ion-no-padding">
+      <ion-item class="item-label">
+        <ion-label>Item Name</ion-label>
+      </ion-item>
+      <ion-item class="item-control">
+        <input
+          type="text"
+          formControlName="itemName"
+          placeholder="e.g. iPhone 13"
+        />
+      </ion-item>
+
+      <ion-item class="item-label">
+        <ion-label>Category</ion-label>
+      </ion-item>
+      <ion-item class="item-control">
+        <ion-select
+          formControlName="category"
+          placeholder="Select a category"
+          interface="action-sheet"
+        >
+          <ion-select-option
+            *ngFor="let category of categories"
+            [value]="category.name"
+          >
+            <ion-icon
+              slot="start"
+              [name]="category.icon"
+              aria-hidden="true"
+            ></ion-icon>
+            {{ category.name }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item class="item-label">
+        <ion-label>Found date/time</ion-label>
+      </ion-item>
+      <ion-item class="item-control">
+        <div class="flex w-full relative">
+          <input
+            id="found-datetime-picker"
+            [value]="formattedDateString"
+            placeholder="mm / dd /yyyy"
+            readonly="true"
+          />
+          <ion-icon
+            name="calendar"
+            class="ion-align-self-center"
+            color="black"
+            size="large"
+          ></ion-icon>
+        </div>
+        <ion-popover trigger="found-datetime-picker" size="cover">
+          <ng-template>
+            <ion-datetime
+              formControlName="foundDateTime"
+              presentation="date-time"
+              [showDefaultButtons]="true"
+            ></ion-datetime>
+          </ng-template>
+        </ion-popover>
+      </ion-item>
+
+      <ion-item class="item-label">
+        <ion-label>Where did you find it?</ion-label>
+      </ion-item>
+      <ion-item class="item-control">
+        <input
+          formControlName="foundLocation"
+          placeholder="e.g. Main Auditorium"
+        />
+      </ion-item>
+
+      <ion-item class="item-label">
+        <ion-label>Visible feature</ion-label>
+      </ion-item>
+      <ion-item class="item-control">
+        <input
+          formControlName="visibleFeature"
+          placeholder="e.g. Small crack on the top-left corner"
+        />
+      </ion-item>
+
+      <ion-item class="item-label">
+        <ion-label>Contact Number</ion-label>
+      </ion-item>
+      <ion-item class="item-control">
+        <input
+          formControlName="contactNumber"
+          type="tel"
+          placeholder="0246908585"
+        />
+      </ion-item>
+
+      <ion-item class="item-label">
+        <ion-label>Ask for a detail only the owner knows</ion-label>
+      </ion-item>
+      <ion-item class="item-control">
+        <ion-textarea
+          formControlName="verificationQuestion"
+          placeholder="e.g. The phone's password, a specific sticker..."
+          [autoGrow]="true"
+        ></ion-textarea>
+      </ion-item>
+    </ion-list>
+
+    <div class="upload-container ion-margin">
+      <div *ngIf="selectedImages.length > 0" class="file-list-container">
+        <div
+          *ngFor="let image of selectedImages; let i = index"
+          class="file-row"
+        >
+          <span class="file-name">
+            {{ image.name }}
+          </span>
+
+          <ion-fab-button
+            size="small"
+            color="light"
+            class="remove-btn"
+            (click)="removeImage(i)"
+          >
+            <ion-icon name="close-outline" color="dark"></ion-icon>
+          </ion-fab-button>
+        </div>
+      </div>
+
+      <div class="upload-placeholder" *ngIf="selectedImages.length === 0">
+        <p>Add images to attach to post</p>
+      </div>
+
+      <ion-button fill="outline" shape="round" class="upload-btn">
+        <label for="file-upload" class="text-sm">
+          {{ selectedImages.length > 0 ? "Add More" : "Upload" }}
+        </label>
+      </ion-button>
+      <input
+        id="file-upload"
+        type="file"
+        multiple
+        accept="image/*"
+        (change)="onFileSelected($event)"
+        hidden
+      />
+    </div>
+
+    <div class="w-full px-6">
+      <ion-button
+        expand="block"
+        fill="clear"
+        shape="round"
+        color="light"
+        class="started-btn started-btn-2"
+      >
+        Report Found Item
+      </ion-button>
+    </div>
+  </form>
+</div>

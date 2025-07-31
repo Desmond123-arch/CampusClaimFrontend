@@ -1,10 +1,15 @@
-// For information on how to create your own theme, please see:
-// http://ionicframework.com/docs/theming/
+:root.ios {
+  --ion-safe-area-bottom: 1rem;
+}
+
+ion-header ion-toolbar:first-of-type {
+  padding-top: var(--ion-safe-area-top, 0);
+}
 
 
  :root {
   /**Fonts for reference**/
-
+  --ion-safe-area-top: 2.5rem;
   --ion-color-bg: white;
   --font-roboto: 'Roboto', sans-serif;
   --font-inter:'Inter', sans-serif;

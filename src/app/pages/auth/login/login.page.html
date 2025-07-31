@@ -75,6 +75,9 @@
         <div *ngIf="myForm.controls['password'].hasError('requireUppercase')">
           Password must contain an uppercase letter.
         </div>
+        <div *ngIf="myForm.controls['password'].hasError('requireSpecialChar')">
+          Password must contain an special character letter.
+        </div>
       </div>
       <div class="text-end text-sm font-roboto mt-2">
         <a

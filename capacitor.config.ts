@@ -1,15 +1,12 @@
-import type { CapacitorConfig } from '@capacitor/cli';
-import { KeyboardResize, KeyboardStyle } from '@capacitor/keyboard';
+import { CapacitorConfig } from '@capacitor/cli';
+import { KeyboardResize } from '@capacitor/keyboard';
 
 const config: CapacitorConfig = {
   appId: 'io.ionic.starter',
-  appName: 'CampusClaimFrontend',
+  appName: 'my-app',
   webDir: 'www',
-  plugins: {
-    Keyboard: {
-      resize: KeyboardResize.Body,
-      resizeOnFullScreen: true,
-    }
+  server: {
+    androidScheme: 'https'
   }
 };
 

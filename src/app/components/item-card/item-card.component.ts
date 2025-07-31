@@ -1,8 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { Item } from 'src/types/item';
-
+import { ItemDetailModalComponent } from '../item-detail-modal/item-detail-modal.component';
+import { SuccesfulClaimComponent } from '../succesful-claim/succesful-claim.component';
+import { ClaimFormComponent } from '../claim-form/claim-form.component';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-item-card',
   templateUrl: './item-card.component.html',
@@ -10,12 +13,12 @@ import { Item } from 'src/types/item';
   imports: [CommonModule, IonicModule],
   standalone: true
 })
-export class ItemCardComponent  implements OnInit, OnDestroy {
 
+export class ItemCardComponent implements OnInit, OnDestroy {
   @Input()
   item!: Item;
 
-  constructor() { }
+  constructor(private modalController: ModalController,private router: Router) { }
 
   currentImageIndex = 0;
   private imageInterval!: ReturnType<typeof setInterval>;
@@ -37,5 +40,50 @@ export class ItemCardComponent  implements OnInit, OnDestroy {
     if (this.imageInterval) {
       clearInterval(this.imageInterval);
     }
+  }
+  async openItemDetail(item: Item) {
+    const modal = await this.modalController.create({
+      component: ItemDetailModalComponent,
+      componentProps: {
+        item: item
+      },
+      breakpoints: [0, 0.5, 0.8],
+      initialBreakpoint: 1.2,
+    })
+    await modal.present();
+  }
+
+  async handleClaim(event: Event) {
+    console.log("Handling claim")
+    event.stopPropagation();
+
+    const modal = await this.modalController.create({
+      component: ClaimFormComponent,
+      componentProps: {
+        item: this.item
+      }
+    })
+    await modal.present()
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'claim-submitted') {
+      console.log('Claim submitted with:', data);
+      const successModal = await this.modalController.create({
+        component: SuccesfulClaimComponent,
+        backdropDismiss: false,
+         cssClass: 'success-modal'
+      });
+      await successModal.present();
+
+      await successModal.onDidDismiss();
+      this.router.navigateByUrl("/home");
+    } else if (role === 'claim-cancelled') {
+      console.log('Claim was cancelled');
+    }
+  }
+
+  handleClaimCancel() {
+    this.modalController.dismiss()
   }
 }

@@ -68,7 +68,6 @@ export function passwordStrengthValidator(options: Partial<PasswordStrengthOptio
     if (finalOptions.requireSpecialChar && !/[!@#$%^&*(),.?":{}|<>]/.test(value)) {
       errors["requireSpecialChar"] = true;
     }
-
     return Object.keys(errors).length ? errors : null;
   };
 }

@@ -46,8 +46,10 @@
 // @import "@ionic/angular/css/palettes/dark.system.css";
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-
-
+// body {
+//   margin-top: constant(safe-area-inset-top);
+//   margin-top: env(safe-area-inset-top);
+// }
 .started-btn{
   text-transform: none;
   background: var(--ion-color-primary);
@@ -94,8 +96,17 @@
   //   max-width: 30%;
   // }
 }
+
+.success-modal {
+  --background: transparent;
+  --box-shadow: none;
+}
 // .error-container {
 //   min-height: 1.5rem;
 
 //   transition: all 0.2s ease-in-out;
+// }
+
+// ion-tab-bar {
+//   margin-bottom: calc(4px + env(safe-area-inset-top));
 // }
