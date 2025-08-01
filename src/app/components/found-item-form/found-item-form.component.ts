@@ -49,6 +49,7 @@ export class FoundItemFormComponent implements OnInit {
       visibleFeature: ['', Validators.required],
       contactNumber: ['', [Validators.required, Validators.pattern(/^\+?[0-9\s-()]{7,}$/)]],
       verificationQuestion: ['', [Validators.required, Validators.minLength(10)]],
+      Bounty: [0, [Validators.min(0), Validators.pattern(/^\d+$/)]],
       images: [[]],
     });
 

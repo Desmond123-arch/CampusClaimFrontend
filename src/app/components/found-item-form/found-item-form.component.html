@@ -8,7 +8,7 @@
         <ion-button
           *ngFor="let option of reportOptions"
           expand="block"
-          [fill]="option === reportType? 'solid':'outline'"
+          [fill]="option === reportType ? 'solid' : 'outline'"
           shape="round"
           (click)="reportType = option"
           class="report-category"
@@ -111,15 +111,39 @@
       </ion-item>
 
       <ion-item class="item-label">
-        <ion-label>Ask for a detail only the owner knows</ion-label>
+        <ion-label>{{
+          reportType === "Found"
+            ? "How much are you willing to take as a reward in cedis (optional)?"
+            : "How much are you willing to offer as a reward in cedis (optional)?"
+        }}</ion-label>
+      </ion-item>
+      <ion-item class="item-control">
+        <input
+          formControlName="bounty"
+          type="text"
+          inputmode="numeric"
+          pattern="[0-9]*"
+          placeholder="e.g., 50"
+          min="0"
+        />
+      </ion-item>
+      <ion-note color="medium" class="ion-padding-start">
+        Enter a number. Leave blank if you're not {{reportType === "Found"? "taking": "offering"}}  a reward.
+      </ion-note>
+
+      <ion-item class="item-label">
+        <ion-label
+          >Mention something unique only the owner would know.</ion-label
+        >
       </ion-item>
       <ion-item class="item-control">
         <ion-textarea
           formControlName="verificationQuestion"
-          placeholder="e.g. The phone's password, a specific sticker..."
+          placeholder="e.g., a scratch, engraving, or color detail..."
           [autoGrow]="true"
         ></ion-textarea>
       </ion-item>
+
     </ion-list>
 
     <div class="upload-container ion-margin">
@@ -144,7 +168,7 @@
       </div>
 
       <div class="upload-placeholder" *ngIf="selectedImages.length === 0">
-        <p>Add images to attach to post</p>
+        <p>Add images to help identify the item</p>
       </div>
 
       <ion-button fill="outline" shape="round" class="upload-btn">
@@ -161,17 +185,14 @@
         hidden
       />
     </div>
-
-    <div class="w-full px-6">
-      <ion-button
-        expand="block"
-        fill="clear"
-        shape="round"
-        color="light"
-        class="started-btn started-btn-2"
-      >
-        Report Found Item
-      </ion-button>
-    </div>
+    <ion-button
+      expand="block"
+      fill="clear"
+      shape="round"
+      color="light"
+      class="started-btn-3"
+    >
+      Report {{ reportType }} Item
+    </ion-button>
   </form>
 </div>

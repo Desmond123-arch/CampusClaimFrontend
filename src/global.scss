@@ -75,6 +75,18 @@
     max-width: 100%;
   }
 }
+.started-btn-3{
+  width: 100% !important;
+  margin-bottom: 3em;
+  background: var(--ion-color-primary);
+  border-radius: 0.8em;
+  padding: 2px;
+  padding-block: 4px;
+
+  @media(min-height: 768px) {
+    margin-bottom: 4em;
+  }
+}
 
 .rounded-btn {
   border: 2px solid;
