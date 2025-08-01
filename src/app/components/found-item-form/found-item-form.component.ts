@@ -23,11 +23,13 @@ interface ImagePreview {
 })
 export class FoundItemFormComponent implements OnInit {
   @Output() formSubmitted = new EventEmitter<any>();
+  @Output() ReportType = new EventEmitter<any>();
 
   foundItemForm!: FormGroup;
   formattedDateString = '';
   selectedImages: { url: string, name: string, file: File }[] = [];
-
+  reportOptions = ["Lost", "Found"]
+  _reportType: string = this.reportOptions[0];
   categories: Category[] = [
     { name: 'Laptop', icon: 'laptop-outline' },
     { name: 'ID Card', icon: 'id-card-outline' },
@@ -54,6 +56,19 @@ export class FoundItemFormComponent implements OnInit {
       this.formattedDateString = this.datePipe.transform(value, 'MMM d, y, h:mm a') || '';
     });
   }
+
+
+  public set reportType(v : string) {
+    this.ReportType.emit(v);
+    this._reportType = v;
+  }
+
+  public get reportType() : string {
+    return this._reportType;
+  }
+
+
+
 
 
   onFileSelected(event: any): void {

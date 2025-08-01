@@ -1,6 +1,21 @@
 <div class="w-full">
   <form [formGroup]="foundItemForm" (ngSubmit)="submitForm()">
     <ion-list class="ion-no-padding">
+      <ion-item>
+        <ion-label>What are your reporting?</ion-label>
+      </ion-item>
+      <div class="flex">
+        <ion-button
+          *ngFor="let option of reportOptions"
+          expand="block"
+          [fill]="option === reportType? 'solid':'outline'"
+          shape="round"
+          (click)="reportType = option"
+          class="report-category"
+        >
+          {{ option }}
+        </ion-button>
+      </div>
       <ion-item class="item-label">
         <ion-label>Item Name</ion-label>
       </ion-item>

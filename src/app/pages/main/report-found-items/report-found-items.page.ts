@@ -11,6 +11,7 @@ import { ToastController } from '@ionic/angular';
 })
 export class ReportFoundItemsPage implements OnInit {
 
+  reportType: string = "Lost"
   constructor(
     private router: Router,
     private toastCtrl: ToastController
@@ -51,5 +52,9 @@ export class ReportFoundItemsPage implements OnInit {
       color: 'success'
     });
     toast.present();
+  }
+
+  changeReportType(type: string) {
+    this.reportType = type;
   }
 }
