@@ -1,0 +1,45 @@
+.search-btn{
+  --border: 2px solid;
+  --background: var(--ion-color-primary);
+  --color: white;
+}
+ion-icon{
+  font-size: 24px;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 90%;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 8px 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin: auto;
+}
+
+.search-input-wrapper {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+
+  .search-icon {
+    font-size: 22px;
+    color: #8a8a8f;
+    margin-right: 12px;
+  }
+}
+
+.action-icons {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  .action-icon {
+    font-size: 24px;
+    color: #3066be;
+    cursor: pointer;
+  }
+}
