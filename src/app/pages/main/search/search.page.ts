@@ -13,36 +13,36 @@ export class SearchPage implements OnInit {
 
   results: ImageSearchResult = {
     items: [
-      {
-        "description": "Plane bag",
-        "image_url": "https://campusclaim.nyc3.digitaloceanspaces.com/items/14-bag.png",
-        "item_id": "67471d77-b643-4607-b883-f12e2f575cfa",
-        "score": 0.8792431354522705
-      },
-      {
-        "description": "Plane bag",
-        "image_url": "https://campusclaim.nyc3.digitaloceanspaces.com/items/14-bag.png",
-        "item_id": "67471d77-b643-4607-b883-f12e2f575cfa",
-        "score": 0.8792431354522705
-      },
-      {
-        "description": "Plane bag",
-        "image_url": "https://campusclaim.nyc3.digitaloceanspaces.com/items/14-bag.png",
-        "item_id": "67471d77-b643-4607-b883-f12e2f575cfa",
-        "score": 0.8792431354522705
-      },
-      {
-        "description": "Plane bag",
-        "image_url": "https://campusclaim.nyc3.digitaloceanspaces.com/items/14-bag.png",
-        "item_id": "67471d77-b643-4607-b883-f12e2f575cfa",
-        "score": 0.8792431354522705
-      },
-      {
-        "description": "Plane bag",
-        "image_url": "https://campusclaim.nyc3.digitaloceanspaces.com/items/2-109918035.jpg",
-        "item_id": "67471d77-b643-4607-b883-f12e2f575cfa",
-        "score": 0.8792431354522705
-      }
+      // {
+      //   "description": "Plane bag",
+      //   "image_url": "https://campusclaim.nyc3.digitaloceanspaces.com/items/14-bag.png",
+      //   "item_id": "67471d77-b643-4607-b883-f12e2f575cfa",
+      //   "score": 0.8792431354522705
+      // },
+      // {
+      //   "description": "Plane bag",
+      //   "image_url": "https://campusclaim.nyc3.digitaloceanspaces.com/items/14-bag.png",
+      //   "item_id": "67471d77-b643-4607-b883-f12e2f575cfa",
+      //   "score": 0.8792431354522705
+      // },
+      // {
+      //   "description": "Plane bag",
+      //   "image_url": "https://campusclaim.nyc3.digitaloceanspaces.com/items/14-bag.png",
+      //   "item_id": "67471d77-b643-4607-b883-f12e2f575cfa",
+      //   "score": 0.8792431354522705
+      // },
+      // {
+      //   "description": "Plane bag",
+      //   "image_url": "https://campusclaim.nyc3.digitaloceanspaces.com/items/14-bag.png",
+      //   "item_id": "67471d77-b643-4607-b883-f12e2f575cfa",
+      //   "score": 0.8792431354522705
+      // },
+      // {
+      //   "description": "Plane bag",
+      //   "image_url": "https://campusclaim.nyc3.digitaloceanspaces.com/items/2-109918035.jpg",
+      //   "item_id": "67471d77-b643-4607-b883-f12e2f575cfa",
+      //   "score": 0.8792431354522705
+      // }
     ],
     "total_items_in_index": 8,
   }
