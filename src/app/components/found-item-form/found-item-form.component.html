@@ -4,7 +4,7 @@
       <ion-item>
         <ion-label>What are your reporting?</ion-label>
       </ion-item>
-      <div class="flex">
+      <div class="flex px-4">
         <ion-button
           *ngFor="let option of reportOptions"
           expand="block"
@@ -128,7 +128,7 @@
         />
       </ion-item>
       <ion-note color="medium" class="ion-padding-start">
-        Enter a number. Leave blank if you're not {{reportType === "Found"? "taking": "offering"}}  a reward.
+        Leave blank if you're not {{reportType === "Found"? "taking": "offering"}}  a reward.
       </ion-note>
 
       <ion-item class="item-label">

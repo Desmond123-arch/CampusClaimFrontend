@@ -5,9 +5,30 @@
     </ion-buttons>
     <h1 class="w-full text-2xl font-semibold">{{itemStatus}} Items</h1>
   </div>
+  <div class="w-[90%] mx-auto mt-4 mb-4 flex items-center">
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <ion-icon name="search-outline" class="search-icon"></ion-icon>
+        <input
+          class="text-lg w-[85%] md:w-full border-none outline-none focus:outline-none focus:border-none text-black"
+          placeholder="Search for Items"
+          type="text"
+          enterkeyhint="search"
+          style="outline: none"
+        />
+      </div>
+
+      <div class="action-icons">
+        <ion-icon src="assets/icon/upload.svg"> </ion-icon>
+        <ion-icon name="filter-outline" class="action-icon"></ion-icon>
+      </div>
+    </div>
+  </div>
   <div class="flex items-center flex-col margin-">
     <div *ngIf="isLoading" class="grid md:grid-cols-4 gap-4">
-      <app-item-card-skeleton *ngFor="let i of [1,2,3,4,5,6,7,8]"></app-item-card-skeleton>
+      <app-item-card-skeleton
+        *ngFor="let i of [1,2,3,4,5,6,7,8]"
+      ></app-item-card-skeleton>
     </div>
 
     <div class="grid md:grid-cols-4 gap-5 md:gap-10" *ngIf="!isLoading">
@@ -15,14 +36,14 @@
         *ngFor="let item of items"
         [item]="item"
         (click)="openItemDetail(item)"
-        style="cursor: pointer;"
+        style="cursor: pointer"
       ></app-item-card>
     </div>
 
     <div *ngIf="!isLoading && items.length === 0" class="empty-state">
-        <ion-icon name="sad-outline"></ion-icon>
-        <h2>No Items Found</h2>
-        <p>There are currently no items to display.</p>
+      <ion-icon name="sad-outline"></ion-icon>
+      <h2>No Items Found</h2>
+      <p>There are currently no items to display.</p>
     </div>
   </div>
 </ion-content>

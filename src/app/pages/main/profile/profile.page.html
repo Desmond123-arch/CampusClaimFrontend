@@ -1,13 +1,166 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>profile</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" class="ion-padding page-container">
+  <div class="flex items-center mt-10">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home"></ion-back-button>
+    </ion-buttons>
+    <h1 class="w-full text-2xl font-semibold">Edit Profile</h1>
+  </div>
+  <div class="w-[90%] md:w-[50%] mx-auto">
+    <div class="curved-container">
+      <div>
+        <!-- FIX: CREATE URL string later -->
+        <img
+          [src]="this.user.profile_image"
+          alt="profile"
+          class="w-36 h-36 mx-auto rounded-full"
+        />
+      </div>
+    </div>
+    <h1 class="text-xl">Update Basic Information</h1>
+    <form action="">
+      <ion-list>
+        <ion-item class="item-label">
+          <ion-label>Full Name</ion-label>
+        </ion-item>
+        <ion-item class="item-control">
+          <input
+            type="tel"
+            placeholder="Your name"
+            [defaultValue]="this.user.full_name"
+          />
+        </ion-item>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">profile</ion-title>
-    </ion-toolbar>
-  </ion-header>
+        <ion-item class="item-label">
+          <ion-label>Phone Number</ion-label>
+        </ion-item>
+        <ion-item class="item-control">
+          <input
+            type="tel"
+            placeholder="0246908585"
+            [defaultValue]="this.user.phone_number"
+          />
+        </ion-item>
+
+        <ion-item class="item-label">
+          <ion-label>School Email</ion-label>
+        </ion-item>
+        <ion-item class="item-control">
+          <input
+            type="tel"
+            placeholder="ce-domends6421@st.umat.edu.gh"
+            [defaultValue]="this.user.email"
+          />
+        </ion-item>
+      </ion-list>
+      <ion-button
+        expand="block"
+        fill="clear"
+        shape="round"
+        class="started-btn-3"
+      >
+        Update Details
+      </ion-button>
+    </form>
+
+    <div class="p-4 space-y-6">
+      <div class="bg-white rounded-xl shadow-sm w-full">
+        <h2 class="text-lg font-semibold text-gray-800 mb-4">
+          Activity Overview
+        </h2>
+
+        <div class="bg-gray-100 rounded-full p-1 flex mb-4">
+          <button
+            class="flex-1 py-2 px-1 text-sm font-medium text-gray-700 rounded-full shadow-sm "
+            [ngClass]="{'bg-white shadow-sm text-gray-800': currentStatus === 'Lost'}"
+            (click)="changeCurrentStatus('Lost')"
+          >
+            Lost
+          </button>
+          <button class="flex-1 py-2 px-1 text-sm font-medium text-gray-500 rounded-full"
+          [ngClass]="{'bg-white shadow-sm text-gray-800': currentStatus === 'Found'}"
+          (click)="changeCurrentStatus('Found')"
+          >
+            Found
+          </button>
+          <button class="flex-1 py-2 px-1 text-sm font-medium text-gray-500 rounded-full"
+          [ngClass]="{'bg-white shadow-sm text-gray-800': currentStatus === 'Claimed'}"
+          (click)="changeCurrentStatus('Claimed')"
+          >
+            Claimed
+          </button>
+        </div>
+
+        <div class="space-y-3">
+          <!-- NGFOR HERE -->
+          <div class="flex items-center bg-gray-50 rounded-lg p-3">
+            <img
+              src="https://i.imgur.com/nJZEP9o.png"
+              alt="Wallet"
+              class="w-10 h-10 rounded-md object-cover"
+            />
+            <div class="ml-3 flex-grow">
+              <p class="font-semibold text-sm text-gray-800">Gucci Wallet</p>
+              <span class="text-xs text-gray-400 font-medium">View</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl shadow-sm p-4">
+        <h2 class="text-lg font-semibold text-gray-800 mb-4">
+          Security & Preferences
+        </h2>
+        <div class="divide-y divide-gray-100">
+          <button class="flex items-center mb-4" (click)="changeTheme()">
+            <ion-icon name="moon-outline"></ion-icon>
+            <span class="ml-3 text-sm font-medium text-gray-700"
+              >Dark Mode</span
+            >
+          </button>
+          <div class="flex items-center justify-between py-3">
+            <div class="flex items-center">
+              <ion-icon name="lock-closed-outline"></ion-icon>
+              <span class="ml-3 text-sm font-medium text-gray-700"
+                >Change Password</span
+              >
+            </div>
+            <button
+              (click)="resetPassword()"
+              class="text-xs font-bold text-blue-600 bg-blue-100 rounded-full px-3 py-1"
+            >
+              Reset
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl shadow-sm p-4">
+        <div class="divide-y divide-gray-100">
+          <button
+            class="w-full flex items-center text-left py-3"
+            (click)="signOut()"
+          >
+            <ion-icon name="log-out-outline"></ion-icon>
+            <span class="ml-3 text-sm font-medium text-blue-600">Sign Out</span>
+          </button>
+          <button
+            class="w-full flex items-center text-left py-3"
+            id="delete-alert"
+            (click)="deleteAcount()"
+          >
+            <ion-icon name="trash-outline" color="danger"></ion-icon>
+            <span class="ml-3 text-sm font-semibold text-red-600"
+              >Delete Account</span
+            >
+          </button>
+          <ion-alert
+            trigger="delete-alert"
+            class="custom-alert"
+            header="Are you sure?"
+            [buttons]="alertButtons"
+          ></ion-alert>
+        </div>
+      </div>
+    </div>
+  </div>
 </ion-content>

@@ -7,7 +7,7 @@ import { IonContent, IonCard } from "@ionic/angular/standalone";
   templateUrl: './item-images.component.html',
   styleUrls: ['./item-images.component.scss'],
   standalone: true,
-  imports: [IonCard],
+  imports: [],
 })
 export class ItemImagesComponent  implements OnInit {
 
