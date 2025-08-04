@@ -18,6 +18,5 @@ import { ItemImagesComponent } from "src/app/components/item-images/item-images.
     ItemImagesComponent
 ],
   declarations: [SearchPage],
-  exports: [SearchPage]
 })
 export class SearchPageModule {}

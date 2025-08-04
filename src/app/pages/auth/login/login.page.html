@@ -1,7 +1,13 @@
 <app-page-header></app-page-header>
 <ion-content [fullscreen]="true" class="ion-text-center" #content>
   <h1 class="font-semibold text-3xl text-subtitle mt-3">Sign In</h1>
-  <form action="" [formGroup]="myForm" class="mt-10 mb-5 font-inter" (ngSubmit)="submitForm()">
+
+  <form
+    action=""
+    [formGroup]="myForm"
+    class="mt-10 mb-5 font-inter"
+    (ngSubmit)="submitForm()"
+  >
     <!-- EMAIL -->
     <div class="mb-4 w-[80%] md:w-[35%] mx-auto">
       <label
@@ -19,7 +25,7 @@
       />
       <div
         *ngIf="myForm.controls['email']  && (myForm.controls['email'].dirty || myForm.controls['email'].touched)"
-        class="text-xs text-red-600 dark:text-red-400  text-start"
+        class="text-xs text-red-600 dark:text-red-400 text-start"
       >
         <div *ngIf="myForm.controls['email'].hasError('required')">
           Email is required.
@@ -87,6 +93,7 @@
         >
       </div>
     </div>
+
     <ion-button
       expand="block"
       fill="clear"

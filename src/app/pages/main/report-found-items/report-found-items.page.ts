@@ -42,7 +42,7 @@ export class ReportFoundItemsPage implements OnInit {
     console.log('Sending this FormData to the backend:', postData);
 
     this.presentToast('Item reported successfully!');
-    this.router.navigate(['/home']);
+    this.router.navigate(['/main/home']);
   }
 
   async presentToast(message: string) {

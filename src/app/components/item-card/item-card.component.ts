@@ -77,7 +77,7 @@ export class ItemCardComponent implements OnInit, OnDestroy {
       await successModal.present();
 
       await successModal.onDidDismiss();
-      this.router.navigateByUrl("/home");
+      this.router.navigateByUrl("/main/home");
     } else if (role === 'claim-cancelled') {
       console.log('Claim was cancelled');
     }

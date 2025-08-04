@@ -18,6 +18,5 @@ import { FoundItemFormComponent } from "src/app/components/found-item-form/found
     FoundItemFormComponent
 ],
   declarations: [ReportFoundItemsPage],
-  exports: [ReportFoundItemsPage]
 })
 export class ReportFoundItemsPageModule {}

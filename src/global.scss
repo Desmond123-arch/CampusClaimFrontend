@@ -82,6 +82,7 @@
   border-radius: 0.8em;
   padding: 2px;
   padding-block: 4px;
+  color: white;
 
   @media(min-height: 768px) {
     margin-bottom: 4em;
@@ -122,3 +123,40 @@
 // ion-tab-bar {
 //   margin-bottom: calc(4px + env(safe-area-inset-top));
 // }
+
+/* Main container for the floating search bar */
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 8px 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.search-input-wrapper {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+
+  .search-icon {
+    font-size: 22px;
+    color: #8a8a8f;
+    margin-right: 12px;
+  }
+}
+
+.action-icons {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  .action-icon {
+    font-size: 24px;
+    color: #3066be;
+    cursor: pointer;
+  }
+}

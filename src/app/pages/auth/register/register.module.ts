@@ -21,7 +21,6 @@ import {ionLogoGoogle} from '@ng-icons/ionicons'
     NgIconsModule
 ],
   declarations: [RegisterPage],
-  exports: [RegisterPage],
   providers: [
     provideIcons({ ionLogoGoogle })
   ]

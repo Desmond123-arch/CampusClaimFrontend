@@ -19,6 +19,5 @@ import { PageHeaderComponent } from "src/app/components/page-header/page-header.
     ReactiveFormsModule,
 ],
   declarations: [LoginPage],
-  exports: [LoginPage]
 })
 export class LoginPageModule {}

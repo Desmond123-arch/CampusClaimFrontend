@@ -10,3 +10,13 @@ export interface Item {
   image_urls: string[];
   found_at: string;
 }
+
+export interface ImageSearchResult {
+  items: {
+    description: string,
+    image_url: string,
+    item_id: string,
+    score: number,
+  }[]
+  total_items_in_index: number,
+}

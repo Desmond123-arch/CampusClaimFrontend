@@ -10,12 +10,13 @@ import { SplashScreenPageModule } from './pages/splash-screen/splash-screen.modu
 import { customNavAnimation } from './animations/custom-nav-animation';
 import { MainRoutingModule } from './pages/main/main-routing.module';
 import { AuthGuardService } from './service/auth-guard.service';
+import { provideHttpClient } from '@angular/common/http';
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, IonicModule.forRoot(
     { navAnimation: customNavAnimation }
-  ), AppRoutingModule, SplashScreenPageModule, MainRoutingModule],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, AuthGuardService],
+  ), AppRoutingModule, SplashScreenPageModule, MainRoutingModule, ],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, AuthGuardService,  provideHttpClient()],
   bootstrap: [AppComponent],
 })
 export class AppModule {

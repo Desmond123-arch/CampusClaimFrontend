@@ -20,7 +20,6 @@ import { ItemCardSkeletonComponent } from 'src/app/components/item-card-skeleton
     ItemCardSkeletonComponent
   ],
   declarations: [ItemPage],
-  exports: [ItemPage],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ItemPageModule {}
