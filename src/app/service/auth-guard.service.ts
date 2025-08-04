@@ -16,12 +16,11 @@ export class AuthGuardService implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Promise<boolean | UrlTree> {
-    const { value: token } = await Preferences.get({ key: 'access_token' });
+    const { value: token } = await Preferences.get({ key: 'auth-token' });
     if (token) {
       return true;
     } else {
-      this.router.parseUrl('/auth/login');
-      return false;
+      return this.router.parseUrl('/auth/login');
     }
   }
 }

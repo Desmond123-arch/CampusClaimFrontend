@@ -13,11 +13,6 @@ const routes: Routes = [
         loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
       },
       {
-        path: '',
-        redirectTo: '/main/home',
-        pathMatch: 'full'
-      },
-      {
         path: 'items',
         loadChildren: () => import('./item/item.module').then(m => m.ItemPageModule)
       },
