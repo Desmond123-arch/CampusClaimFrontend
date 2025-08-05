@@ -7,6 +7,8 @@ import { closeLoading, showLoading } from 'src/app/utils/loading';
 import { UmatEmailValidator, passwordStrengthValidator } from 'src/app/validators/registration';
 import { Toast } from '@capacitor/toast'
 import { closeAllToasts, presentToast } from 'src/app/utils/toast';
+
+//NOTE: Modify the api to use check if the user is verified before redirecting
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
