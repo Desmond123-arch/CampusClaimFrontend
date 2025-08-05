@@ -32,7 +32,9 @@
                (myForm.controls['name'].dirty || myForm.controls['name'].touched)"
           class="text-xs text-red-600 dark:text-red-400 text-start error-container"
         >
-          <div *ngIf="myForm.controls['name'].hasError('required') && submitted">
+          <div
+            *ngIf="myForm.controls['name'].hasError('required') && submitted"
+          >
             A valid name is required.
           </div>
           <div *ngIf="myForm.controls['name'].hasError('minlength')">
@@ -62,13 +64,15 @@
           formControlName="phone"
           type="text"
           placeholder="+233 24 123 2345"
-                    class="placeholder-neutral-300 dark:placeholder-neutral-500 dark:text-white text-black w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+          class="placeholder-neutral-300 dark:placeholder-neutral-500 dark:text-white text-black w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <div
           *ngIf="myForm.controls['phone']  && (myForm.controls['phone'].dirty || myForm.controls['phone'].touched)"
-          class="text-xs text-red-600 dark:text-red-400 text-start error-container "
+          class="text-xs text-red-600 dark:text-red-400 text-start error-container"
         >
-          <div *ngIf="myForm.controls['phone'].hasError('required') && submitted">
+          <div
+            *ngIf="myForm.controls['phone'].hasError('required') && submitted"
+          >
             Phone number is required.
           </div>
 
@@ -94,12 +98,14 @@
           type="text"
           placeholder="School Email"
           class="placeholder-neutral-300 dark:placeholder-neutral-500 dark:text-white text-black w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+        />
         <div
           *ngIf="myForm.controls['email']  && (myForm.controls['email'].dirty || myForm.controls['email'].touched)"
-          class="text-xs text-red-600 dark:text-red-400 text-start error-container "
+          class="text-xs text-red-600 dark:text-red-400 text-start error-container"
         >
-          <div *ngIf="myForm.controls['email'].hasError('required') && submitted">
+          <div
+            *ngIf="myForm.controls['email'].hasError('required') && submitted"
+          >
             Email is required.
           </div>
 
@@ -123,9 +129,8 @@
             formControlName="password"
             [type]="showPassword ? 'text' : 'password'"
             placeholder="**************"
-
+            autocomplete="off"
             class="placeholder-neutral-300 dark:placeholder-neutral-500 dark:text-white text-black w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
-
           />
           <button
             (click)="togglePasswordVisibility()"
@@ -140,9 +145,11 @@
         </div>
         <div
           *ngIf="myForm.controls['password'].invalid && (myForm.controls['password'].dirty || myForm.controls['password'].touched)"
-          class="text-xs text-red-600 dark:text-red-400 text-start mt-1 error-container "
+          class="text-xs text-red-600 dark:text-red-400 text-start mt-1 error-container"
         >
-          <div *ngIf="myForm.controls['password'].hasError('required') && submitted">
+          <div
+            *ngIf="myForm.controls['password'].hasError('required') && submitted"
+          >
             Password is required.
           </div>
           <div *ngIf="myForm.controls['password'].hasError('minLength')">
@@ -166,13 +173,13 @@
         </label>
         <div class="relative">
           <input
+            autocomplete="off"
             id="confirmPassword"
             (focus)="scrollToField('confirmPassword', true)"
             formControlName="confirmPassword"
             [type]="showConfirmPassword ? 'text' : 'password'"
             placeholder="**************"
             class="placeholder-neutral-300 dark:placeholder-neutral-500 dark:text-white text-black w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
-
           />
           <button
             (click)="toggleConfirmPassword()"
@@ -187,11 +194,11 @@
         </div>
         <div
           *ngIf="myForm.controls['confirmPassword'].invalid && (myForm.controls['confirmPassword'].dirty || myForm.controls['confirmPassword'].touched)"
-          class="text-xs text-red-600 dark:text-red-400 text-start mt-1 error-container "
+          class="text-xs text-red-600 dark:text-red-400 text-start mt-1 error-container"
         >
           <div
             *ngIf="myForm.controls['confirmPassword'].invalid && (myForm.controls['confirmPassword'].dirty || myForm.controls['confirmPassword'].touched)"
-            class="text-xs text-red-600 dark:text-red-400 text-start mt-1 error-container "
+            class="text-xs text-red-600 dark:text-red-400 text-start mt-1 error-container"
           >
             <div
               *ngIf="myForm.controls['confirmPassword'].hasError('required') && submitted"
@@ -209,7 +216,8 @@
       <ion-button
         expand="block"
         fill="clear"
-        shape="round"r
+        shape="round"
+        r
         class="started-btn"
         type="submit"
         (click)="submitForm()"

@@ -1,11 +1,12 @@
 import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { NavigationStart, Router } from '@angular/router';
 import { IonContent, LoadingController, ToastController, ToastOptions } from '@ionic/angular';
 import { AuthService } from 'src/app/service/auth.service';
 import { closeLoading, showLoading } from 'src/app/utils/loading';
 import { UmatEmailValidator, passwordStrengthValidator } from 'src/app/validators/registration';
 import { Toast } from '@capacitor/toast'
+import { closeAllToasts, presentToast } from 'src/app/utils/toast';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -19,7 +20,13 @@ export class LoginPage implements OnInit {
   showToast = false;
 
 
-  constructor(public formBuilder: FormBuilder, private router: Router, private loadingCtrl: LoadingController, private ngZone: NgZone, private authService: AuthService, private toastController: ToastController) { }
+  constructor(public formBuilder: FormBuilder, private router: Router, private loadingCtrl: LoadingController, private ngZone: NgZone, private authService: AuthService, private toastController: ToastController) { 
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        closeAllToasts(this.toastController);
+      }
+    });
+  }
 
   ngOnInit() {
     this.myForm = this.formBuilder.group({
@@ -61,44 +68,25 @@ export class LoginPage implements OnInit {
     this.authService.login(payload.email, payload.password).subscribe({
       next: async (response) => {
         console.log('Login success:', response);
-        closeLoading(this.loadingCtrl)
+        await closeLoading(this.loadingCtrl)
         this.ngZone.run(() => {
           console.log("Navigating to home")
           this.router.navigateByUrl("/main/home", { replaceUrl: true });
         });
-        await this.presentToast("Login Succesful", 'success', 1500)
+        await presentToast(this.toastController, "Login Succesful", 'success', 1500)
         this.showToast = false;
-        this.authService.saveLoginDetails(response.accessToken, response.user)
+        await this.authService.saveLoginDetails(response.accessToken, response.user)
       },
       error: async (error) => {
         closeLoading(this.loadingCtrl);
         this.showToast = true;
-        await this.presentToast(error.error.errors, 'danger', 0);
+        await presentToast(this.toastController,error.error.errors, 'danger', 0);
       }
     });
   }
-  async presentToast(message: string, color: ToastOptions["color"], duration: number) {
-    const existingToast = await this.toastController.getTop();
-    if (existingToast) {
-      await existingToast.dismiss();
-    }
-    const toast = await this.toastController.create({
-      message: message,
-      duration: duration,
-      position: 'top',
-      animated: true,
-      color: color,
-    });
-    await toast.present();
-  }
 
-  async closeAllToasts() {
-    let toast = await this.toastController.getTop();
-    while (toast) {
-      await toast.dismiss();
-      toast = await this.toastController.getTop();
-    }
-  }
+
+
   
 
   navigateToConfirmEmail() {

@@ -1,9 +1,13 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ghanaianPhoneNumberValidator, passwordsMatchValidator, passwordStrengthValidator, UmatEmailValidator } from 'src/app/validators/registration';
 import { Keyboard } from '@capacitor/keyboard';
-import { IonContent } from '@ionic/angular';
+import { IonContent, LoadingController, ToastController } from '@ionic/angular';
+import { AuthService } from 'src/app/service/auth.service';
+import { closeLoading, showLoading } from 'src/app/utils/loading';
+import { registrationDetails } from 'src/types/user';
+import { presentToast } from 'src/app/utils/toast';
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -18,7 +22,7 @@ export class RegisterPage implements OnInit {
   submitted = false;
   public myForm: FormGroup = new FormGroup({});
 
-  constructor(public formBuilder: FormBuilder, private router: Router) {
+  constructor(public formBuilder: FormBuilder, private router: Router, private authService:AuthService, private toastController: ToastController, private ngZone: NgZone, private loadingCtrl: LoadingController) {
   }
 
 
@@ -63,6 +67,7 @@ export class RegisterPage implements OnInit {
   navigateToSignIn() {
     this.router.navigateByUrl('/auth/login')
   }
+
   submitForm(): void {
     this.submitted = true;
     if (this.myForm.invalid) {
@@ -72,21 +77,38 @@ export class RegisterPage implements OnInit {
 
       return;
     }
-
+    showLoading(this.loadingCtrl);
     console.log('Form is valid! Submitting...');
 
     console.log('Raw form data:', this.myForm.value);
 
     const formValue = this.myForm.value;
-    const payload = {
-      name: formValue.name,
-      phone: formValue.phone,
+    const payload: registrationDetails = {
+      full_name: formValue.name,
+      phone_number: formValue.phone,
       email: formValue.email,
       password: formValue.password,
       confirm_password: formValue.confirmPassword
     };
 
     console.log('Clean payload to send to API:', payload);
+
+    this.authService.register(payload).subscribe({
+      next: async (response) => {
+        console.log("Creation successful");
+        closeLoading(this.loadingCtrl);
+        this.myForm.reset();
+        this.ngZone.run(() => {
+          this.router.navigateByUrl("/auth/verify", {replaceUrl: true});
+        })
+        await presentToast(this.toastController, "Account created, Please verify your email", 'success', 1500);
+        await this.authService.saveLoginDetails(response.accessToken, response.user)
+      },
+      error: async (error) => {
+        closeLoading(this.loadingCtrl);
+        await presentToast(this.toastController, error.error.errors, 'danger', 0)
+      }
+    })
     // this.myForm.reset();
     // this.router.navigateByUrl('/auth/verify');
   }

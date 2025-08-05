@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { LoadingController } from '@ionic/angular';
+import { NavigationStart, Router } from '@angular/router';
+import { LoadingController, ToastController } from '@ionic/angular';
+import { AuthService } from 'src/app/service/auth.service';
+import { closeLoading, showLoading } from 'src/app/utils/loading';
+import { closeAllToasts, presentToast } from 'src/app/utils/toast';
 import { otpRequiredLength } from 'src/app/validators/otp';
 
 @Component({
@@ -12,9 +16,15 @@ import { otpRequiredLength } from 'src/app/validators/otp';
 
 
 export class VerifyPage implements OnInit {
-  otpForms:FormGroup = new FormGroup({});
+  otpForms: FormGroup = new FormGroup({});
   isSubmitted = false;
-  constructor(private loadingCtrl: LoadingController) { }
+  constructor(private router: Router, private loadingCtrl: LoadingController, private ngZone: NgZone, private authService: AuthService, private toastController: ToastController) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        closeAllToasts(this.toastController);
+      }
+    });
+  }
 
   ngOnInit() {
     this.markFormGroupTouched(this.otpForms);
@@ -34,23 +44,32 @@ export class VerifyPage implements OnInit {
       }
     });
   }
-  async showLoading() {
-    const loading = await this.loadingCtrl.create({
-      cssClass: 'custom-loading',
-      spinner: 'circles',
-      duration: 500, //NOTE REMOVE LATER
-    })
-    loading.present()
-  }
-  async closeLoading(){
-    const loading = await this.loadingCtrl.dismiss();
-  }
 
-  verifyOTP(){
-    if (this.otpForms.get('otp')?.valid) {
-      this.showLoading()
+  async verifyOTP() {
+    if (!this.otpForms.get('otp')?.valid) {
+      presentToast(this.toastController, "Invalid otp", 'warning', 0);
     }
-    console.log('OTP value:', this.otpForms.get('otp')?.value);
+    await showLoading(this.loadingCtrl)
+
+    const otp: string = String(this.otpForms.get('otp')?.value ?? '');
+    closeAllToasts(this.toastController);
+    this.authService.verify(otp).subscribe({
+      next: async (response) => {
+        console.log("Account verified", response);
+        await closeLoading(this.loadingCtrl);
+        await closeAllToasts(this.toastController);
+        this.ngZone.run(() => {
+          console.log("Navigating to home");
+          this.router.navigateByUrl("/main/home", { replaceUrl: true });
+        })
+      },
+      error: async (error) => {
+        console.log("There was an error", error);
+        closeLoading(this.loadingCtrl);
+        const errorMsg = error?.error?.errors || "Try again later";
+        await presentToast(this.toastController, errorMsg, 'danger', 0)
+      },
+    })
   }
 
 }
