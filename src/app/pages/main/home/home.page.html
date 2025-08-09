@@ -51,17 +51,17 @@
         </div>
       </section>
     </div>
-
+    <!-- FOUND_ITEMS -->
     <div *ngIf="!isLoading">
       <section class="items-carousel-section">
         <div class="carousel-header">
           <h2 class="section-title">Found Items</h2>
-          <button (click)="navigateToFound('Found')" class="view-all-link">view all ›</button>
+          <button (click)="navigateToFound('Found')" class="view-all-link">view all›</button>
         </div>
 
         <div class="items-carousel-container">
           <app-item-card
-            *ngFor="let item of items"
+            *ngFor="let item of FoundItems"
             [item]="item"
             (click)="openItemDetail(item, $event)"
             style="cursor: pointer;"
@@ -71,6 +71,7 @@
     </div>
   </div>
 
+  <!-- LOST ITEMS -->
   <div class="px-4 md:px-8">
     <!-- SKELETON -->
     <div *ngIf="isLoading">
@@ -98,7 +99,7 @@
 
         <div class="items-carousel-container">
           <app-item-card
-            *ngFor="let item of items"
+            *ngFor="let item of Lostitems"
             [item]="item"
              (click)="openItemDetail(item, $event)"
               style="cursor: pointer;"

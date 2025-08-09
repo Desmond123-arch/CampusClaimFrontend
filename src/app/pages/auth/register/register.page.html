@@ -159,8 +159,11 @@
             Password must contain at least one number.
           </div>
           <!-- Add other strength errors as needed -->
-          <div *ngIf="myForm.controls['password'].hasError('requireUppercase')">
+          <div *ngIf="myForm.controls['password'].hasError('requiredUppercase')">
             Password must contain an uppercase letter.
+          </div>
+          <div *ngIf="myForm.controls['password'].hasError('requireSpecialChar')">
+            Password must contain a special character.
           </div>
         </div>
       </div>

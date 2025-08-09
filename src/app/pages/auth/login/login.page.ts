@@ -22,7 +22,7 @@ export class LoginPage implements OnInit {
   showToast = false;
 
 
-  constructor(public formBuilder: FormBuilder, private router: Router, private loadingCtrl: LoadingController, private ngZone: NgZone, private authService: AuthService, private toastController: ToastController) { 
+  constructor(public formBuilder: FormBuilder, private router: Router, private loadingCtrl: LoadingController, private ngZone: NgZone, private authService: AuthService, private toastController: ToastController) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         closeAllToasts(this.toastController);
@@ -55,7 +55,6 @@ export class LoginPage implements OnInit {
       console.log('Form is invalid. Please check the fields.');
       console.log(this.myForm.errors)
       this.myForm.markAllAsTouched();
-
       return;
     }
 
@@ -89,7 +88,7 @@ export class LoginPage implements OnInit {
 
 
 
-  
+
 
   navigateToConfirmEmail() {
     this.router.navigateByUrl('/auth/request-password-reset');

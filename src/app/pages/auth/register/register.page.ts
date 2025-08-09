@@ -71,8 +71,7 @@ export class RegisterPage implements OnInit {
   submitForm(): void {
     this.submitted = true;
     if (this.myForm.invalid) {
-      console.log('Form is invalid. Please check the fields.');
-
+      console.log('Form is invalid. Please check the fields.', this.myForm);
       this.myForm.markAllAsTouched();
 
       return;

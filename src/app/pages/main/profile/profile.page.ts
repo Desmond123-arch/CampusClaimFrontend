@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Preferences } from '@capacitor/preferences';
 import { User } from 'src/types/user';
 
 @Component({
@@ -11,21 +12,14 @@ export class ProfilePage implements OnInit {
 
   status = ["Lost", "Found", "Claimed"]
   currentStatus = "Lost"
+  mode = "Light"
 
-  user: User = {
-    "id": "60f36a54-72b0-4c2b-b265-a8749f8045b1",
-    "full_name": "Desmond Mends",
-    "email": "ce-domends6421@st.umat.edu.gh",
-    "phone_number": "+2233444111",
-    "profile_image": "",
-    "is_verified": false
-  }
+  user: any = {}
   constructor() { }
 
   ngOnInit() {
-    if (this.user.profile_image == "") {
-      this.user.profile_image = `https://ui-avatars.com/api/?name=${this.user.full_name.split(" ").join("+")}`
-    }
+    this.getUserDetails()
+
   }
 
   public alertButtons = [
@@ -43,6 +37,7 @@ export class ProfilePage implements OnInit {
     this.currentStatus = status;
   }
   changeTheme() {
+    this.mode = this.mode === 'Light' ? "Dark" : "Light";
     throw new Error('Method not implemented.');
   }
   resetPassword() {
@@ -55,4 +50,14 @@ export class ProfilePage implements OnInit {
     throw new Error('Method not implemented.');
   }
 
+  async getUserDetails() {
+    this.user.full_name = (await Preferences.get({ key: "name" })).value!
+    this.user.phone_number = (await Preferences.get({ key: 'phone' })).value!
+    this.user.profile_image = (await Preferences.get({ key: 'profile_image' })).value!
+    this.user.email = (await Preferences.get({ key: "email" })).value!
+
+    if (this.user.profile_image == "") {
+      this.user.profile_image = `https://ui-avatars.com/api/?name=${this.user.full_name.split(" ").join("+")}`
+    }
+  }
 }

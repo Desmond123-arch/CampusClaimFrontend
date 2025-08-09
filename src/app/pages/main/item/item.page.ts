@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Item } from 'src/types/item'; // Your existing Item type
 
 import { ItemDetailModalComponent } from 'src/app/components/item-detail-modal/item-detail-modal.component';
-import { ModalController } from '@ionic/angular';
+import { ModalController, ToastController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
+import { presentToast } from 'src/app/utils/toast';
+import { ItemsService } from 'src/app/service/items.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-items-grid',
@@ -211,25 +214,18 @@ export class ItemPage implements OnInit {
       "found_at": "FIMMS"
     }
   ];
-  isLoading = false;
+  isLoading = true;
   itemStatus: string | undefined | null = "Lost";
-  constructor(private modalController: ModalController, private activeRoute: ActivatedRoute, private router: Router) {
+  private routeSubscription?: Subscription;
+  constructor(private modalController: ModalController, private activeRoute: ActivatedRoute, private router: Router, private toastController: ToastController, private itemService: ItemsService) {
     this.itemStatus = this.activeRoute.snapshot.queryParamMap.get('status');
   }
 
   ngOnInit() {
-    if (this.itemStatus === null || (this.itemStatus !== "found" && this.itemStatus !== "lost")) {
-      this.router.navigate([], {
-        relativeTo: this.activeRoute,
-        queryParams: { status: 'lost' },
-        queryParamsHandling: 'merge',
-        replaceUrl: true,
-      });
-
-      this.itemStatus = "Lost"
-    } else {
-      this.itemStatus = this.itemStatus![0].toUpperCase() + this.itemStatus!.slice(1).toLowerCase()
-    }
+    this.routeSubscription = this.activeRoute.queryParamMap.subscribe(params => {
+      const status = params.get('status');
+      this.handleStatusChange(status);
+    });
   }
 
   async openItemDetail(item: Item) {
@@ -242,5 +238,42 @@ export class ItemPage implements OnInit {
       initialBreakpoint: 1.2,
     })
     await modal.present();
+  }
+  ngOnDestroy() {
+    if (this.routeSubscription) {
+      this.routeSubscription.unsubscribe();
+    }
+  }
+
+  private handleStatusChange(status: string | null) {
+    console.log('Status changed to:', status);
+    if (status === null || (status?.toLowerCase() !== "found" && status?.toLowerCase() !== "lost")) {
+      this.router.navigate([], {
+        relativeTo: this.activeRoute,
+        queryParams: { status: 'lost' },
+        queryParamsHandling: 'merge',
+        replaceUrl: true,
+      });
+      this.itemStatus = "Lost";
+    } else {
+      this.itemStatus = status[0].toUpperCase() + status.slice(1).toLowerCase();
+    }
+    this.getItems(this.itemStatus);
+  }
+
+  async getItems(status: string) {
+    this.isLoading = true;
+    this.itemService.getAllItems({ status }).subscribe({
+      next: (response: any) => {
+        console.log(response)
+        this.items = response.data.rows;
+        this.isLoading = false;
+      },
+      error: async (response: any) => {
+        await presentToast(this.toastController, "Error while fetching items, please try again", 'primary', 1500);
+        console.log(response)
+        this.isLoading = false;
+      }
+    })
   }
 }

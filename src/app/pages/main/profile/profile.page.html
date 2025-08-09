@@ -1,7 +1,7 @@
 <ion-content [fullscreen]="true" class="ion-padding page-container">
   <div class="flex items-center mt-10">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="home"></ion-back-button>
+      <ion-back-button defaultHref="/main/home"></ion-back-button>
     </ion-buttons>
     <h1 class="w-full text-2xl font-semibold">Edit Profile</h1>
   </div>
@@ -114,7 +114,7 @@
           <button class="flex items-center mb-4" (click)="changeTheme()">
             <ion-icon name="moon-outline"></ion-icon>
             <span class="ml-3 text-sm font-medium text-gray-700"
-              >Dark Mode</span
+              >{{mode}} Mode</span
             >
           </button>
           <div class="flex items-center justify-between py-3">

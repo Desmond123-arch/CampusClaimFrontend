@@ -5,8 +5,9 @@ import { registrationDetails, User } from 'src/types/user';
 import { Preferences } from '@capacitor/preferences';
 import { AuthResponse } from 'src/types/responses';
 import { from, switchMap } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
-export const APPURL = ' http://127.0.0.1:3000';
+export const APPURL = environment.api_url;
 @Injectable({
   providedIn: 'root',
 })
@@ -33,7 +34,7 @@ export class AuthService {
         return this.http.post(`${APPURL}/auth/verify-account`, { code: otp }, {
           headers: {
             'Authorization': `Bearer ${token}`
-          }, 
+          },
           responseType: 'text',
         })
       })
@@ -44,7 +45,7 @@ export class AuthService {
   async saveLoginDetails(accessToken: string, user:User) {
     //FIXME: This can be made cleaner
     await Preferences.set({
-      key: 'auth-token', 
+      key: 'auth-token',
       value: accessToken
     });
 
@@ -64,5 +65,6 @@ export class AuthService {
       key: 'profile_image',
       value: user.profile_image,
     })
+    
   }
 }
