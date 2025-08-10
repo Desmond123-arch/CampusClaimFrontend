@@ -17,7 +17,7 @@ export class AuthService {
   constructor() { }
   private http = inject(HttpClient);
   login(email: string, password: string) {
-    const response = this.http.post<AuthResponse>(`${APPURL}/auth/login`, {email, password});
+    const response = this.http.post<AuthResponse>(`${APPURL}/auth/login`, { email, password });
     return response;
   }
 
@@ -26,23 +26,43 @@ export class AuthService {
     return response;
   }
 
+  async logout() {
+    await Preferences.remove({
+      key: 'auth-token',
+    });
+
+    await Preferences.remove({
+      key: 'name',
+    })
+    await Preferences.remove({
+      key: 'email',
+    })
+    await Preferences.remove({
+      key: 'phone',
+    })
+    await Preferences.remove({
+      key: 'profile_image',
+    })
+
+  }
+
   verify(otp: string) {
-    return from(Preferences.get({key: 'auth-token'}))
-    .pipe(
-      switchMap(tokenResult => {
-        const token = tokenResult.value;
-        return this.http.post(`${APPURL}/auth/verify-account`, { code: otp }, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          },
-          responseType: 'text',
+    return from(Preferences.get({ key: 'auth-token' }))
+      .pipe(
+        switchMap(tokenResult => {
+          const token = tokenResult.value;
+          return this.http.post(`${APPURL}/auth/verify-account`, { code: otp }, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            },
+            responseType: 'text',
+          })
         })
-      })
-    )
+      )
   }
 
 
-  async saveLoginDetails(accessToken: string, user:User) {
+  async saveLoginDetails(accessToken: string, user: User) {
     //FIXME: This can be made cleaner
     await Preferences.set({
       key: 'auth-token',
@@ -65,6 +85,6 @@ export class AuthService {
       key: 'profile_image',
       value: user.profile_image,
     })
-    
+
   }
 }

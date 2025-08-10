@@ -29,4 +29,18 @@ export class ItemsService {
     })
    )
   }
+  getMyItems(params: HttpParams ): Observable<Item[]> {
+    return from(Preferences.get({key: 'auth-token'}))
+    .pipe(
+     switchMap(tokenResult => {
+       const token = tokenResult.value;
+       return this.http.get<Item[]>(`${APPURL}/items/my-items`, {
+         headers: {
+           'Authorization': `Bearer ${token}`
+         },
+         params: params
+       })
+     })
+    )
+   }
 }

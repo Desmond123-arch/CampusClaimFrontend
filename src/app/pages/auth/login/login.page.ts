@@ -70,13 +70,14 @@ export class LoginPage implements OnInit {
       next: async (response) => {
         console.log('Login success:', response);
         await closeLoading(this.loadingCtrl)
-        this.ngZone.run(() => {
-          console.log("Navigating to home")
-          this.router.navigateByUrl("/main/home", { replaceUrl: true });
-        });
+        // this.ngZone.run(async () => {
+        //   console.log("Navigating to home")
+        //   await this.router.navigateByUrl("/main/home", { replaceUrl: true });
+        // });
         await presentToast(this.toastController, "Login Succesful", 'success', 1500)
         this.showToast = false;
         await this.authService.saveLoginDetails(response.accessToken, response.user)
+        await this.router.navigate(['/main/home'], { replaceUrl: true });
       },
       error: async (error) => {
         closeLoading(this.loadingCtrl);

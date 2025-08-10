@@ -7,15 +7,20 @@ export function ghanaianPhoneNumberValidator(): ValidatorFn {
     if (!value) {
       return null;
     }
-    const phoneNumber = String(value).replace(/[\s-()]/g, '')
-    const ghanaPhoneRegex =
-      /^(?:\+233|233|0)(?:20|23|24|26|27|50|53|54|55|56|57|59)\d{7}$/;
 
-    const isValid = ghanaPhoneRegex.test(phoneNumber);
+    const phoneNumber = String(value).replace(/[\s-()]/g, '');
+    //FIXME: TAKE out mali number
+    const phoneRegex =
+      /^(?:\+233|233|0)(?:20|23|24|26|27|50|53|54|55|56|57|59|34)\d{7}$|^(?:\+223|223)\d{8}$/;
+
+    const ghanaPhoneRegex =
+      /^(?:\+233|233|223|0)(?:20|23|24|26|27|50|53|54|55|56|57|59|34)\d{7}$/;
+    const isValid = phoneRegex.test(phoneNumber);
 
     return isValid ? null : { invalidGhanaianPhoneNumber: true };
   };
 }
+
 
 export function UmatEmailValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
