@@ -31,14 +31,18 @@ export class FoundItemFormComponent implements OnInit {
   reportOptions = ["Lost", "Found"]
   _reportType: string = this.reportOptions[0];
   categories: Category[] = [
-    { name: 'Laptop', icon: 'laptop-outline' },
-    { name: 'ID Card', icon: 'id-card-outline' },
+    { name: 'Electronics', icon: 'laptop-outline' },
+    { name: 'Clothing', icon: 'shirt-outline' },
+    { name: 'Books', icon: 'book-outline' },
+    { name: 'Accessories', icon: 'watch-outline' },
+    { name: 'School Supplies', icon: 'school-outline' },
+    { name: 'Documents', icon: 'document-text-outline' },
     { name: 'Keys', icon: 'key-outline' },
-    { name: 'Phone', icon: 'call-outline' },
-    { name: 'Other', icon: 'help-circle-outline' },
+    { name: 'Wallets', icon: 'wallet-outline' }
   ];
 
-  constructor(private fb: FormBuilder, private datePipe: DatePipe) {}
+
+  constructor(private fb: FormBuilder, private datePipe: DatePipe) { }
 
   ngOnInit() {
     this.foundItemForm = this.fb.group({
@@ -48,9 +52,9 @@ export class FoundItemFormComponent implements OnInit {
       foundLocation: ['', [Validators.required, Validators.minLength(3)]],
       visibleFeature: ['', Validators.required],
       contactNumber: ['', [Validators.required, Validators.pattern(/^\+?[0-9\s-()]{7,}$/)]],
-      verificationQuestion: ['', [Validators.required, Validators.minLength(10)]],
+      // verificationQuestion: ['', [Validators.required, Validators.minLength(10)]],
       bounty: [0, [Validators.min(0), Validators.pattern(/^\d+$/)]],
-      images: [[]],
+      images: [],
     });
 
     this.foundItemForm.get('foundDateTime')?.valueChanges.subscribe((value) => {
@@ -58,22 +62,19 @@ export class FoundItemFormComponent implements OnInit {
     });
   }
 
-
-  public set reportType(v : string) {
+  public set reportType(v: string) {
     this.ReportType.emit(v);
     this._reportType = v;
   }
 
-  public get reportType() : string {
+  public get reportType(): string {
     return this._reportType;
   }
 
 
-
-
-
   onFileSelected(event: any): void {
     const files = event.target.files;
+    console.log(files)
     if (files) {
       for (const file of files) {
         const reader = new FileReader();
@@ -100,8 +101,10 @@ export class FoundItemFormComponent implements OnInit {
   }
 
   submitForm() {
+    console.log("Form here")
     if (this.foundItemForm.valid) {
       console.log('Form is valid. Emitting data:', this.foundItemForm.value);
+      this.foundItemForm.value["images"] = this.selectedImages;
       this.formSubmitted.emit(this.foundItemForm.value);
     } else {
       console.error('Form is invalid.');

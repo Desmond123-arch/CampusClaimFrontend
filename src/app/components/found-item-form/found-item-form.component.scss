@@ -15,6 +15,22 @@ ion-item {
     font-size: 1.2rem;
     padding-bottom: 0;
   }
+  --background-hover: transparent;
+  --background-focused: transparent;
+  --background-activated: transparent;
+  --ripple-color: transparent;
+
+  &::part(container) {
+    background-color: transparent !important;
+    box-shadow: none !important;
+  }
+
+  ion-select {
+    --background-hover: transparent;
+    --background-focused: transparent;
+    --highlight-color-focused: transparent;
+    padding-inline: 15px;
+  }
 }
 
 .form-field-vertical {
@@ -27,6 +43,8 @@ ion-select {
   width: 100%;
   font-size: 1.2rem;
   margin-top: 0.5em;
+  border: 1px solid black !important;
+  border-radius: 8px;
 }
 
 ion-icon {

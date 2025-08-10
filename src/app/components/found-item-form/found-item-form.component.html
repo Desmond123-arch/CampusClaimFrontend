@@ -30,25 +30,28 @@
       <ion-item class="item-label">
         <ion-label>Category</ion-label>
       </ion-item>
-      <ion-item class="item-control">
-        <ion-select
-          formControlName="category"
-          placeholder="Select a category"
-          interface="action-sheet"
-        >
-          <ion-select-option
-            *ngFor="let category of categories"
-            [value]="category.name"
+      <div>
+        <ion-item class="item-control item-select">
+          <ion-select
+            formControlName="category"
+            placeholder="Select a category"
+            interface="action-sheet"
+            class="ion-border"
           >
-            <ion-icon
-              slot="start"
-              [name]="category.icon"
-              aria-hidden="true"
-            ></ion-icon>
-            {{ category.name }}
-          </ion-select-option>
-        </ion-select>
-      </ion-item>
+            <ion-select-option
+              *ngFor="let category of categories"
+              [value]="category.name"
+            >
+              <ion-icon
+                slot="start"
+                [name]="category.icon"
+                aria-hidden="true"
+              ></ion-icon>
+              {{ category.name }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
 
       <ion-item class="item-label">
         <ion-label>Found date/time</ion-label>
@@ -128,10 +131,11 @@
         />
       </ion-item>
       <ion-note color="medium" class="ion-padding-start">
-        Leave blank if you're not {{reportType === "Found"? "taking": "offering"}}  a reward.
+        Leave blank if you're not
+        {{ reportType === "Found" ? "taking" : "offering" }} a reward.
       </ion-note>
 
-      <ion-item class="item-label">
+      <!-- <ion-item class="item-label">
         <ion-label
           >Mention something unique only the owner would know.</ion-label
         >
@@ -142,8 +146,7 @@
           placeholder="e.g., a scratch, engraving, or color detail..."
           [autoGrow]="true"
         ></ion-textarea>
-      </ion-item>
-
+      </ion-item> -->
     </ion-list>
 
     <div class="upload-container ion-margin">
@@ -191,6 +194,7 @@
       shape="round"
       color="light"
       class="started-btn-3"
+      type="submit"
     >
       Report {{ reportType }} Item
     </ion-button>
