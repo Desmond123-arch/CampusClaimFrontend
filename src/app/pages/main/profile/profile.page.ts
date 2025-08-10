@@ -1,5 +1,5 @@
 import { HttpParams } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Preferences } from '@capacitor/preferences';
@@ -20,11 +20,13 @@ import { ChangePasswordComponent } from 'src/app/components/change-password/chan
   standalone: false,
 })
 export class ProfilePage implements OnInit {
+
+
   status = ["Lost", "Found", "Claimed"]
   currentStatus = "Lost"
   mode = "Light"
   updateForms: FormGroup = new FormGroup({});
-  items:Item[] = []
+  items: Item[] = []
   user: any = {}
   constructor(public formBuilder: FormBuilder,
     private authService: AuthService,
@@ -33,8 +35,11 @@ export class ProfilePage implements OnInit {
     private loadingCtrl: LoadingController,
     private toastController: ToastController,
     private itemService: ItemsService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    // private keyboard: Keyboard
   ) { }
+
+
 
   async ngOnInit() {
     this.updateForms = this.formBuilder.group({
@@ -74,8 +79,13 @@ export class ProfilePage implements OnInit {
     throw new Error('Method not implemented.');
   }
   async resetPassword() {
+    const ismobile = window.innerWidth > 768;
     const modal = await this.modalController.create({
       component: ChangePasswordComponent,
+      cssClass: 'change-password',
+      breakpoints: [0.5, 1],
+      initialBreakpoint: ismobile? 0.5: 1,
+      handle: true
     });
     return await modal.present();
   }

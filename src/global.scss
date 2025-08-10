@@ -160,3 +160,7 @@
     cursor: pointer;
   }
 }
+
+ion-modal.change-password::part(content) {
+  background-color: red !important;
+}
