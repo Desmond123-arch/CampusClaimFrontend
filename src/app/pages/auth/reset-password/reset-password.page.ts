@@ -44,18 +44,14 @@ export class ResetPasswordPage implements OnInit {
   resetPassword(): void {
 
     if (this.myForm.invalid) {
-      console.log('Form is invalid. Please check the fields.');
-
       this.myForm.markAllAsTouched();
 
       return;
     }
     const formValue = this.myForm.value;
-    console.log(this.myForm)
     const payload = {
       password: formValue.password,
       confirm_password: formValue.confirmPassword
     };
-    console.log('Clean payload to send to API:', payload);
   }
 }

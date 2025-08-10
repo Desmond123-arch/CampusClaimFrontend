@@ -100,7 +100,6 @@ export class ProfilePage implements OnInit {
   async updateDetails() {
     if (this.updateForms.valid) {
       const formData = this.updateForms.value;
-      console.log('Form is valid. Data:', formData);
 
       const loading = await this.loadingCtrl.create({
         message: 'Updating profile...',
@@ -115,7 +114,6 @@ export class ProfilePage implements OnInit {
           email: formData.email
         }).toPromise();
 
-        console.log('Profile updated successfully:', response);
 
         await Preferences.set({ key: 'name', value: formData.name });
         await Preferences.set({ key: 'phone', value: formData.phone_number });
@@ -128,7 +126,6 @@ export class ProfilePage implements OnInit {
         await presentToast(this.toastController, 'Profile updated successfully!', 'success', 2000);
         this.updateForms.markAsPristine();
       } catch (error: any) {
-        console.error('Error updating profile:', error);
         await loading.dismiss();
         let errorMessage = 'Failed to update profile. Please try again.';
         if (error?.error?.message) {
@@ -138,7 +135,6 @@ export class ProfilePage implements OnInit {
       }
 
     } else {
-      console.log('Form is invalid');
       this.updateForms.markAllAsTouched();
 
       await presentToast(this.toastController, 'Please fix the form errors before submitting.', 'warning', 2000);
@@ -152,7 +148,6 @@ export class ProfilePage implements OnInit {
       email: this.user.email || ''
     });
 
-    console.log('Form patched with user data:', this.updateForms.value);
   }
   async getUserDetails() {
     this.user.full_name = (await Preferences.get({ key: "name" })).value!
@@ -175,9 +170,7 @@ export class ProfilePage implements OnInit {
       },
       error: async (response: any) => {
         await presentToast(this.toastController, "Error while fetching items, please try again", 'primary', 1500);
-        console.log(response)
       }
     })
-    console.log(this.items)
   }
 }

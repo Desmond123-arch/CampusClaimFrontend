@@ -23,22 +23,17 @@ export class RequestPasswordResetPage implements OnInit {
   requestReset(): void {
 
     if (this.myForm.invalid) {
-      console.log('Form is invalid. Please check the fields.');
 
       this.myForm.markAllAsTouched();
 
       return;
     }
 
-    console.log('Form is valid! Submitting...');
-
-    console.log('Raw form data:', this.myForm.value);
     this.router.navigateByUrl('/auth/reset-password');
     const formValue = this.myForm.value;
     const payload = {
       email: formValue.email,
     };
-    console.log('Clean payload to send to API:', payload);
   }
 
 

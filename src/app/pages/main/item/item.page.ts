@@ -49,7 +49,6 @@ export class ItemPage implements OnInit {
   }
 
   private handleStatusChange(status: string | null) {
-    console.log('Status changed to:', status);
     if (status === null || (status?.toLowerCase() !== "found" && status?.toLowerCase() !== "lost")) {
       this.router.navigate([], {
         relativeTo: this.activeRoute,
@@ -69,13 +68,11 @@ export class ItemPage implements OnInit {
         const params = new HttpParams().set('status', status);
     this.itemService.getAllItems(params).subscribe({
       next: (response: any) => {
-        console.log(response)
         this.items = response.data.rows;
         this.isLoading = false;
       },
       error: async (response: any) => {
         await presentToast(this.toastController, "Error while fetching items, please try again", 'primary', 1500);
-        console.log(response)
         this.isLoading = false;
       }
     })

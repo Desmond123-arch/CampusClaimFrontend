@@ -71,15 +71,12 @@ export class RegisterPage implements OnInit {
   submitForm(): void {
     this.submitted = true;
     if (this.myForm.invalid) {
-      console.log('Form is invalid. Please check the fields.', this.myForm);
+      // console.log('Form is invalid. Please check the fields.', this.myForm);
       this.myForm.markAllAsTouched();
 
       return;
     }
     showLoading(this.loadingCtrl);
-    console.log('Form is valid! Submitting...');
-
-    console.log('Raw form data:', this.myForm.value);
 
     const formValue = this.myForm.value;
     const payload: registrationDetails = {
@@ -90,11 +87,9 @@ export class RegisterPage implements OnInit {
       confirm_password: formValue.confirmPassword
     };
 
-    console.log('Clean payload to send to API:', payload);
 
     this.authService.register(payload).subscribe({
       next: async (response) => {
-        console.log("Creation successful");
         closeLoading(this.loadingCtrl);
         this.myForm.reset();
         this.ngZone.run(() => {

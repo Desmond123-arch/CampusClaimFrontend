@@ -52,8 +52,8 @@ export class LoginPage implements OnInit {
 
   async submitForm(): Promise<void> {
     if (this.myForm.invalid) {
-      console.log('Form is invalid. Please check the fields.');
-      console.log(this.myForm.errors)
+      // console.log('Form is invalid. Please check the fields.');
+      // console.log(this.myForm.errors)
       this.myForm.markAllAsTouched();
       return;
     }
@@ -68,7 +68,7 @@ export class LoginPage implements OnInit {
     };
     this.authService.login(payload.email, payload.password).subscribe({
       next: async (response) => {
-        console.log('Login success:', response);
+        // console.log('Login success:', response);
         await closeLoading(this.loadingCtrl)
         // this.ngZone.run(async () => {
         //   console.log("Navigating to home")

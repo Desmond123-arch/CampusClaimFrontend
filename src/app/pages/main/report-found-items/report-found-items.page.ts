@@ -25,7 +25,6 @@ export class ReportFoundItemsPage implements OnInit {
   }
 
   onReportSubmit(formData: any) {
-    console.log('Received data in page:', formData);
 
     const postData = new FormData();
 

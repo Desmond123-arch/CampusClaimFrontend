@@ -54,7 +54,6 @@ export class ItemCardComponent implements OnInit, OnDestroy {
   }
 
   async handleClaim(event: Event) {
-    console.log("Handling claim")
     event.stopPropagation();
 
     const modal = await this.modalController.create({
@@ -68,7 +67,6 @@ export class ItemCardComponent implements OnInit, OnDestroy {
     const { data, role } = await modal.onWillDismiss();
 
     if (role === 'claim-submitted') {
-      console.log('Claim submitted with:', data);
       const successModal = await this.modalController.create({
         component: SuccesfulClaimComponent,
         backdropDismiss: false,

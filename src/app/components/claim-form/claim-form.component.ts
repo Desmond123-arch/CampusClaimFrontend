@@ -82,11 +82,9 @@ export class ClaimFormComponent implements OnInit {
 
   submitClaim() {
     if (this.claimForm.valid) {
-      console.log('Claim Submitted:', this.claimForm.value);
       this.modalController.dismiss(this.claimForm.value, 'claim-submitted');
     } else {
       this.claimForm.markAllAsTouched();
-      console.error('Form is invalid');
     }
   }
   cancel() {

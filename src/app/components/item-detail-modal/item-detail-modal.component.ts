@@ -20,7 +20,7 @@ export class ItemDetailModalComponent  implements OnInit {
   constructor(private modalCtrl: ModalController) {}
 
   ngOnInit(): void {
-    console.log('Modal opened for ', this.item);
+    // console.log('Modal opened for ', this.item);
   }
 
   dismiss() {
@@ -28,7 +28,6 @@ export class ItemDetailModalComponent  implements OnInit {
   }
 
   async handleClaim(event: Event) {
-    console.log("Handling claim")
     event.stopPropagation();
   
     const modal = await this.modalCtrl.create({

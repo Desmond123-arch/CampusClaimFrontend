@@ -15,13 +15,6 @@ export class AppComponent {
   }
 
   async initializeApp() {
-    SafeArea.getSafeAreaInsets().then(({ insets }) => {
-      console.log(insets);
-    });
-
-    SafeArea.getStatusBarHeight().then(({ statusBarHeight }) => {
-      console.log(statusBarHeight, 'statusbarHeight');
-    });
     await SafeArea.removeAllListeners();
 
     await SafeArea.addListener('safeAreaChanged', data => {

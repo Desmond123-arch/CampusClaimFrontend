@@ -55,11 +55,9 @@ export class VerifyPage implements OnInit {
     closeAllToasts(this.toastController);
     this.authService.verify(otp).subscribe({
       next: async (response) => {
-        console.log("Account verified", response);
         await closeLoading(this.loadingCtrl);
         await closeAllToasts(this.toastController);
         this.ngZone.run(() => {
-          console.log("Navigating to home");
           this.router.navigateByUrl("/main/home", { replaceUrl: true });
         })
       },

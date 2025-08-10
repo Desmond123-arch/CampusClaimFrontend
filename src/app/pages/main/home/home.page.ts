@@ -61,13 +61,11 @@ export class HomePage implements OnInit {
 
     this.itemService.getAllItems(params).subscribe({
       next: (response: any) => {
-        console.log(response)
         this.Lostitems = response.data.rows;
         this.isLoading = false;
       },
       error: async (response: any) => {
         await presentToast(this.toastController, "Error while fetching items, please try again", 'primary', 1500);
-        console.log(response)
       }
     })
   }
@@ -79,13 +77,11 @@ export class HomePage implements OnInit {
 
     this.itemService.getAllItems(params).subscribe({
       next: (response: any) => {
-        console.log(response)
         this.FoundItems = response.data.rows;
         this.isLoading = false;
       },
       error: async (response: any) => {
         await presentToast(this.toastController, "Error while fetching items, please try again", 'primary', 1500);
-        console.log(response)
       }
     })
   }

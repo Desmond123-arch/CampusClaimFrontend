@@ -56,7 +56,7 @@ export class ChangePasswordComponent {
       return;
     }
 
-    console.log(this.changePasswordForm.value)
+    // console.log(this.changePasswordForm.value)
     const { currentPassword, newPassword, confirmPassword } = this.changePasswordForm.value;
 
     if (newPassword !== confirmPassword) {
