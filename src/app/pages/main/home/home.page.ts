@@ -1,3 +1,4 @@
+import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Preferences } from '@capacitor/preferences';
@@ -54,10 +55,10 @@ export class HomePage implements OnInit {
   }
 
   async getLostItems() {
-    const params = {
-      limit: "10",
-      status: "Lost"
-    }
+    let params = new HttpParams();
+    params = params.append('limit', '10');
+    params = params.append('status', 'Lost');
+
     this.itemService.getAllItems(params).subscribe({
       next: (response: any) => {
         console.log(response)
@@ -70,11 +71,12 @@ export class HomePage implements OnInit {
       }
     })
   }
+
   async getFountItems() {
-    const params = {
-      limit: "10",
-      status: "Found"
-    }
+    let params = new HttpParams();
+    params = params.append('limit', '10');
+    params = params.append('status', 'Found');
+
     this.itemService.getAllItems(params).subscribe({
       next: (response: any) => {
         console.log(response)

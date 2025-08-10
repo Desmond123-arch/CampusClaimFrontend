@@ -1,8 +1,9 @@
+import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Preferences } from '@capacitor/preferences';
-import { LoadingController, ToastController } from '@ionic/angular';
+import { LoadingController, ModalController, ToastController } from '@ionic/angular';
 import { AuthService } from 'src/app/service/auth.service';
 import { ItemsService } from 'src/app/service/items.service';
 import { UserService } from 'src/app/service/user.service';
@@ -10,6 +11,7 @@ import { presentToast } from 'src/app/utils/toast';
 import { ghanaianPhoneNumberValidator, UmatEmailValidator } from 'src/app/validators/registration';
 import { Item } from 'src/types/item';
 import { User } from 'src/types/user';
+import { ChangePasswordComponent } from 'src/app/components/change-password/change-password.component';
 
 @Component({
   selector: 'app-profile',
@@ -30,7 +32,8 @@ export class ProfilePage implements OnInit {
     public router: Router,
     private loadingCtrl: LoadingController,
     private toastController: ToastController,
-    private itemService: ItemsService
+    private itemService: ItemsService,
+    private modalController: ModalController
   ) { }
 
   async ngOnInit() {
@@ -70,8 +73,11 @@ export class ProfilePage implements OnInit {
     this.mode = this.mode === 'Light' ? "Dark" : "Light";
     throw new Error('Method not implemented.');
   }
-  resetPassword() {
-    throw new Error('Method not implemented.');
+  async resetPassword() {
+    const modal = await this.modalController.create({
+      component: ChangePasswordComponent,
+    });
+    return await modal.present();
   }
   deleteAcount() {
     throw new Error('Method not implemented.');
@@ -149,7 +155,11 @@ export class ProfilePage implements OnInit {
     }
   }
   async getMyItems(status: string) {
-     this.itemService.getMyItems({ status, limit: '3' }).subscribe({
+    const params = new HttpParams()
+      .set('status', status)
+      .set('limit', '3');
+
+    this.itemService.getMyItems(params).subscribe({
       next: (response: any) => {
         this.items = response.data.rows;
       },

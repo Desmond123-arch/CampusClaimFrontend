@@ -1,11 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { HttpParams } from '@capacitor/core/types/core-plugins';
 import { Preferences } from '@capacitor/preferences';
 import { from, Observable, switchMap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Item } from 'src/types/item';
-import { Params } from 'src/types/responses';
 
 export const APPURL = environment.api_url;
 @Injectable({

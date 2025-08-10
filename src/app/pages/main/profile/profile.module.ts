@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ProfilePageRoutingModule } from './profile-routing.module';
 
 import { ProfilePage } from './profile.page';
+import { ChangePasswordComponent } from 'src/app/components/change-password/change-password.component';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { ProfilePage } from './profile.page';
     FormsModule,
     IonicModule,
     ReactiveFormsModule,
-    ProfilePageRoutingModule
+    ProfilePageRoutingModule,
+    ChangePasswordComponent
   ],
   declarations: [ProfilePage],
 })
