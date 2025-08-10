@@ -18,7 +18,7 @@ export class UserService {
       .pipe(
         switchMap(tokenResult => {
           const token = tokenResult.value;
-          return this.http.patch<any>(`${APPURL}/update-profile`, updates, {
+          return this.http.patch<any>(`${APPURL}/profile`, updates, {
             headers: {
               'Authorization': `Bearer ${token}`
             }
