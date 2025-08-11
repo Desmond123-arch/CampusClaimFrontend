@@ -52,16 +52,17 @@ h1 {
 
 ion-label[position="stacked"] {
   margin-bottom: 6px;
+  font-size: 20px;
 }
 
 input {
   font-size: 1rem;
   --highlight-color-focused: transparent;
   --border-radius: 24px;
-  -webkit-appearance: none; 
-  box-shadow: none !important; 
-  border: none !important; 
- 
+  -webkit-appearance: none;
+  box-shadow: none !important;
+  border: none !important;
+  width: 100%;
 }
 ion-input:focus {
   outline: none;

@@ -91,7 +91,7 @@
   </div>
 
   <!-- Common Confirmation Checkbox -->
-  <ion-item lines="none" class="ion-margin-top">
+  <ion-item lines="none">
     <ion-checkbox slot="start" formControlName="agreedToTerms"></ion-checkbox>
     <ion-label class="ion-text-wrap">
       I confirm the above information is true and accurate
@@ -99,7 +99,7 @@
   </ion-item>
 
   <!-- Action Buttons -->
-  <div class="ion-padding">
+  <div class="flex flex-col gap-2">
     <!-- Step 1 Buttons -->
     <div *ngIf="currentStep === 1" class="button-group">
       <ion-button expand="block" fill="outline" (click)="cancel()"
@@ -129,7 +129,7 @@
     </div>
   </div>
 
-  <p class="ion-text-center ion-padding-horizontal footer-note">
+  <p class="ion-text-center ion-padding-horizontal footer-note mt-2">
     We'll notify you once your claim has been reviewed
   </p>
 </form>

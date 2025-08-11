@@ -164,3 +164,7 @@
 ion-modal.change-password::part(content) {
   background-color: red !important;
 }
+
+.claim-card {
+  overflow-y: scroll;
+}

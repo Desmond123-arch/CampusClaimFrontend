@@ -168,7 +168,8 @@ export class ProfilePage implements OnInit {
       next: (response: any) => {
         this.items = response.data.rows;
       },
-      error: async (response: any) => {
+      error: async (error: any) => {
+        console.log(error);
         await presentToast(this.toastController, "Error while fetching items, please try again", 'primary', 1500);
       }
     })

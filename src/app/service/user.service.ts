@@ -28,15 +28,17 @@ export class UserService {
   }
 
   changePassword(currentPassword: string, newPassword: string): Observable<any> {
+    // console.log(currentPassword, newPassword)
     return from(Preferences.get({ key: 'auth-token' })).pipe(
       switchMap(token => {
         if (!token.value) {
           return throwError(() => new Error('No token found'));
         }
         const headers = new HttpHeaders().set('Authorization', `Bearer ${token.value}`);
-        const body = { currentPassword, newPassword };
-        return this.http.post(`${APPURL}/change-password`, body, { headers });
+        const body = { old_password: currentPassword, password: newPassword };
+        return this.http.patch(`${APPURL}/auth/change-password`, body, { headers });
       })
     );
   }
+  // requestResetPassword()
 }

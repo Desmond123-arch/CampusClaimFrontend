@@ -64,7 +64,8 @@ export class HomePage implements OnInit {
         this.Lostitems = response.data.rows;
         this.isLoading = false;
       },
-      error: async (response: any) => {
+      error: async (error: any) => {
+        console.log(error)
         await presentToast(this.toastController, "Error while fetching items, please try again", 'primary', 1500);
       }
     })
@@ -80,7 +81,8 @@ export class HomePage implements OnInit {
         this.FoundItems = response.data.rows;
         this.isLoading = false;
       },
-      error: async (response: any) => {
+      error: async (error: any) => {
+        console.log(error);
         await presentToast(this.toastController, "Error while fetching items, please try again", 'primary', 1500);
       }
     })

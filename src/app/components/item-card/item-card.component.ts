@@ -60,7 +60,8 @@ export class ItemCardComponent implements OnInit, OnDestroy {
       component: ClaimFormComponent,
       componentProps: {
         item: this.item
-      }
+      },
+      cssClass: 'claim-card'
     })
     await modal.present()
 

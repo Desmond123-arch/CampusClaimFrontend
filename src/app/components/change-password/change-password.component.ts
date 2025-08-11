@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm, FormsModule, FormBuilder, ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
-import { IonicModule, ModalController, LoadingController, ToastController } from '@ionic/angular';
+import { IonicModule, ModalController, LoadingController, ToastController, Platform } from '@ionic/angular';
 import { UserService } from 'src/app/service/user.service';
 import { presentToast } from 'src/app/utils/toast';
 import { CommonModule } from '@angular/common';
@@ -16,6 +16,11 @@ import { Keyboard } from '@capacitor/keyboard';
 })
 export class ChangePasswordComponent {
   changePasswordForm: FormGroup;
+  showPassword = {
+    old: false,
+    new: false,
+    confirm: false,
+  }
   @ViewChild('#password') input: any;
 
   constructor(
@@ -24,12 +29,14 @@ export class ChangePasswordComponent {
     private loadingCtrl: LoadingController,
     private toastController: ToastController,
     private fb: FormBuilder,
+    private platform: Platform
   ) {
     this.changePasswordForm = fb.group({})
   }
 
   ngOnInit() {
     this.changePasswordForm = this.fb.group({
+      currentPassword: ['', [Validators.required]],
       newPassword: ['', [Validators.required, Validators.required,
       passwordStrengthValidator({
         minLength: 8,
@@ -42,21 +49,30 @@ export class ChangePasswordComponent {
       validators: passwordsMatchValidator('newPassword', 'confirmPassword')
     });
     setTimeout(() => {
-      this.input.setFocus();
+      if (this.platform.is('hybrid')) {
+        if (this.input) {
+          this.input.setFocus();
+        }
+        Keyboard.show();
+      }
     }, 150);
-    Keyboard.show()
   }
 
   dismiss() {
     this.modalController.dismiss();
+
+    if (this.platform.is('hybrid')) {
+      Keyboard.hide()
+    }
   }
 
   async onSubmit() {
+    console.log("Hello")
     if (this.changePasswordForm.invalid) {
+      console.log(this.changePasswordForm)
       return;
     }
-
-    // console.log(this.changePasswordForm.value)
+    console.log(this.changePasswordForm.value)
     const { currentPassword, newPassword, confirmPassword } = this.changePasswordForm.value;
 
     if (newPassword !== confirmPassword) {
@@ -70,17 +86,25 @@ export class ChangePasswordComponent {
     });
     await loading.present();
 
-    // try {
-    //   // Pass all passwords to the service
-    //   await this.userService.changePassword(currentPassword, newPassword).toPromise();
-    //   await loading.dismiss();
-    //   presentToast(this.toastController, 'Password changed successfully!', 'success', 2000);
-    //   this.dismiss();
-    // } catch (error: any) {
-    //   await loading.dismiss();
-    //   const errorMessage = error?.error?.message || 'Failed to change password. Please try again.';
-    //   presentToast(this.toastController, errorMessage, 'danger', 3000);
-    // }
+    this.userService.changePassword(currentPassword, newPassword).subscribe(
+      {
+        next: (async response => {
+          console.log(response)
+          await loading.dismiss();
+          presentToast(this.toastController, 'Password changed successfully!', 'success', 2000);
+          this.dismiss();
+        }),
+        error: (async error => {
+          console.log(error);
+          presentToast(this.toastController, error.error.errors, 'danger', 2000);
+          await loading.dismiss()
+        })
+      }
+    )
+  }
+
+  ChangeShowPassword(field: "old" | "new" | "confirm") {
+    this.showPassword[field] = !this.showPassword[field]
   }
 
 }

@@ -55,7 +55,7 @@ export class ReportFoundItemsPage implements OnInit {
       })
     })
     presentToast(this.toastCtrl, "Item reported successfully", 'success', 3000)
-    // this.router.navigate(['/main/home']);
+    this.router.navigate(['/main/home']);
 
   }
   changeReportType(type: string) {
