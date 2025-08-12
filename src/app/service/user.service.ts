@@ -40,5 +40,7 @@ export class UserService {
       })
     );
   }
-  // requestResetPassword()
+  requestResetPassword(email: string): Observable<any> {
+    return this.http.post(`${APPURL}/auth/reset-password-request`, {email});
+  }
 }
