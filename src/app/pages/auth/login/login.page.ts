@@ -82,6 +82,7 @@ export class LoginPage implements OnInit {
       error: async (error) => {
         closeLoading(this.loadingCtrl);
         this.showToast = true;
+
         if (!error.error.errors) {
           error.error.errors = "An error occured, Please try again later"
         }

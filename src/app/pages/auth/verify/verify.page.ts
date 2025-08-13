@@ -45,6 +45,24 @@ export class VerifyPage implements OnInit {
     });
   }
 
+  async resendVerification() {
+    await showLoading(this.loadingCtrl)
+    this.authService.resendOtp().subscribe({
+      next: async (response) => {
+        await closeLoading(this.loadingCtrl);
+        await presentToast(this.toastController, "A new verification code has been sent", 'success', 2000)
+      },
+      error: async (error) => {
+        console.log("There was an error", error);
+        closeLoading(this.loadingCtrl);
+        const errorMsg = error?.error?.errors || "Try again later";
+        await presentToast(this.toastController, errorMsg, 'danger', 2000)
+      }
+    })
+  }
+
+
+
   async verifyOTP() {
     if (!this.otpForms.get('otp')?.valid) {
       presentToast(this.toastController, "Invalid otp", 'warning', 0);

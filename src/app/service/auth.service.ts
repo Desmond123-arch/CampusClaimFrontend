@@ -6,6 +6,7 @@ import { Preferences } from '@capacitor/preferences';
 import { AuthResponse } from 'src/types/responses';
 import { from, switchMap } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { FirebaseService } from './firebase.service';
 
 export const APPURL = environment.api_url;
 @Injectable({
@@ -14,10 +15,12 @@ export const APPURL = environment.api_url;
 
 export class AuthService {
 
-  constructor() { }
+  constructor(private firebaseService: FirebaseService) { }
+  
   private http = inject(HttpClient);
   login(email: string, password: string) {
     const response = this.http.post<AuthResponse>(`${APPURL}/auth/login`, { email, password });
+    this.firebaseService.requestForToken()
     return response;
   }
 
@@ -59,6 +62,20 @@ export class AuthService {
           })
         })
       )
+  }
+  resendOtp() {
+    return from(Preferences.get({key: 'auth-token'}))
+    .pipe(
+      switchMap(tokenResult => {
+        const token = tokenResult.value;
+        return this.http.post(`${APPURL}/auth/reset-password-resend`,{}, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
+          responseType: 'text',
+        })
+      })
+    )
   }
 
 

@@ -43,4 +43,18 @@ export class UserService {
   requestResetPassword(email: string): Observable<any> {
     return this.http.post(`${APPURL}/auth/reset-password-request`, {email});
   }
+
+  sendDeviceToken(deviceToken: string): Observable<any> {
+    return from(Preferences.get({key: 'auth-token'})).pipe(
+      switchMap(token => {
+        if (!token.value) {
+          return throwError(() => new Error('No token found'));
+        }
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token.value}`);
+        const body = { token: deviceToken};
+        return this.http.put(`${APPURL}/profile/token`, body, {headers})
+      })
+    )
+  }
+  
 }

@@ -44,7 +44,6 @@ export class RequestPasswordResetPage implements OnInit {
       next: response => {
         this.router.navigateByUrl('/auth/reset-password');
         this.loadingCtrl.dismiss()
-
       },
       error: error => {
         console.log(error);
