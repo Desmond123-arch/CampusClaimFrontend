@@ -6,7 +6,6 @@ import { Preferences } from '@capacitor/preferences';
 import { AuthResponse } from 'src/types/responses';
 import { from, switchMap } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { FirebaseService } from './firebase.service';
 
 export const APPURL = environment.api_url;
 @Injectable({
@@ -15,18 +14,21 @@ export const APPURL = environment.api_url;
 
 export class AuthService {
 
-  constructor(private firebaseService: FirebaseService) { }
-  
+  constructor() { }
+
   private http = inject(HttpClient);
   login(email: string, password: string) {
-    const response = this.http.post<AuthResponse>(`${APPURL}/auth/login`, { email, password });
-    this.firebaseService.requestForToken()
+    const response = this.http.post<AuthResponse>(`${APPURL}/auth/login`, { email, password }, {withCredentials: true});
     return response;
   }
 
   register(data: registrationDetails) {
-    const response = this.http.post<AuthResponse>(`${APPURL}/auth/register`, data);
+    const response = this.http.post<AuthResponse>(`${APPURL}/auth/register`, data, {withCredentials: true});
     return response;
+  }
+  getNewTokens() {
+    const response = this.http.get(`${APPURL}/auth/refresh-token`, { withCredentials: true })
+    return response
   }
 
   async logout() {
@@ -46,7 +48,6 @@ export class AuthService {
     await Preferences.remove({
       key: 'profile_image',
     })
-
   }
 
   verify(otp: string) {
@@ -102,6 +103,6 @@ export class AuthService {
       key: 'profile_image',
       value: user.profile_image,
     })
-
   }
+
 }

@@ -7,6 +7,7 @@ import { closeLoading, showLoading } from 'src/app/utils/loading';
 import { UmatEmailValidator, passwordStrengthValidator } from 'src/app/validators/registration';
 import { Toast } from '@capacitor/toast'
 import { closeAllToasts, presentToast } from 'src/app/utils/toast';
+import { FcmService } from 'src/app/service/fcm.service';
 
 //NOTE: Modify the api to use check if the user is verified before redirecting
 @Component({
@@ -22,7 +23,14 @@ export class LoginPage implements OnInit {
   showToast = false;
 
 
-  constructor(public formBuilder: FormBuilder, private router: Router, private loadingCtrl: LoadingController, private ngZone: NgZone, private authService: AuthService, private toastController: ToastController) {
+  constructor(public formBuilder: FormBuilder,
+        private router: Router,
+        private loadingCtrl: LoadingController,
+        private ngZone: NgZone,
+        private authService: AuthService,
+        private toastController: ToastController,
+        private fcmService: FcmService
+  ) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         closeAllToasts(this.toastController);
@@ -74,6 +82,7 @@ export class LoginPage implements OnInit {
         //   console.log("Navigating to home")
         //   await this.router.navigateByUrl("/main/home", { replaceUrl: true });
         // });
+        this.fcmService.initPush()
         await presentToast(this.toastController, "Login Succesful", 'success', 1500)
         this.showToast = false;
         await this.authService.saveLoginDetails(response.accessToken, response.user)
@@ -86,7 +95,8 @@ export class LoginPage implements OnInit {
         if (!error.error.errors) {
           error.error.errors = "An error occured, Please try again later"
         }
-        await presentToast(this.toastController,error.error.errors, 'danger', 0);
+        await presentToast(this.toastController, error.error.errors, 'danger', 0);
+        await closeLoading(this.loadingCtrl);
       }
     });
   }

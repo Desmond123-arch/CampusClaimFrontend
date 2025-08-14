@@ -42,7 +42,7 @@ export class RequestPasswordResetPage implements OnInit {
     const { email } = this.myForm.value;
     this.userService.requestResetPassword(email).subscribe({
       next: response => {
-        this.router.navigateByUrl('/auth/reset-password');
+        // this.router.navigateByUrl('/auth/reset-password');
         this.loadingCtrl.dismiss()
       },
       error: error => {

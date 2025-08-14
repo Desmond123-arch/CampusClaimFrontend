@@ -3,11 +3,17 @@ import { KeyboardResize } from '@capacitor/keyboard';
 
 const config: CapacitorConfig = {
   appId: 'io.ionic.starter',
-  appName: 'my-app',
+  appName: 'CampusClaim',
   webDir: 'www',
   server: {
     androidScheme: 'https'
+  },
+  plugins: {
+    "PushNotifications": {
+      "presentationOptions": ["badge", "sound", "alert"]
+    }
   }
+
 };
 
 export default config;
