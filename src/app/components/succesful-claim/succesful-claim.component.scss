@@ -1,0 +1,58 @@
+// :host makes the component itself a flex container to center the card
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.success-container {
+  background: var(--ion-color-light, #ffffff);
+  border-radius: 20px;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 340px;
+  width: 100%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.icon-wrapper {
+  background-color: var(--ion-color-primary); // Your app's primary blue color
+  border-radius: 50%;
+  width: 72px;
+  height: 72px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 24px;
+
+  ion-icon {
+    font-size: 44px;
+    color: var(--ion-color-primary-contrast, #ffffff); // White
+    --ionicon-stroke-width: 40px; // Makes the checkmark thicker
+  }
+}
+
+h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--ion-color-primary);
+  margin: 0;
+}
+
+p {
+  font-size: 0.9rem;
+  color: var(--ion-color-medium-shade);
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+ion-button {
+  --border-radius: 10px;
+  height: 48px;
+  font-weight: bold;
+  margin-top: 24px;
+}

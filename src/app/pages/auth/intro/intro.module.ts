@@ -18,6 +18,5 @@ import { PageHeaderComponent } from "src/app/components/page-header/page-header.
     PageHeaderComponent
 ],
   declarations: [IntroPage],
-  exports: [IntroPage]
 })
 export class IntroPageModule {}

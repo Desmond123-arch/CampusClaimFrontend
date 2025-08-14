@@ -46,17 +46,21 @@
 // @import "@ionic/angular/css/palettes/dark.system.css";
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-
-
+// body {
+//   margin-top: constant(safe-area-inset-top);
+//   margin-top: env(safe-area-inset-top);
+// }
 .started-btn{
   text-transform: none;
   background: var(--ion-color-primary);
   width: 78%;
   margin: auto;
   margin-bottom: 0px;
-  border: 2px solid;
   border-radius: 0.8em;
   padding: 2px;
+  font-weight: bolder;
+  color: var(--ion-color-btn);
+
 
   @media (min-width: 768px) {
     max-width: 50%;
@@ -65,4 +69,102 @@
   @media (min-width: 1024px) {
     max-width: 35%;
   }
+}
+.started-btn-2{
+  @media (min-width: 1024px) {
+    max-width: 100%;
+  }
+}
+.started-btn-3{
+  width: 100% !important;
+  margin-bottom: 3em;
+  background: var(--ion-color-primary);
+  border-radius: 0.8em;
+  padding: 2px;
+  padding-block: 4px;
+  color: white;
+
+  @media(min-height: 768px) {
+    margin-bottom: 4em;
+  }
+}
+
+.rounded-btn {
+  border: 2px solid;
+  border-radius: 20px;
+  width: 41%;
+  font-size: smaller;
+  // color: var(--ion-color-primary);
+  border: 2px solid var(--ion-color-primary);
+
+  body.dark .rounded-btn{
+    color: #3C3744 !important;
+  }
+
+  // @media (min-width: 768px) {
+  //   max-width: 30%;
+  // }
+
+  // @media (min-width: 1024px) {
+  //   max-width: 30%;
+  // }
+}
+
+.success-modal {
+  --background: transparent;
+  --box-shadow: none;
+}
+// .error-container {
+//   min-height: 1.5rem;
+
+//   transition: all 0.2s ease-in-out;
+// }
+
+// ion-tab-bar {
+//   margin-bottom: calc(4px + env(safe-area-inset-top));
+// }
+
+/* Main container for the floating search bar */
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 8px 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.search-input-wrapper {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+
+  .search-icon {
+    font-size: 22px;
+    color: #8a8a8f;
+    margin-right: 12px;
+  }
+}
+
+.action-icons {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  .action-icon {
+    font-size: 24px;
+    color: #3066be;
+    cursor: pointer;
+  }
+}
+
+ion-modal.change-password::part(content) {
+  background-color: red !important;
+}
+
+.claim-card {
+  overflow-y: scroll;
 }

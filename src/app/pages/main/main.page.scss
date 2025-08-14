@@ -1,0 +1,30 @@
+/* Position the FAB to sit nicely above the tab bar */
+.report-fab {
+  margin-bottom: 20px;
+}
+
+/* Style the FAB button itself */
+.report-fab ion-fab-button {
+  --background: linear-gradient(135deg, #4285f4, #34a853);
+  --box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
+  width: 56px;
+  height: 56px;
+}
+
+/*
+  This placeholder is a disabled button that just holds the 'Report' label.
+  We make it non-interactive and ensure its label is visible.
+*/
+.fab-placeholder {
+  pointer-events: none;
+}
+
+/*
+  Style the label within the placeholder.
+  We remove the large margin-top which was pushing it out of view.
+*/
+.fab-placeholder ion-label {
+  font-size: 12px;
+  margin-top: 24px;
+  color: black !important;
+}

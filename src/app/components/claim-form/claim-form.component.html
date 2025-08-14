@@ -1,0 +1,135 @@
+<form [formGroup]="claimForm" (ngSubmit)="submitClaim()" class="claim-form">
+  <div class="item-summary ion-padding-horizontal">
+    <ion-label>
+      <h2>Claim {{ item.title }}</h2>
+      <p>Step {{ currentStep }} of 2</p>
+    </ion-label>
+  </div>
+
+  <h1 class="ion-padding-horizontal">Ownership Confirmation</h1>
+
+  <!-- Step 1: Loss Details -->
+  <div *ngIf="currentStep === 1">
+    <ion-list class="ion-no-padding">
+      <ion-item>
+        <ion-label position="stacked">Describe a unique feature</ion-label>
+        <input
+          shape="round"
+          formControlName="uniqueFeature"
+          placeholder="e.g. A small blue ink stain inside"
+        />
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Where did you lose it</ion-label>
+        <input
+          formControlName="lostLocation"
+          placeholder="e.g. University Library, 3rd Floor"
+        />
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Lost date/time</ion-label>
+        <ion-input
+          id="datetime-picker"
+          [value]="formattedDateString"
+          placeholder="mm/dd/yyyy"
+          readonly="true"
+        ></ion-input>
+        <ion-popover trigger="datetime-picker" size="cover">
+          <ng-template>
+            <!-- This datetime now correctly updates the formControl -->
+            <ion-datetime
+              formControlName="lostDateTime"
+              presentation="date-time"
+              [showDefaultButtons]="true"
+            ></ion-datetime>
+          </ng-template>
+        </ion-popover>
+        <ion-icon
+          name="calendar-outline"
+          slot="end"
+          class="ion-align-self-center"
+        ></ion-icon>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <!-- Step 2: Return Method -->
+  <div *ngIf="currentStep === 2">
+    <ion-radio-group formControlName="returnMethod">
+      <ion-list-header>
+        <ion-label>Preferred return method</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Pick up in person</ion-label>
+        <ion-radio slot="start" value="pick-up"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>Request delivery</ion-label>
+        <ion-radio slot="start" value="delivery"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <div *ngIf="returnMethod?.value === 'delivery'">
+      <ion-list class="ion-no-padding">
+        <ion-item>
+          <ion-label position="stacked">Select delivery address</ion-label>
+          <input
+            formControlName="deliveryAddress"
+            placeholder="e.g. KT Hall, Room 225"
+          />
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Phone number for delivery</ion-label>
+          <input
+            formControlName="deliveryPhone"
+            type="tel"
+            placeholder="+233 049 004 045"
+          />
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+
+  <!-- Common Confirmation Checkbox -->
+  <ion-item lines="none">
+    <ion-checkbox slot="start" formControlName="agreedToTerms"></ion-checkbox>
+    <ion-label class="ion-text-wrap">
+      I confirm the above information is true and accurate
+    </ion-label>
+  </ion-item>
+
+  <!-- Action Buttons -->
+  <div class="flex flex-col gap-2">
+    <!-- Step 1 Buttons -->
+    <div *ngIf="currentStep === 1" class="button-group">
+      <ion-button expand="block" fill="outline" (click)="cancel()"
+        >Cancel</ion-button
+      >
+      <ion-button
+        expand="block"
+        (click)="nextStep()"
+        [disabled]="!isStep1Valid()"
+        >Next</ion-button
+      >
+    </div>
+
+    <!-- Step 2 Buttons -->
+    <div *ngIf="currentStep === 2">
+      <!-- Added a back button for better UX -->
+      <ion-button
+        expand="block"
+        fill="clear"
+        color="medium"
+        (click)="previousStep()"
+        >Back</ion-button
+      >
+      <ion-button type="submit" expand="block" [disabled]="claimForm.invalid"
+        >Submit Claim</ion-button
+      >
+    </div>
+  </div>
+
+  <p class="ion-text-center ion-padding-horizontal footer-note mt-2">
+    We'll notify you once your claim has been reviewed
+  </p>
+</form>

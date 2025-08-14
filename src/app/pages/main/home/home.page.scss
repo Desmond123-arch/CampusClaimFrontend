@@ -1,0 +1,79 @@
+input:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.main-toolbar {
+  padding-top: 3rem;
+  padding-bottom: 4em;
+  padding-inline: 1rem;
+}
+
+ion-icon {
+  font-size: 25px;
+  padding: 0px;
+  color: white;
+}
+.floating-card {
+  margin-top: -50px;
+  -webkit-backdrop-filter: blur(12px);
+
+  // position: sticky;
+  top: 0;
+  z-index: 10;
+  width: 90%;
+  // max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+
+  padding-block: 0.5em;
+  border-radius: 12px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.main-toolbar ion-row {
+  width: 100%;
+  padding: 0 8px;
+}
+
+
+.items-carousel-section {
+  padding-block: 1rem;
+}
+.carousel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline: 1rem; // Match the content padding
+  margin-bottom: 0.75rem;
+}
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+.view-all-link {
+  font-size: 0.9rem;
+  color: #6b7280;
+  text-decoration: none;
+}
+
+.items-carousel-container {
+  display: flex;
+  overflow-x: auto;
+
+  gap: 1rem;
+
+  padding-inline: 1rem;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

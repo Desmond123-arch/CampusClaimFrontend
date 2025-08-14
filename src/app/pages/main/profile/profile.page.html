@@ -1,0 +1,218 @@
+<ion-content [fullscreen]="true" class="ion-padding page-container">
+  <div class="flex items-center mt-10">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/main/home"></ion-back-button>
+    </ion-buttons>
+    <h1 class="w-full text-2xl font-semibold">Edit Profile</h1>
+  </div>
+  <div class="w-[90%] md:w-[50%] mx-auto">
+    <div class="curved-container">
+      <div>
+        <!-- FIX: CREATE URL string later -->
+        <img
+          [src]="this.user.profile_image"
+          alt="profile"
+          class="w-36 h-36 mx-auto rounded-full"
+        />
+      </div>
+    </div>
+    <h1 class="text-xl">Update Basic Information</h1>
+    <form [formGroup]="updateForms">
+      <ion-list>
+        <ion-item class="item-label">
+          <ion-label>Full Name</ion-label>
+        </ion-item>
+        <ion-item class="item-control">
+          <input type="text" placeholder="Your name" formControlName="name" />
+        </ion-item>
+        <div
+          *ngIf="updateForms.controls['name'] &&
+           (updateForms.controls['name'].dirty || updateForms.controls['name'].touched)"
+          class="pl-4 text-xs text-red-600 dark:text-red-400 text-start error-container"
+        >
+          <div *ngIf="updateForms.controls['name'].hasError('required')">
+            A valid name is required.
+          </div>
+          <div *ngIf="updateForms.controls['name'].hasError('minlength')">
+            Name should be at least {{
+            updateForms.controls['name'].errors?.['minlength']?.requiredLength
+            }} characters long.
+          </div>
+          <div *ngIf="updateForms.controls['name'].hasError('maxlength')">
+            Name should not exceed {{
+            updateForms.controls['name'].errors?.['maxlength']?.requiredLength
+            }} characters.
+          </div>
+          <div *ngIf="updateForms.controls['name'].hasError('pattern')">
+            Name can only contain letters and spaces.
+          </div>
+        </div>
+
+        <ion-item class="item-label">
+          <ion-label>Phone Number</ion-label>
+        </ion-item>
+        <ion-item class="item-control">
+          <input
+            type="tel"
+            placeholder="0246908585"
+            formControlName="phone_number"
+          />
+        </ion-item>
+        <div
+          *ngIf="updateForms.controls['phone']  && (updateForms.controls['phone'].dirty || updateForms.controls['phone'].touched)"
+          class="text-xs text-red-600 dark:text-red-400 text-start error-container"
+        >
+          <div *ngIf="updateForms.controls['phone'].hasError('required')">
+            Phone number is required.
+          </div>
+
+          <div
+            *ngIf="updateForms.controls['phone'].hasError('invalidGhanaianPhoneNumber')"
+          >
+            Please enter a valid Ghanaian phone number (e.g. 0241234567 or
+            +233551234567).
+          </div>
+        </div>
+
+        <ion-item class="item-label">
+          <ion-label>School Email</ion-label>
+        </ion-item>
+        <ion-item class="item-control">
+          <input
+            type="email"
+            formControlName="email"
+            placeholder="ce-domends6421@st.umat.edu.gh"
+            class="w-full block"
+          />
+        </ion-item>
+        <div
+          *ngIf="updateForms.controls['email']  && (updateForms.controls['email'].dirty || updateForms.controls['email'].touched)"
+          class="pl-4 w-full block text-xs text-red-600 dark:text-red-400 text-start error-container"
+        >
+          <div *ngIf="updateForms.controls['email'].hasError('required')">
+            Email is required.
+          </div>
+
+          <div
+            *ngIf="updateForms.controls['email'].hasError('invalidSchoolEmail')"
+          >
+            Please enter a valid student email (e.g.
+            domends6421&#64;st.umat.edu.gh).
+          </div>
+        </div>
+      </ion-list>
+      <ion-button
+        expand="block"
+        fill="clear"
+        shape="round"
+        class="started-btn-3"
+        (click)="updateDetails()"
+      >
+        Update Details
+      </ion-button>
+    </form>
+
+    <div class="p-4 space-y-6">
+      <div class="bg-white rounded-xl shadow-sm w-full">
+        <h2 class="text-lg font-semibold text-gray-800 mb-4">
+          Activity Overview
+        </h2>
+
+        <div class="bg-gray-100 rounded-full p-1 flex mb-4">
+          <button
+            class="flex-1 py-2 px-1 text-sm font-medium text-gray-700 rounded-full shadow-sm"
+            [ngClass]="{'bg-white shadow-sm text-gray-800': currentStatus === 'Lost'}"
+            (click)="changeCurrentStatus('Lost')"
+          >
+            Lost
+          </button>
+          <button
+            class="flex-1 py-2 px-1 text-sm font-medium text-gray-500 rounded-full"
+            [ngClass]="{'bg-white shadow-sm text-gray-800': currentStatus === 'Found'}"
+            (click)="changeCurrentStatus('Found')"
+          >
+            Found
+          </button>
+          <button
+            class="flex-1 py-2 px-1 text-sm font-medium text-gray-500 rounded-full"
+            [ngClass]="{'bg-white shadow-sm text-gray-800': currentStatus === 'Claimed'}"
+            (click)="changeCurrentStatus('Claimed')"
+          >
+            Claimed
+          </button>
+        </div>
+
+        <div class="space-y-3">
+          <!-- NGFOR HERE -->
+          <div class="flex items-center bg-gray-50 rounded-lg p-3" *ngFor="let item of items">
+            <img
+              [src]="item.image_urls[0]"
+              alt="Wallet"
+              class="w-10 h-10 rounded-md object-cover"
+            />
+            <div class="ml-3 flex-grow">
+              <p class="font-semibold text-sm text-gray-800">{{item.title}}</p>
+              <span class="text-xs text-gray-400 font-medium">View</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl shadow-sm p-4">
+        <h2 class="text-lg font-semibold text-gray-800 mb-4">
+          Security & Preferences
+        </h2>
+        <div class="divide-y divide-gray-100">
+          <button class="flex items-center mb-4" (click)="changeTheme()">
+            <ion-icon name="moon-outline"></ion-icon>
+            <span class="ml-3 text-sm font-medium text-gray-700"
+              >{{mode}} Mode</span
+            >
+          </button>
+          <div class="flex items-center justify-between py-3">
+            <div class="flex items-center">
+              <ion-icon name="lock-closed-outline"></ion-icon>
+              <span class="ml-3 text-sm font-medium text-gray-700"
+                >Change Password</span
+              >
+            </div>
+            <button
+              (click)="resetPassword()"
+              class="text-xs font-bold text-blue-600 bg-blue-100 rounded-full px-3 py-1"
+            >
+              Change
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl shadow-sm p-4">
+        <div class="divide-y divide-gray-100">
+          <button
+            class="w-full flex items-center text-left py-3"
+            (click)="signOut()"
+          >
+            <ion-icon name="log-out-outline"></ion-icon>
+            <span class="ml-3 text-sm font-medium text-blue-600">Sign Out</span>
+          </button>
+          <button
+            class="w-full flex items-center text-left py-3"
+            id="delete-alert"
+            (click)="deleteAcount()"
+          >
+            <ion-icon name="trash-outline" color="danger"></ion-icon>
+            <span class="ml-3 text-sm font-semibold text-red-600"
+              >Delete Account</span
+            >
+          </button>
+          <ion-alert
+            trigger="delete-alert"
+            class="custom-alert"
+            header="Are you sure?"
+            [buttons]="alertButtons"
+          ></ion-alert>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

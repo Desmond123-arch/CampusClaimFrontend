@@ -1,4 +1,5 @@
 import { DOCUMENT, Inject, Injectable, Renderer2, RendererFactory2 } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,11 +9,23 @@ export class ThemeService {
   constructor(private renderFactory: RendererFactory2, @Inject(DOCUMENT) private document: Document) {
     this.render = this.renderFactory.createRenderer(null, null)  
   }
+  private isDarkSubject = new BehaviorSubject<boolean>(
+    localStorage.getItem('theme') === 'dark'
+  );
+  isDark$ = this.isDarkSubject.asObservable();
+
 
   enableDark() {
+    localStorage.setItem('theme', 'dark');
     this.render.addClass(this.document.body, 'dark');
+    this.isDarkSubject.next(true);
   }
   enableLight(){
-    this.render.removeClass(this.document.body, 'dark')
+    localStorage.setItem('theme', 'light');
+    this.render.removeClass(this.document.body, 'dark');
+    this.isDarkSubject.next(false);
+  }
+  getCurrentTheme(): boolean {
+    return this.isDarkSubject.value;
   }
 }

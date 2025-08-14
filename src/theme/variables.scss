@@ -1,10 +1,16 @@
-// For information on how to create your own theme, please see:
-// http://ionicframework.com/docs/theming/
+:root.ios {
+  --ion-safe-area-bottom: 1rem;
+}
+
+ion-header ion-toolbar:first-of-type {
+  padding-top: var(--ion-safe-area-top, 0);
+}
 
 
  :root {
   /**Fonts for reference**/
-
+  --ion-safe-area-top: 2.5rem;
+  --ion-color-bg: white;
   --font-roboto: 'Roboto', sans-serif;
   --font-inter:'Inter', sans-serif;
   --subtitle-color:#4E5D6B;
@@ -16,21 +22,21 @@
   --ion-color-primary-contrast-rgb: 255, 255, 255;
   --ion-color-primary-shade: #3171e0;
   --ion-color-primary-tint: #4c8dff;
+  --ion-color-btn: white;
+  --ion-color-error: ##EF4444
+  --ion-color-themeswitcher: black;
 
-  /** Favorite (Light Mode) **/
-  --ion-color-favorite: #69bb7b;
-  --ion-color-favorite-rgb: 105, 187, 123;
-  --ion-color-favorite-contrast: #ffffff;
-  --ion-color-favorite-contrast-rgb: 255, 255, 255;
-  --ion-color-favorite-shade: #5ca56c;
-  --ion-color-favorite-tint: #78c288;
+
 }
 
 
 body.dark {
   /** Primary **/
-  --ion-color-primary: #428cff;
 
+  --ion-color-bg: black;
+  --ion-color-primary: #428cff;
+  --ion-color-themeswitcher: #428cff;
+  --ion-color-error: #F87171
   /** Favorite (Dark Mode) **/
   --ion-color-favorite: #ff0;
   --ion-color-favorite-rgb: 74, 143, 89;
@@ -40,7 +46,31 @@ body.dark {
   --ion-color-favorite-tint: #5c9a6a;
 
 
+
+  --ion-color-btn: black;
+
+    --ion-background-color: black;
+  ion-content,ion-header, input {
+    --ion-background-color: black;
+  }
+
+
+  ion-button {
+    --color: #3C3744;
+    --border-color: none;
+    // --background: var(--ion-color-primary);
+  }
+  ion-header{
+    --color: var(--ion-color-primary);
+  }
+  input {
+    background-color: black;
+    color: white;
+  }
+
 }
+
+
 
 .ion-color-favorite {
   --ion-color-base: var(--ion-color-favorite);

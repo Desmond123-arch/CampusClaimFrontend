@@ -1,8 +1,13 @@
-<ion-header [translucent]="true" class="ion-text-center ion-no-border">
-  <ion-toolbar>
+<ion-header class="ion-text-center ion-no-border">
+  <ion-row class="ion-align-items-center header-container" color="">
     <ion-title color="primary" class="header">
       CampusCla<span class="special"><i>i</i></span
       >m
     </ion-title>
-  </ion-toolbar>
+    <ion-button (click)="changeTheme()" fill="clear"  class="theme-switcher">
+      <!-- <ng-icon name="ionSunnyOutline" size="25" color="themeswitcher"/> -->
+      <ng-icon [name]="isDark? 'ionSunnyOutline': 'ionMoonOutline'" [color]="isDark? 'white': 'black'" size="25"/>
+
+    </ion-button>
+  </ion-row>
 </ion-header>

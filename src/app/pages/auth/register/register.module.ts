@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -17,12 +17,12 @@ import {ionLogoGoogle} from '@ng-icons/ionicons'
     IonicModule,
     RegisterPageRoutingModule,
     PageHeaderComponent,
+    ReactiveFormsModule,
     NgIconsModule
 ],
   declarations: [RegisterPage],
-  exports: [RegisterPage],
   providers: [
-    provideIcons({ ionLogoGoogle }) // 👈 Register icons here
+    provideIcons({ ionLogoGoogle })
   ]
 })
 export class RegisterPageModule {}

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonHeader } from "@ionic/angular/standalone";
+import { Preferences } from '@capacitor/preferences';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-splash-screen',
@@ -10,12 +12,23 @@ import { IonHeader } from "@ionic/angular/standalone";
 })
 export class SplashScreenPage implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private platform: Platform) { }
 
-  ngOnInit() {
-    setTimeout(() => {
-      this.router.navigateByUrl('/auth/intro', {replaceUrl: true})
-    }, 3000)
+  async ngOnInit() {
+    const token = await Preferences.get({ key: 'auth-token' })
+    if (token.value) {
+      setTimeout(() => {
+        this.router.navigateByUrl('/main/home', {replaceUrl: true})
+      }, 3000)
+    } else {
+      setTimeout(() => {
+        this.router.navigateByUrl('/auth/intro', {replaceUrl: true})
+      }, 3000)
+    }
+
+    this.platform.backButton.subscribeWithPriority(9999, () => {
+
+    })
   }
 
 }
