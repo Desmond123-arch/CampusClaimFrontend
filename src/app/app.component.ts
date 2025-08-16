@@ -3,6 +3,7 @@ import { Platform } from '@ionic/angular';
 import { SafeArea } from 'capacitor-plugin-safe-area';
 import { App } from '@capacitor/app';
 import { Router } from '@angular/router';
+import { Keyboard, KeyboardResize } from '@capacitor/keyboard';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,10 @@ import { Router } from '@angular/router';
 export class AppComponent {
 
   constructor(private platform: Platform, private renderer: Renderer2, private router: Router) {
-    this.initializeApp()
+    this.initializeApp();
+    this.platform.ready().then(() => {
+      Keyboard.setResizeMode({ mode: KeyboardResize.Native});
+    });
   }
 
 

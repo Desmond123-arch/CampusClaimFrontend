@@ -1,33 +1,21 @@
 <ion-content [fullscreen]="true">
   <div class="flex items-center mt-10">
     <ion-buttons slot="start" class="button-container">
-      <ion-back-button defaultHref="home"></ion-back-button>
+      <ion-back-button defaultHref="/main/home"></ion-back-button>
     </ion-buttons>
     <h1 class="w-full text-2xl font-semibold">Search for Items</h1>
   </div>
   <div class="w-[90%] mx-auto mt-4 mb-4 flex items-center">
-    <div class="search-container">
-      <div class="search-input-wrapper">
-        <ion-icon name="search-outline" class="search-icon"></ion-icon>
-        <input
-          class="text-lg w-[85%] md:w-full border-none outline-none focus:outline-none focus:border-none text-black"
-          placeholder="Search for Items"
-          type="text"
-          enterkeyhint="search"
-          style="outline: none"
-        />
-      </div>
-
-      <div class="action-icons">
-        <ion-icon src="assets/icon/upload.svg"> </ion-icon>
-        <ion-icon name="filter-outline" class="action-icon"></ion-icon>
-      </div>
+    <div class="w-full">
+      <app-search-bar
+      (Results)="setItems($event)"
+      ></app-search-bar>
     </div>
   </div>
   <div
     class="p-4 columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-4 [&>*]:break-inside-avoid"
   >
-    @if (results.items.length <= 0) {
+    @if (items && items.length == 0) {
     <div
       *ngFor="let i of [1,2,3,4,5]"
       class="opacity-50 h-60 md:h-80 rounded-lg overflow-hidden"
@@ -39,7 +27,7 @@
     </div>
     } @else {
     <app-item-images
-      *ngFor="let item of results.items"
+      *ngFor="let item of items"
       [item]="item"
       (click)="openItemDetail(item.item_id, $event)"
     ></app-item-images>

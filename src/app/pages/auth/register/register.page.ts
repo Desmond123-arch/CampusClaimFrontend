@@ -2,7 +2,7 @@ import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ghanaianPhoneNumberValidator, passwordsMatchValidator, passwordStrengthValidator, UmatEmailValidator } from 'src/app/validators/registration';
-import { Keyboard } from '@capacitor/keyboard';
+import { Keyboard, KeyboardResize } from '@capacitor/keyboard';
 import { IonContent, LoadingController, ToastController } from '@ionic/angular';
 import { AuthService } from 'src/app/service/auth.service';
 import { closeLoading, showLoading } from 'src/app/utils/loading';
@@ -22,7 +22,25 @@ export class RegisterPage implements OnInit {
   submitted = false;
   public myForm: FormGroup = new FormGroup({});
 
-  constructor(public formBuilder: FormBuilder, private router: Router, private authService:AuthService, private toastController: ToastController, private ngZone: NgZone, private loadingCtrl: LoadingController) {
+  constructor(public formBuilder: FormBuilder,
+    private router: Router,
+    private authService: AuthService,
+    private toastController: ToastController,
+    private ngZone: NgZone,
+    private loadingCtrl: LoadingController) {
+    Keyboard.setResizeMode({ mode: KeyboardResize.Native })
+    Keyboard.addListener('keyboardDidShow', (info) => {
+      const keyboardHeight = info.keyboardHeight;
+      this.ensureFieldVisible(keyboardHeight);
+    });
+  }
+
+
+  ensureFieldVisible(keyboardHeight: number) {
+    const activeElement = document.activeElement as HTMLElement;
+    if (!activeElement) return;
+
+    activeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
 
@@ -50,6 +68,9 @@ export class RegisterPage implements OnInit {
       validators: passwordsMatchValidator('password', 'confirmPassword')
     });
   }
+
+
+
 
   get name() { return this.myForm.get('name'); }
   get phone() { return this.myForm.get('phone'); }
@@ -90,16 +111,16 @@ export class RegisterPage implements OnInit {
 
     this.authService.register(payload).subscribe({
       next: async (response) => {
-        closeLoading(this.loadingCtrl);
+        await closeLoading(this.loadingCtrl);
         this.myForm.reset();
-        this.ngZone.run(() => {
-          this.router.navigateByUrl("/auth/verify", {replaceUrl: true});
-        })
         await presentToast(this.toastController, "Account created, Please verify your email", 'success', 1500);
-        await this.authService.saveLoginDetails(response.accessToken, response.user)
+        await this.authService.saveLoginDetails(response.accessToken, response.user);
+        this.ngZone.run(() => {
+          this.router.navigateByUrl("/auth/verify", { replaceUrl: true });
+        })
       },
       error: async (error) => {
-        closeLoading(this.loadingCtrl);
+        await closeLoading(this.loadingCtrl);
         await presentToast(this.toastController, error.error.errors, 'danger', 0)
       }
     })
@@ -112,8 +133,8 @@ export class RegisterPage implements OnInit {
 
     if (isLast) {
       setTimeout(() => {
-        this.contentRef.scrollToBottom(300);
-      }, 300);
+        this.contentRef.scrollToBottom(400);
+      }, 400);
       return;
     }
 
@@ -128,9 +149,8 @@ export class RegisterPage implements OnInit {
 
         const scrollToPosition = contentScrollTop + rect.top - 100;
 
-        this.contentRef.scrollToPoint(0, scrollToPosition, 300);
+        this.contentRef.scrollToPoint(0, scrollToPosition, 400);
       });
     }, 300);
   }
-
 }

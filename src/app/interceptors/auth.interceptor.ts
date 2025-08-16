@@ -5,6 +5,8 @@ import { AuthService } from '../service/auth.service';
 import { inject } from '@angular/core';
 import { Preferences } from '@capacitor/preferences';
 
+
+//BUG:Edge case where loops runs uncontrollebly for some reason
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
 

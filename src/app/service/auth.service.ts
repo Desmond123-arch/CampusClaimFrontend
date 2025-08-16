@@ -7,7 +7,7 @@ import { AuthResponse } from 'src/types/responses';
 import { from, switchMap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
-export const APPURL = environment.api_url;
+const APPURL = environment.api_url;
 @Injectable({
   providedIn: 'root',
 })

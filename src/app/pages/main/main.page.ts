@@ -43,5 +43,8 @@ export class MainPage implements OnInit, AfterViewInit {
       }, 10);
     }
   }
-  
+  goToAdd() {
+    this.router.navigateByUrl('/main/report', { replaceUrl: false })
+  }
+
 }

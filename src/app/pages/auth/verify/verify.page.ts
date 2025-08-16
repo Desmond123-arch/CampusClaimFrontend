@@ -54,7 +54,7 @@ export class VerifyPage implements OnInit {
       },
       error: async (error) => {
         console.log("There was an error", error);
-        closeLoading(this.loadingCtrl);
+        await closeLoading(this.loadingCtrl);
         const errorMsg = error?.error?.errors || "Try again later";
         await presentToast(this.toastController, errorMsg, 'danger', 2000)
       }
@@ -81,7 +81,7 @@ export class VerifyPage implements OnInit {
       },
       error: async (error) => {
         console.log("There was an error", error);
-        closeLoading(this.loadingCtrl);
+        await closeLoading(this.loadingCtrl);
         const errorMsg = error?.error?.errors || "Try again later";
         await presentToast(this.toastController, errorMsg, 'danger', 0)
       },

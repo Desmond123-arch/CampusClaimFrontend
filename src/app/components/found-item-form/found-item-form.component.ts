@@ -1,7 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { CommonModule, DatePipe } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
+import { isFuture } from 'date-fns';
+import { filter } from 'rxjs';
 
 interface Category {
   name: string;
@@ -44,11 +46,29 @@ export class FoundItemFormComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private datePipe: DatePipe) { }
 
+  correctDate(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+      if (!value) return null;
+
+      const date = new Date(value);
+      if (isNaN(date.getTime())) {
+        return { invalidDate: true };
+      }
+
+      if (isFuture(date)) {
+        return { futureDate: true };
+      }
+
+      return null;
+    };
+  }
+
   ngOnInit() {
     this.foundItemForm = this.fb.group({
       itemName: ['', [Validators.required, Validators.minLength(3)]],
       category: ['', Validators.required],
-      foundDateTime: ['', Validators.required],
+      foundDateTime: ['', [Validators.required, this.correctDate()]],
       foundLocation: ['', [Validators.required, Validators.minLength(3)]],
       visibleFeature: ['', Validators.required],
       contactNumber: ['', [Validators.required, Validators.pattern(/^\+?[0-9\s-()]{7,}$/)]],
@@ -56,10 +76,13 @@ export class FoundItemFormComponent implements OnInit {
       bounty: [0, [Validators.min(0), Validators.pattern(/^\d+$/)]],
       images: [],
     });
-
-    this.foundItemForm.get('foundDateTime')?.valueChanges.subscribe((value) => {
-      this.formattedDateString = this.datePipe.transform(value, 'MMM d, y, h:mm a') || '';
-    });
+    const dateControl = this.foundItemForm.get('foundDateTime')
+    if (dateControl) {
+      dateControl.valueChanges.pipe(filter(value => !!value))
+        .subscribe((value) => {
+          this.formattedDateString = this.datePipe.transform(value, 'MMM d, y, h:mm a') || '';
+        });
+    }
   }
 
   public set reportType(v: string) {
@@ -69,6 +92,52 @@ export class FoundItemFormComponent implements OnInit {
 
   public get reportType(): string {
     return this._reportType;
+  }
+
+
+  getErrorMessage(controlName: string): string {
+    const control = this.foundItemForm.get(controlName);
+
+    if (control?.hasError('required')) {
+      switch (controlName) {
+        case 'itemName': return 'Item name is required';
+        case 'category': return 'Category is required';
+        case 'foundDateTime': return 'Date and time are required';
+        case 'foundLocation': return 'Location is required';
+        case 'visibleFeature': return 'Visible feature is required';
+        case 'contactNumber': return 'Contact number is required';
+        // case 'verificationQuestion': return 'Verification question is required';
+        default: return 'This field is required';
+      }
+    }
+
+    if (control?.hasError('minlength')) {
+      const requiredLength = control.getError('minlength').requiredLength;
+      return `Minimum length is ${requiredLength} characters`;
+    }
+
+    if (control?.hasError('pattern')) {
+      if (controlName === 'contactNumber') {
+        return 'Enter a valid phone number';
+      }
+      if (controlName === 'bounty') {
+        return 'Bounty must be a whole number';
+      }
+    }
+
+    if (control?.hasError('min')) {
+      return 'Value must be zero or more';
+    }
+
+    if (control?.hasError('futureDate')) {
+      return 'Date cannot be in the future';
+    }
+
+    if (control?.hasError('invalidDate')) {
+      return 'Invalid date format';
+    }
+
+    return '';
   }
 
 
@@ -91,6 +160,7 @@ export class FoundItemFormComponent implements OnInit {
   }
 
   removeImage(index: number) {
+
     this.selectedImages.splice(index, 1);
     this.updateImagesFormControl();
   }
@@ -101,12 +171,13 @@ export class FoundItemFormComponent implements OnInit {
   }
 
   submitForm() {
-    if (this.foundItemForm.valid) {
-      // console.log('Form is valid. Emitting data:', this.foundItemForm.value);
+    if (this.foundItemForm.valid && this.selectedImages.length !== 0) {
+      console.log('Form is valid. Emitting data:', this.foundItemForm.value);
       this.foundItemForm.value["images"] = this.selectedImages;
       this.formSubmitted.emit(this.foundItemForm.value);
     } else {
       // console.error('Form is invalid.');
+      // console.log(this.foundItemForm)
       this.foundItemForm.markAllAsTouched();
     }
   }

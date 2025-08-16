@@ -11,6 +11,7 @@ import { ExploreContainerComponentModule } from "src/app/explore-container/explo
 import { ItemCardSkeletonComponent } from "src/app/components/item-card-skeleton/item-card-skeleton.component";
 import { ItemCardComponent } from 'src/app/components/item-card/item-card.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { SearchBarComponent } from 'src/app/components/search-bar/search-bar.component';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     HomePageRoutingModule,
     ExploreContainerComponentModule,
     ItemCardSkeletonComponent,
-    ItemCardComponent
+    ItemCardComponent,
+    SearchBarComponent
 ],
   declarations: [HomePage],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

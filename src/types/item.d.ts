@@ -12,11 +12,9 @@ export interface Item {
 }
 
 export interface ImageSearchResult {
-  items: {
-    description: string,
-    image_url: string,
-    item_id: string,
-    score: number,
-  }[]
-  total_items_in_index: number,
+  description: string,
+  image_url: string,
+  item_id: string,
+  score: number,
+  // total_items_in_index: number,
 }

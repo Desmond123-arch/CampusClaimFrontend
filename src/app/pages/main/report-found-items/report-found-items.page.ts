@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { ItemsService } from 'src/app/service/items.service';
 import { presentToast } from 'src/app/utils/toast';
+import { IonicModule, LoadingController } from '@ionic/angular';
+import { closeLoading, showLoading } from 'src/app/utils/loading';
+
 
 @Component({
   selector: 'app-report-found-items',
@@ -17,14 +20,15 @@ export class ReportFoundItemsPage implements OnInit {
   constructor(
     private router: Router,
     private toastCtrl: ToastController,
-    private itemService: ItemsService
+    private itemService: ItemsService,
+    private loadingCtrl: LoadingController
   ) { }
 
 
   ngOnInit() {
   }
 
-  onReportSubmit(formData: any) {
+  async onReportSubmit(formData: any) {
 
     const postData = new FormData();
 
@@ -46,14 +50,18 @@ export class ReportFoundItemsPage implements OnInit {
         postData.append('images', file.file, file.name);
       });
     }
+    showLoading(this.loadingCtrl)
     this.itemService.postItem(postData).subscribe({
-      next: (response => {
+      next: (async response => {
+        await closeLoading(this.loadingCtrl)
         console.log(response)
       }),
-      error: (error => {
+      error: (async error => {
+        await closeLoading(this.loadingCtrl)
         console.log(error)
       })
     })
+
     presentToast(this.toastCtrl, "Item reported successfully", 'success', 3000)
     this.router.navigate(['/main/home']);
 

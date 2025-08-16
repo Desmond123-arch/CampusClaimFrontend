@@ -66,7 +66,7 @@ export class LoginPage implements OnInit {
       return;
     }
 
-    showLoading(this.loadingCtrl);
+    await showLoading(this.loadingCtrl);
 
     const formValue = this.myForm.value;
 
@@ -76,12 +76,7 @@ export class LoginPage implements OnInit {
     };
     this.authService.login(payload.email, payload.password).subscribe({
       next: async (response) => {
-        // console.log('Login success:', response);
         await closeLoading(this.loadingCtrl)
-        // this.ngZone.run(async () => {
-        //   console.log("Navigating to home")
-        //   await this.router.navigateByUrl("/main/home", { replaceUrl: true });
-        // });
         this.fcmService.initPush()
         await presentToast(this.toastController, "Login Succesful", 'success', 1500)
         this.showToast = false;
@@ -89,7 +84,7 @@ export class LoginPage implements OnInit {
         await this.router.navigate(['/main/home'], { replaceUrl: true });
       },
       error: async (error) => {
-        closeLoading(this.loadingCtrl);
+        await closeLoading(this.loadingCtrl);
         this.showToast = true;
 
         if (!error.error.errors) {
