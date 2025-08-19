@@ -1,10 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { IonDatetime, IonicModule, LoadingController, ModalController, ToastController } from '@ionic/angular';
 import { IonButton } from "@ionic/angular/standalone";
 import { Item } from 'src/types/item';
 import { format } from 'date-fns'
+import { ClaimsService } from 'src/app/service/claims.service';
+import { presentToast } from 'src/app/utils/toast';
+import { closeLoading, showLoading } from 'src/app/utils/loading';
+import { SuccesfulClaimComponent } from '../succesful-claim/succesful-claim.component';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-claim-form',
   templateUrl: './claim-form.component.html',
@@ -19,10 +24,15 @@ export class ClaimFormComponent implements OnInit {
   // @Output() claimCancelled = new EventEmitter<void>();
 
   claimForm: FormGroup;
-  currentStep = 1;
   formattedDateString = '';
 
-  constructor(private fb: FormBuilder, private modalController: ModalController) {
+  constructor(private fb: FormBuilder,
+    private router: Router,
+    private modalController: ModalController,
+    private claimService: ClaimsService,
+    private toastCtrl: ToastController,
+    private loadingCtrl: LoadingController
+  ) {
     this.claimForm = this.fb.group({});
   }
 
@@ -33,28 +43,11 @@ export class ClaimFormComponent implements OnInit {
       uniqueFeature: ['', [Validators.required, Validators.minLength(5)]],
       lostLocation: ['', [Validators.required, Validators.minLength(3)]],
       lostDateTime: ['', Validators.required],
-
-      returnMethod: ['pick-up', Validators.required],
-      deliveryAddress: [''],
       deliveryPhone: [''],
 
       agreedToTerms: [false, Validators.requiredTrue]
     });
 
-    this.claimForm.get('returnMethod')?.valueChanges.subscribe(method => {
-      const deliveryAddressControl = this.claimForm.get('deliveryAddress');
-      const deliveryPhoneControl = this.claimForm.get('deliveryPhone');
-
-      if (method === 'delivery') {
-        deliveryAddressControl?.setValidators([Validators.required, Validators.minLength(10)]);
-        deliveryPhoneControl?.setValidators([Validators.required, Validators.pattern(/^\+[1-9]\d{1,14}$/)]);
-      } else {
-        deliveryAddressControl?.clearValidators();
-        deliveryPhoneControl?.clearValidators();
-      }
-      deliveryAddressControl?.updateValueAndValidity();
-      deliveryPhoneControl?.updateValueAndValidity();
-    });
 
     this.claimForm.get('lostDateTime')?.valueChanges.subscribe(value => {
       // console.log(value)
@@ -62,27 +55,23 @@ export class ClaimFormComponent implements OnInit {
     });
   }
 
-  isStep1Valid(): boolean {
-    const feature = this.claimForm.get('uniqueFeature');
-    const location = this.claimForm.get('lostLocation');
-    const dateTime = this.claimForm.get('lostDateTime');
-    const terms = this.claimForm.get('agreedToTerms');
-    return !!(feature?.valid && location?.valid && dateTime?.valid && terms?.valid);
-  }
-
-  nextStep() {
-    if (this.isStep1Valid()) {
-      this.currentStep = 2;
-    }
-  }
-
-  previousStep() {
-    this.currentStep = 1;
-  }
-
-  submitClaim() {
+  async submitClaim() {
     if (this.claimForm.valid) {
+      await showLoading(this.loadingCtrl)
+      console.log(this.claimForm.value)
       this.modalController.dismiss(this.claimForm.value, 'claim-submitted');
+      this.claimService.submitClaim(this.claimForm.value, this.item.item_uuid).subscribe({
+        next: async (response) => {
+          console.log(response)
+          await closeLoading(this.loadingCtrl)
+          // await presentToast(this.toastCtrl, "Claimed submitted to the poster", 'success', 2000)
+          await this.showSuccessModal();
+        },
+        error: async (err) => {
+          await closeLoading(this.loadingCtrl)
+          await presentToast(this.toastCtrl, err.error.error, 'warning', 3000)
+        }
+      })
     } else {
       this.claimForm.markAllAsTouched();
     }
@@ -93,6 +82,18 @@ export class ClaimFormComponent implements OnInit {
 
   get returnMethod() {
     return this.claimForm.get('returnMethod');
+  }
+
+  async showSuccessModal() {
+    const successModal = await this.modalController.create({
+      component: SuccesfulClaimComponent,
+      backdropDismiss: false,
+      cssClass: 'success-modal'
+    });
+    await successModal.present();
+
+    await successModal.onDidDismiss();
+    this.router.navigateByUrl("/main/home");
   }
 
 }

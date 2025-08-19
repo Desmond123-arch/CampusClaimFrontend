@@ -1,0 +1,84 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title *ngIf="!selectedConversation || isDesktopOrTablet">Messages</ion-title>
+    <ion-title *ngIf="selectedConversation && !isDesktopOrTablet">
+      {{ selectedConversation.participantName || 'Chat' }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="chat-content">
+  <div class="chat-container">
+
+    <div class="conversations-panel" *ngIf="isDesktopOrTablet || !selectedConversation">
+      <ion-list class="conversation-list">
+        <ion-item *ngFor="let conversation of conversations" (click)="selectConversation(conversation)"
+          [class.selected]="selectedConversation?.channel_id === conversation.channel_id" button detail="false">
+          <ion-avatar slot="start">
+            <img src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+          </ion-avatar>
+          <ion-label>
+            <h2>{{ conversation.other_user_name || 'Unknown User' }}</h2>
+            <p>{{ conversation.last_message || '...' }}</p>
+          </ion-label>
+        </ion-item>
+        <!-- Show if no conversations exist -->
+        <ion-item *ngIf="conversations.length === 0" lines="none">
+          <ion-label class="ion-text-center">No conversations found.</ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
+
+    <div class="messages-panel" *ngIf="isDesktopOrTablet || selectedConversation">
+      
+      <div *ngIf="selectedConversation" class="chat-view">
+        <div class="chat-header">
+          <ion-button fill="clear" class="back-button" *ngIf="!isDesktopOrTablet" (click)="backToConversations()">
+            <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+          </ion-button>
+          <ion-avatar>
+            <img src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+          </ion-avatar>
+          <div class="header-title">
+            <h2>{{ selectedConversation.other_user_name || 'Unknown User' }}</h2>
+            <p class="connection-status" [ngClass]="connectionState.toLowerCase()">
+              <ion-icon [name]="connectionState === 'CONNECTED' ? 'ellipse' : 'ellipse-outline'"></ion-icon>
+              {{ connectionState }}
+            </p>
+          </div>
+        </div>
+
+        <div class="messages-container" #messagesContainer>
+          <div *ngFor="let msg of messages" class="message-wrapper"
+               [ngClass]="{'sent': msg.sender === currentUserId, 'received': msg.sender !== currentUserId}">
+            <div class="message-bubble">
+              <p class="message-content" style="white-space: pre-line">{{ msg.content }}</p>
+              <p class="message-time">{{ msg.sent_at * 1000 | date:'shortTime' }}</p>
+            </div>
+          </div>
+          <div *ngIf="messages.length === 0" class="empty-chat">
+            <p>No messages yet. Start the conversation!</p>
+          </div>
+        </div>
+
+        <div class="message-input-area">
+          <ion-item lines="none" class="message-input-item">
+            <ion-textarea [(ngModel)]="newMessage" placeholder="Type a message..." autoGrow="true"
+              (keyup.enter)="sendChatMessage()" [disabled]="!selectedConversation"></ion-textarea>
+            <ion-button slot="end" fill="clear" (click)="sendChatMessage()"
+              [disabled]="!newMessage.trim() || !selectedConversation">
+              <ion-icon slot="icon-only" name="send" color="primary"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </div>
+      </div>
+
+      <div *ngIf="!selectedConversation && isDesktopOrTablet" class="empty-state">
+        <ion-icon name="chatbubbles-outline"></ion-icon>
+        <h2>Your Messages</h2>
+        <p>Select a conversation to start chatting.</p>
+      </div>
+
+    </div>
+  </div>
+</ion-content>

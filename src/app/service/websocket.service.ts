@@ -17,21 +17,21 @@ export enum WebSocketState {
 export class WebsocketService {
   private socket$: WebSocketSubject<any> | null = null;
   private connectionState$ = new BehaviorSubject<WebSocketState>(WebSocketState.DISCONNECTED);
-  private messageQueue: any[] = []; // Queue messages while connecting
+  private messageQueue: any[] = [];
   private reconnectAttempts = 0;
   private maxReconnectAttempts = 5;
   private reconnectInterval = 3000; // 3 seconds
+
+  private messagesSubject = new Subject<any>();
 
   constructor() {
     this.initializeConnection();
   }
 
-  // Get connection state as Observable
   getConnectionState(): Observable<WebSocketState> {
     return this.connectionState$.asObservable();
   }
 
-  // Check if WebSocket is connected
   isConnected(): boolean {
     return this.connectionState$.value === WebSocketState.CONNECTED;
   }
@@ -66,7 +66,6 @@ export class WebsocketService {
             this.connectionState$.next(WebSocketState.CONNECTED);
             this.reconnectAttempts = 0;
             
-            // Send any queued messages
             this.processMessageQueue();
           }
         },
@@ -75,7 +74,6 @@ export class WebsocketService {
             console.log('🔒 WebSocket connection closed', event.code, event.reason);
             this.connectionState$.next(WebSocketState.DISCONNECTED);
             
-            // Attempt to reconnect unless it was a normal closure
             if (event.code !== 1000 && event.code !== 1001) {
               this.attemptReconnect();
             }
@@ -85,7 +83,8 @@ export class WebsocketService {
 
       this.socket$.subscribe({
         next: (message) => {
-          console.log('📨 Message received:', message);
+          console.log('📨 Message received from socket:', message);
+          this.messagesSubject.next(message); // Broadcast the message
         },
         error: (err) => {
           console.error('🔥 WebSocket error:', err);
@@ -113,7 +112,7 @@ export class WebsocketService {
     
     setTimeout(() => {
       this.connectWebSocket();
-    }, this.reconnectInterval * this.reconnectAttempts); // Exponential backoff
+    }, this.reconnectInterval * this.reconnectAttempts);
   }
 
   private processMessageQueue() {
@@ -124,11 +123,10 @@ export class WebsocketService {
         this.sendMessageNow(message);
       });
       
-      this.messageQueue = []; // Clear the queue
+      this.messageQueue = [];
     }
   }
 
-  // Send message immediately (assumes connection is ready)
   private sendMessageNow(message: any): boolean {
     if (this.socket$ && this.isConnected()) {
       try {
@@ -143,10 +141,8 @@ export class WebsocketService {
     return false;
   }
 
-  // Public method to send messages
   sendMessage(message: any): Promise<boolean> {
     return new Promise((resolve) => {
-      // Validate message format for your backend
       if (!message.receiver_id || !message.message) {
         console.error('❌ Invalid message format. Required: receiver_id, message');
         resolve(false);
@@ -154,15 +150,12 @@ export class WebsocketService {
       }
 
       if (this.isConnected()) {
-        // Send immediately if connected
         const success = this.sendMessageNow(message);
         resolve(success);
       } else if (this.connectionState$.value === WebSocketState.CONNECTING) {
-        // Queue message if connecting
         console.log('⏳ Queueing message while connecting...');
         this.messageQueue.push(message);
         
-        // Wait for connection or timeout
         const subscription = this.connectionState$.subscribe(state => {
           if (state === WebSocketState.CONNECTED) {
             subscription.unsubscribe();
@@ -173,13 +166,11 @@ export class WebsocketService {
           }
         });
 
-        // Timeout after 10 seconds
         setTimeout(() => {
           subscription.unsubscribe();
           resolve(false);
         }, 10000);
       } else {
-        // Not connected and not connecting
         console.error('❌ WebSocket is not connected');
         resolve(false);
       }
@@ -188,18 +179,10 @@ export class WebsocketService {
 
   // Get messages observable
   getMessages(): Observable<any> {
-    if (this.socket$) {
-      return this.socket$.asObservable();
-    }
-    
-    // Return empty observable if not connected
-    return new Observable(subscriber => {
-      console.warn('⚠️ WebSocket not connected, returning empty observable');
-      subscriber.complete();
-    });
+    console.log('WebSocketService: getMessages() called. Socket available:', !!this.socket$);
+    return this.messagesSubject.asObservable();
   }
 
-  // Close connection
   closeConnection() {
     if (this.socket$) {
       this.socket$.complete();
@@ -208,7 +191,6 @@ export class WebsocketService {
     this.connectionState$.next(WebSocketState.DISCONNECTED);
   }
 
-  // Manual reconnect
   async reconnect() {
     console.log('🔄 Manual reconnect requested');
     this.closeConnection();
@@ -216,7 +198,6 @@ export class WebsocketService {
     await this.connectWebSocket();
   }
 
-  // Get auth token
   async getAuthToken(): Promise<string | null> {
     try {
       const token = await Preferences.get({ key: "auth-token" });
@@ -227,7 +208,6 @@ export class WebsocketService {
     }
   }
 
-  // Utility method to check message format
   isValidMessage(message: any): boolean {
     return message && 
            typeof message.receiver_id === 'string' && 

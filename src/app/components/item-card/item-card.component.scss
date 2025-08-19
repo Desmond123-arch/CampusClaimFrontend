@@ -1,5 +1,6 @@
 .item-card {
-  background-color: #f0f4ff;
+  background-color: var(--ion-item-color);
+  color: var(--ion-text-color);
   border-radius: 16px;
   padding: 16px;
   display: flex;
@@ -12,10 +13,12 @@
   flex-shrink: 0;
 }
 
+
 .card-header {
   display: flex;
   align-items: center;
   gap: 16px;
+  color: var(--ion-text-color);
 }
 
 
@@ -37,7 +40,7 @@
 .item-title {
   font-size: 1.4rem;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--ion-text-color);
   margin: 0;
   line-height: 1.2;
 }
@@ -57,7 +60,7 @@
   align-items: center;
   margin-top: 2rem;
   gap: 8px;
-  color: #4b5563;
+  color: var(--ion-text-color);
   font-size: 0.9rem;
 }
 
@@ -69,7 +72,7 @@
 
 .info-icon {
   font-size: 18px;
-  color: #1f2937;
+  color: var(--ion-text-color);
 }
 
 .dot {

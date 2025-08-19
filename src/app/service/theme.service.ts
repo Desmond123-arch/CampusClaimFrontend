@@ -1,4 +1,5 @@
 import { DOCUMENT, Inject, Injectable, Renderer2, RendererFactory2 } from '@angular/core';
+import { Preferences } from '@capacitor/preferences';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -7,20 +8,23 @@ import { BehaviorSubject } from 'rxjs';
 export class ThemeService {
   render: Renderer2
   constructor(private renderFactory: RendererFactory2, @Inject(DOCUMENT) private document: Document) {
-    this.render = this.renderFactory.createRenderer(null, null)  
+    this.render = this.renderFactory.createRenderer(null, null)
   }
   private isDarkSubject = new BehaviorSubject<boolean>(
-    localStorage.getItem('theme') === 'dark'
+
+    localStorage.getItem('CapacitorStorage.theme') === 'dark'
+
   );
   isDark$ = this.isDarkSubject.asObservable();
 
 
-  enableDark() {
+  async enableDark() {
     localStorage.setItem('theme', 'dark');
     this.render.addClass(this.document.body, 'dark');
     this.isDarkSubject.next(true);
   }
-  enableLight(){
+
+  async enableLight(){
     localStorage.setItem('theme', 'light');
     this.render.removeClass(this.document.body, 'dark');
     this.isDarkSubject.next(false);

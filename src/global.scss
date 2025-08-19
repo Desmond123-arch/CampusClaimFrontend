@@ -50,6 +50,10 @@
 //   margin-top: constant(safe-area-inset-top);
 //   margin-top: env(safe-area-inset-top);
 // }
+
+input {
+  color: #818181;
+}
 .started-btn{
   text-transform: none;
   background: var(--ion-color-primary);
@@ -133,4 +137,9 @@ ion-modal.change-password::part(content) {
 
 .claim-card {
   overflow-y: scroll;
+  --color: var(--ion-text-color) !important;
+  color:white ;
+  height: 100% !important;
+  max-height: 100% !important;
+  overflow-y: auto;
 }

@@ -4,6 +4,7 @@ import { SafeArea } from 'capacitor-plugin-safe-area';
 import { App } from '@capacitor/app';
 import { Router } from '@angular/router';
 import { Keyboard, KeyboardResize } from '@capacitor/keyboard';
+import { ThemeService } from './service/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -13,11 +14,19 @@ import { Keyboard, KeyboardResize } from '@capacitor/keyboard';
 })
 export class AppComponent {
 
-  constructor(private platform: Platform, private renderer: Renderer2, private router: Router) {
+  constructor(private platform: Platform, private renderer: Renderer2, private router: Router, private themeService: ThemeService) {
     this.initializeApp();
-    this.platform.ready().then(() => {
-      Keyboard.setResizeMode({ mode: KeyboardResize.Native});
-    });
+    if (this.platform.is('hybrid')) {
+      this.platform.ready().then(() => {
+        Keyboard.setResizeMode({ mode: KeyboardResize.Native});
+      });
+    }
+    const currentMode = localStorage.getItem('theme');
+    if (currentMode == 'light') {
+      themeService.enableLight();
+    } else {
+      themeService.enableDark();
+    }
   }
 
 

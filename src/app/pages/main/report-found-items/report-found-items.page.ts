@@ -15,8 +15,8 @@ import { closeLoading, showLoading } from 'src/app/utils/loading';
   standalone: false
 })
 export class ReportFoundItemsPage implements OnInit {
-
   reportType: string = "Lost"
+  formSubmitSuccess: boolean = false;
   constructor(
     private router: Router,
     private toastCtrl: ToastController,
@@ -50,21 +50,23 @@ export class ReportFoundItemsPage implements OnInit {
         postData.append('images', file.file, file.name);
       });
     }
-    showLoading(this.loadingCtrl)
+    await showLoading(this.loadingCtrl)
     this.itemService.postItem(postData).subscribe({
       next: (async response => {
         await closeLoading(this.loadingCtrl)
+        this.formSubmitSuccess = true;
+        await this.router.navigate(['/main/home']);
+        setTimeout(async () => {
+          await this.router.navigate(['/main/home']);
+        }, 1500);
         console.log(response)
       }),
       error: (async error => {
         await closeLoading(this.loadingCtrl)
+        await presentToast(this.toastCtrl, "Error occured while adding item", 'danger', 3000)
         console.log(error)
       })
     })
-
-    presentToast(this.toastCtrl, "Item reported successfully", 'success', 3000)
-    this.router.navigate(['/main/home']);
-
   }
   changeReportType(type: string) {
     this.reportType = type;

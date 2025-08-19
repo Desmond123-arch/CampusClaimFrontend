@@ -1,0 +1,205 @@
+/* 
+  Define our new color palette using CSS variables for easy changes.
+  You can replace these colors with your own brand colors.
+*/
+:host {
+  --chat-background-color: #f5f7fa;
+  --panel-background-color: #ffffff;
+  --panel-header-color: #f0f2f5;
+  --border-color: #e0e6ed;
+  --sent-bubble-color: var(--ion-color-primary);
+  --sent-bubble-text-color: var(--ion-color-primary-contrast);
+  --received-bubble-color: #e9ebee;
+  --received-bubble-text-color: #1c1e21;
+  --text-color-light: #657786;
+}
+
+/* Base layout setup */
+.chat-content {
+  --background: var(--chat-background-color);
+}
+
+.chat-container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  background: var(--panel-background-color);
+}
+
+/* ===================================== */
+/* ==      CONVERSATIONS PANEL        == */
+/* ===================================== */
+.conversations-panel {
+  background: var(--panel-background-color);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border-color);
+
+  .conversation-list {
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  ion-item {
+    --padding-start: 10px;
+    --inner-padding-end: 10px;
+    --background: transparent;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+
+    &.selected {
+      --background: var(--ion-color-light);
+    }
+    h2 { font-weight: 600; font-size: 1rem; }
+    p { font-size: 0.9rem; color: var(--text-color-light); }
+  }
+}
+
+/* ===================================== */
+/* ==        MESSAGES PANEL           == */
+/* ===================================== */
+.messages-panel {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  /* This is the main flex container for the active chat view */
+  .chat-view {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    background: var(--chat-background-color);
+  }
+}
+
+/* Chat Header Styling */
+.chat-header {
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  background-color: var(--panel-header-color);
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+
+  .back-button { margin-right: 10px; }
+  ion-avatar { width: 40px; height: 40px; margin-right: 15px; }
+  .header-title {
+    h2 { margin: 0; font-size: 1rem; font-weight: 600; }
+    p { margin: 0; font-size: 0.8rem; color: var(--text-color-light); }
+  }
+}
+
+/* Connection status dot */
+.connection-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  &.connected { color: var(--ion-color-success); }
+  &.error, &.disconnected { color: var(--ion-color-danger); }
+  ion-icon { font-size: 0.6rem; }
+}
+
+/* Scrollable message area */
+.messages-container {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.message-wrapper {
+  display: flex;
+  margin-bottom: 10px;
+  &.sent { justify-content: flex-end; }
+  &.received { justify-content: flex-start; }
+}
+
+.message-bubble {
+  padding: 8px 12px;
+  max-width: 80%;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+  
+  &.sent .message-bubble {
+    background-color: var(--sent-bubble-color);
+    color: var(--sent-bubble-text-color);
+    border-radius: 12px 12px 0 12px;
+  }
+  &.received .message-bubble {
+    background-color: var(--received-bubble-color);
+    color: var(--received-bubble-text-color);
+    border-radius: 12px 12px 12px 0;
+  }
+  
+  .message-content { margin: 0; word-wrap: break-word; }
+  .message-time {
+    margin: 4px 0 0;
+    font-size: 0.7rem;
+    color: var(--text-color-light);
+    text-align: right;
+  }
+}
+
+.empty-chat {
+  margin: auto;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  color: var(--text-color-light);
+}
+
+/* Message Input Area Styling */
+.message-input-area {
+  padding: 8px 12px;
+  background-color: var(--panel-header-color);
+  border-top: 1px solid var(--border-color);
+  flex-shrink: 0;
+
+  .message-input-item {
+    --background: #ffffff;
+    --padding-start: 12px;
+    --border-radius: 24px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+}
+
+/* Desktop Empty State Styling */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: var(--chat-background-color);
+  color: #41525d;
+  text-align: center;
+  
+  ion-icon { font-size: 64px; color: #aab8c2; }
+  h2 { margin-top: 20px; }
+  p { max-width: 350px; color: var(--text-color-light); }
+}
+
+/* ===================================== */
+/* ==       RESPONSIVE LOGIC          == */
+/* ===================================== */
+
+/* MOBILE VIEW (< 768px) */
+@media (max-width: 767px) {
+  .conversations-panel, .messages-panel {
+    width: 100%;
+    flex: 1 0 100%;
+  }
+}
+
+/* DESKTOP VIEW (>= 768px) */
+@media (min-width: 768px) {
+  .conversations-panel {
+    flex: 0 0 350px; /* Does not grow, does not shrink, has a base width of 350px */
+    max-width: 400px;
+  }
+  .messages-panel {
+    flex: 1 1 auto; /* Can grow, can shrink, takes up remaining space */
+  }
+}

@@ -1,8 +1,8 @@
-<div class="item-card">
+<div class="item-card dark:shadow-lg">
   <div>
     <div class="card-header">
       <ion-img
-        [src]="item.image_urls[currentImageIndex]"
+        [src]="item.image_urls[currentImageIndex] || 'https://campusclaim.nyc3.cdn.digitaloceanspaces.com/icons8-placeholder-thumbnail-document-100.png'"
         class="item-image"
       ></ion-img>
       <div class="item-details">

@@ -12,6 +12,7 @@ import { ghanaianPhoneNumberValidator, UmatEmailValidator } from 'src/app/valida
 import { Item } from 'src/types/item';
 import { User } from 'src/types/user';
 import { ChangePasswordComponent } from 'src/app/components/change-password/change-password.component';
+import { ThemeService } from 'src/app/service/theme.service';
 
 @Component({
   selector: 'app-profile',
@@ -24,13 +25,14 @@ export class ProfilePage implements OnInit {
 
   status = ["Lost", "Found", "Claimed"]
   currentStatus = "Lost"
-  mode = "Light"
+  mode = localStorage.getItem('theme') || 'light'
   updateForms: FormGroup = new FormGroup({});
   items: Item[] = []
   user: any = {}
   constructor(public formBuilder: FormBuilder,
     private authService: AuthService,
     private userService: UserService,
+    private themeService: ThemeService,
     public router: Router,
     private loadingCtrl: LoadingController,
     private toastController: ToastController,
@@ -74,9 +76,15 @@ export class ProfilePage implements OnInit {
     this.currentStatus = status;
     this.getMyItems(this.currentStatus)
   }
-  changeTheme() {
-    this.mode = this.mode === 'Light' ? "Dark" : "Light";
-    throw new Error('Method not implemented.');
+  async changeTheme() {
+    this.mode = this.mode === 'dark' ? "light" : "dark";
+    localStorage.setItem('theme', this.mode)
+    if (this.mode == 'light') {
+      await this.themeService.enableLight();
+    } else {   
+      await this.themeService.enableDark();
+    }
+
   }
   async resetPassword() {
     const ismobile = window.innerWidth > 768;

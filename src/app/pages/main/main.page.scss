@@ -1,3 +1,6 @@
+ion-label {
+  --color:gray
+}
 /* Position the FAB to sit nicely above the tab bar */
 .report-fab {
   margin-bottom: 20px;
@@ -17,6 +20,10 @@
 */
 .fab-placeholder {
   pointer-events: none;
+  color: white;
+}
+.fab-placeholder ion-label {
+  --color: var(--ion-text-color) !important;
 }
 
 /*

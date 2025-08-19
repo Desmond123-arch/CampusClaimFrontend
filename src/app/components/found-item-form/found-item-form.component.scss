@@ -29,6 +29,8 @@ ion-item {
     --background-hover: transparent;
     --background-focused: transparent;
     --highlight-color-focused: transparent;
+    color: var(--ion-text-color) !important;
+    width: 100%;
     padding-inline: 15px;
   }
 }

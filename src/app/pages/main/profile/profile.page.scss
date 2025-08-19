@@ -11,6 +11,7 @@
   border:none !important;
 }
 ion-label{
+  color: var(--ion-text-color) !important;
   margin-bottom: 6px;
   --border: none;
 }
@@ -22,6 +23,7 @@ input {
   -webkit-appearance: none;
   box-shadow: none !important;
   border: 2px solid #fafafa;
+  color: var(--ion-text-color) !important;
   width: 100%;
 
 }

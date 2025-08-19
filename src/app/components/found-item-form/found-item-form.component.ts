@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { CommonModule, DatePipe } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
@@ -26,6 +26,7 @@ interface ImagePreview {
 export class FoundItemFormComponent implements OnInit {
   @Output() formSubmitted = new EventEmitter<any>();
   @Output() ReportType = new EventEmitter<any>();
+  @Input() isValid: boolean = false
 
   foundItemForm!: FormGroup;
   formattedDateString = '';
@@ -175,9 +176,10 @@ export class FoundItemFormComponent implements OnInit {
       console.log('Form is valid. Emitting data:', this.foundItemForm.value);
       this.foundItemForm.value["images"] = this.selectedImages;
       this.formSubmitted.emit(this.foundItemForm.value);
+      if (this.isValid) {
+        this.foundItemForm.reset();
+      }
     } else {
-      // console.error('Form is invalid.');
-      // console.log(this.foundItemForm)
       this.foundItemForm.markAllAsTouched();
     }
   }

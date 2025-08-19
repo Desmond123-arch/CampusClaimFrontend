@@ -4,7 +4,8 @@
 }
 
 .claim-form{
-  padding: 2em;
+  padding: 1em;
+  
 }
 .item-summary {
   display: flex;
@@ -17,6 +18,10 @@
     --border-radius: 8px;
   }
 
+  ion-label {
+    color: var(--ion-text-color) !important;
+  }
+
   ion-label h2 {
     font-weight: bold;
     font-size: 1.5rem;
@@ -24,7 +29,7 @@
   }
 
   ion-label p {
-    color: var(--ion-color-medium-shade);
+    color: white;
     font-size: 0.9rem;
     margin: 4px 0 0;
   }
@@ -54,6 +59,12 @@ ion-label[position="stacked"] {
   margin-bottom: 6px;
   font-size: 20px;
 }
+.adaptive-checkbox {
+  --checkbox-background-checked: var(--ion-text-color);
+  --checkmark-color: var(--ion-background-color);
+  --border-color: var(--ion-text-color);
+}
+
 
 input {
   font-size: 1rem;
@@ -62,8 +73,59 @@ input {
   -webkit-appearance: none;
   box-shadow: none !important;
   border: none !important;
-  width: 100%;
+  width: 100% !important;
 }
 ion-input:focus {
   outline: none;
 }
+
+.ion-delegate-host.popover-viewport:empty {
+  display: none !important;
+}
+
+ion-datetime {
+  background-color: var(--ion-color-bg);
+  color: var(--ion-text-color) !important;
+  min-height: 300px;
+  display: block;
+  -ms-overflow-style: none; 
+  scrollbar-width: none;
+}
+ion-datetime::-webkit-scrollbar { 
+  display: none;  /* Older Safari and Chromium */
+}
+
+ion-datetime::part(calendar) {
+  padding-inline: 32px;
+}
+
+ion-datetime::part(time-button) {
+  background-color: rgba(var(--ion-text-color-rgb), 0.12);
+  color: var(--ion-text-color);
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-weight: 500;
+}
+
+
+ion-popover {
+  --background: var(--ion-background-color);
+  color: var(--ion-text-color);
+}
+
+ion-popover ion-picker {
+  --background: var(--ion-background-color);
+  color: var(--ion-text-color);
+}
+
+ion-popover ion-picker-column-option::part(wheel-item) {
+  color: var(--ion-text-color);
+}
+
+ion-popover ion-picker-column-option.active::part(wheel-item),
+ion-popover ion-picker-column-option[aria-selected="true"]::part(wheel-item) {
+  color: var(--ion-color-primary-contrast);
+  background: var(--ion-color-primary);
+  border-radius: 8px;
+}
+
