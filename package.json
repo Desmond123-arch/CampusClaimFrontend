@@ -43,6 +43,7 @@
     "@ng-icons/core": "^32.0.0",
     "@ng-icons/heroicons": "^32.0.0",
     "@ng-icons/ionicons": "^32.0.0",
+    "angular-oauth2-oidc": "^20.0.2",
     "capacitor-plugin-safe-area": "^4.0.0",
     "date-fns": "2.30",
     "ionicons": "^7.0.0",

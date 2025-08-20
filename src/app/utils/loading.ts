@@ -10,5 +10,9 @@ export const showLoading = async (loadingCtrl: LoadingController) => {
   await loading.present()
 }
 export const closeLoading = async (loadingCtrl: LoadingController) => {
-  await loadingCtrl.dismiss();
+  try {
+    await loadingCtrl.dismiss();
+  } catch (e) {
+    console.warn("Loading already dismissed:", e);
+  }
 }

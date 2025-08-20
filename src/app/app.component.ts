@@ -5,6 +5,7 @@ import { App } from '@capacitor/app';
 import { Router } from '@angular/router';
 import { Keyboard, KeyboardResize } from '@capacitor/keyboard';
 import { ThemeService } from './service/theme.service';
+import { GoogleSSOService } from './service/google-sso.service';
 
 @Component({
   selector: 'app-root',
@@ -14,11 +15,16 @@ import { ThemeService } from './service/theme.service';
 })
 export class AppComponent {
 
-  constructor(private platform: Platform, private renderer: Renderer2, private router: Router, private themeService: ThemeService) {
+  constructor(private platform: Platform,
+    private renderer: Renderer2,
+    private router: Router,
+    private themeService: ThemeService,
+    private googleService: GoogleSSOService
+  ) {
     this.initializeApp();
     if (this.platform.is('hybrid')) {
       this.platform.ready().then(() => {
-        Keyboard.setResizeMode({ mode: KeyboardResize.Native});
+        Keyboard.setResizeMode({ mode: KeyboardResize.Native });
       });
     }
     const currentMode = localStorage.getItem('theme');
@@ -27,12 +33,13 @@ export class AppComponent {
     } else {
       themeService.enableDark();
     }
+
   }
 
 
   async initializeApp() {
     await SafeArea.removeAllListeners();
-
+    this.googleService.initializeLogin();
     await SafeArea.addListener('safeAreaChanged', data => {
       const { insets } = data;
       for (const [key, value] of Object.entries(insets)) {

@@ -8,6 +8,7 @@ import { UmatEmailValidator, passwordStrengthValidator } from 'src/app/validator
 import { Toast } from '@capacitor/toast'
 import { closeAllToasts, presentToast } from 'src/app/utils/toast';
 import { FcmService } from 'src/app/service/fcm.service';
+import { GoogleSSOService } from 'src/app/service/google-sso.service';
 
 //NOTE: Modify the api to use check if the user is verified before redirecting
 @Component({
@@ -17,6 +18,9 @@ import { FcmService } from 'src/app/service/fcm.service';
   standalone: false,
 })
 export class LoginPage implements OnInit {
+
+
+
   @ViewChild('content', { static: false }) contentRef!: IonContent;
   myForm: FormGroup = new FormGroup({})
   showPassword = false;
@@ -24,12 +28,13 @@ export class LoginPage implements OnInit {
 
 
   constructor(public formBuilder: FormBuilder,
-        private router: Router,
-        private loadingCtrl: LoadingController,
-        private ngZone: NgZone,
-        private authService: AuthService,
-        private toastController: ToastController,
-        private fcmService: FcmService
+    private router: Router,
+    private loadingCtrl: LoadingController,
+    private ngZone: NgZone,
+    private authService: AuthService,
+    private toastController: ToastController,
+    private fcmService: FcmService,
+    private readonly google: GoogleSSOService
   ) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
@@ -38,7 +43,45 @@ export class LoginPage implements OnInit {
     });
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    if (window.location.hash.includes('id_token') ||
+      window.location.hash.includes('access_token') ||
+      window.location.search.includes('code=')) {
+      await showLoading(this.loadingCtrl)
+      this.google.handleGoogleCallback().subscribe({
+        next: async (res) => {
+          await closeLoading(this.loadingCtrl)
+          console.log(res.accessToken, res.user)
+          await this.authService.saveLoginDetails(res.accessToken, res.user)
+          presentToast(this.toastController, "Login Successfull", "success", 2000)
+
+          setTimeout(() => {
+            this.ngZone.run(async () => {
+              try {
+                window.history.replaceState({}, document.title, '/auth/login');
+                
+                const success = await this.router.navigate(['/main/home'], { replaceUrl: true });
+                console.log('Navigation success:', success);
+                
+                if (!success) {
+                  console.log('Using fallback navigation');
+                  window.location.assign('/main/home');
+                }
+              } catch (error) {
+                console.error('Navigation error:', error);
+                window.location.assign('/main/home');
+              }
+            });
+          }, 500);
+        },
+        error: async (err) => {
+          console.log("An error occured")
+          await closeLoading(this.loadingCtrl);
+          presentToast(this.toastController, err.error.errors, "danger", 2000)
+          console.error("Google login error:", err);
+        }
+      });
+    }
     this.myForm = this.formBuilder.group({
       email: ['', [Validators.required, UmatEmailValidator()]],
       password: ['', [
@@ -57,6 +100,9 @@ export class LoginPage implements OnInit {
     this.router.navigateByUrl('/auth/register')
   }
 
+  loginWithGoogle() {
+    this.google.startLoginFlow();
+  }
 
   async submitForm(): Promise<void> {
     if (this.myForm.invalid) {
