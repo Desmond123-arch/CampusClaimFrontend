@@ -3,11 +3,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ghanaianPhoneNumberValidator, passwordsMatchValidator, passwordStrengthValidator, UmatEmailValidator } from 'src/app/validators/registration';
 import { Keyboard, KeyboardResize } from '@capacitor/keyboard';
-import { IonContent, LoadingController, ToastController } from '@ionic/angular';
+import { IonContent, LoadingController, ModalController, ToastController } from '@ionic/angular';
 import { AuthService } from 'src/app/service/auth.service';
 import { closeLoading, showLoading } from 'src/app/utils/loading';
 import { registrationDetails } from 'src/types/user';
 import { presentToast } from 'src/app/utils/toast';
+import { GoogleSSOService } from 'src/app/service/google-sso.service';
+import { UmatVleLoginComponent } from 'src/app/components/umat-vle-login/umat-vle-login.component';
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -25,7 +27,9 @@ export class RegisterPage implements OnInit {
   constructor(public formBuilder: FormBuilder,
     private router: Router,
     private authService: AuthService,
+    private readonly google: GoogleSSOService,
     private toastController: ToastController,
+    private modalCtrl: ModalController,
     private ngZone: NgZone,
     private loadingCtrl: LoadingController) {
     Keyboard.setResizeMode({ mode: KeyboardResize.Native })
@@ -44,7 +48,48 @@ export class RegisterPage implements OnInit {
   }
 
 
-  ngOnInit() {
+  async ngOnInit() {
+
+    if (window.location.hash.includes('id_token') ||
+      window.location.hash.includes('access_token') ||
+      window.location.search.includes('code=')) {
+      await showLoading(this.loadingCtrl)
+      this.google.handleGoogleCallback().subscribe({
+        next: async (res) => {
+          await closeLoading(this.loadingCtrl)
+          console.log(res.accessToken, res.user)
+          await this.authService.saveLoginDetails(res.accessToken, res.user)
+          presentToast(this.toastController, "Login Successfull", "success", 2000)
+
+          setTimeout(() => {
+            this.ngZone.run(async () => {
+              try {
+                window.history.replaceState({}, document.title, '/auth/login');
+
+                const success = await this.router.navigate(['/main/home'], { replaceUrl: true });
+                console.log('Navigation success:', success);
+
+                if (!success) {
+                  console.log('Using fallback navigation');
+                  window.location.assign('/main/home');
+                }
+              } catch (error) {
+                console.error('Navigation error:', error);
+                window.location.assign('/main/home');
+              }
+            });
+          }, 500);
+        },
+        error: async (err) => {
+          console.log("An error occured")
+          await closeLoading(this.loadingCtrl);
+          presentToast(this.toastController, err.error.errors, "danger", 2000)
+          console.error("Google login error:", err);
+        }
+      });
+    }
+
+
     this.myForm = this.formBuilder.group({
       name: ['',
         ([
@@ -127,6 +172,44 @@ export class RegisterPage implements OnInit {
     // this.myForm.reset();
     // this.router.navigateByUrl('/auth/verify');
   }
+  async loginWithUmat() {
+    const modal = await this.modalCtrl.create({
+      component: UmatVleLoginComponent,
+      cssClass: 'login-modal',
+      backdropDismiss: true,
+    });
+
+    await modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      await showLoading(this.loadingCtrl)
+      this.authService.loginVle(data.username, data.password).subscribe({
+
+        next: async (response) => {
+          await closeLoading(this.loadingCtrl)
+          presentToast(this.toastController, 'VLE Login Successful!', 'success', 2000);
+          await this.authService.saveLoginDetails(response.accessToken, response.user)
+          this.router.navigate(['/main/home']);
+        },
+        error: async (err) => {
+          await closeLoading(this.loadingCtrl)
+          presentToast(this.toastController, 'VLE Login Failed', "danger", 2000);
+        }
+      });
+
+    } else if (role === 'forgot-password') {
+      console.log('User clicked "Lost password?". You can navigate to a reset page here.');
+    } else {
+      console.log('Modal was cancelled or dismissed.');
+    }
+  }
+
+
+  loginWithGoogle() {
+    this.google.startLoginFlow();
+  }
 
   scrollToField(id: string, isLast: boolean = false) {
     if (!this.contentRef) return;
@@ -154,3 +237,4 @@ export class RegisterPage implements OnInit {
     }, 300);
   }
 }
+

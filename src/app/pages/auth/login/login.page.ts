@@ -1,7 +1,7 @@
 import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavigationStart, Router } from '@angular/router';
-import { IonContent, LoadingController, ToastController, ToastOptions } from '@ionic/angular';
+import { IonContent, LoadingController, ModalController, ToastController, ToastOptions } from '@ionic/angular';
 import { AuthService } from 'src/app/service/auth.service';
 import { closeLoading, showLoading } from 'src/app/utils/loading';
 import { UmatEmailValidator, passwordStrengthValidator } from 'src/app/validators/registration';
@@ -9,6 +9,8 @@ import { Toast } from '@capacitor/toast'
 import { closeAllToasts, presentToast } from 'src/app/utils/toast';
 import { FcmService } from 'src/app/service/fcm.service';
 import { GoogleSSOService } from 'src/app/service/google-sso.service';
+import { async } from 'rxjs';
+import { UmatVleLoginComponent } from 'src/app/components/umat-vle-login/umat-vle-login.component';
 
 //NOTE: Modify the api to use check if the user is verified before redirecting
 @Component({
@@ -18,8 +20,6 @@ import { GoogleSSOService } from 'src/app/service/google-sso.service';
   standalone: false,
 })
 export class LoginPage implements OnInit {
-
-
 
   @ViewChild('content', { static: false }) contentRef!: IonContent;
   myForm: FormGroup = new FormGroup({})
@@ -33,6 +33,7 @@ export class LoginPage implements OnInit {
     private ngZone: NgZone,
     private authService: AuthService,
     private toastController: ToastController,
+    private modalCtrl: ModalController,
     private fcmService: FcmService,
     private readonly google: GoogleSSOService
   ) {
@@ -59,10 +60,10 @@ export class LoginPage implements OnInit {
             this.ngZone.run(async () => {
               try {
                 window.history.replaceState({}, document.title, '/auth/login');
-                
+
                 const success = await this.router.navigate(['/main/home'], { replaceUrl: true });
                 console.log('Navigation success:', success);
-                
+
                 if (!success) {
                   console.log('Using fallback navigation');
                   window.location.assign('/main/home');
@@ -143,7 +144,39 @@ export class LoginPage implements OnInit {
   }
 
 
+  async loginWithUmat() {
+    const modal = await this.modalCtrl.create({
+      component: UmatVleLoginComponent,
+      cssClass: 'login-modal',
+      backdropDismiss: true,
+    });
 
+    await modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      await showLoading(this.loadingCtrl)
+      this.authService.loginVle(data.username, data.password).subscribe({
+
+        next: async (response) => {
+          await closeLoading(this.loadingCtrl)
+          presentToast(this.toastController, 'VLE Login Successful!', 'success', 2000);
+          await this.authService.saveLoginDetails(response.accessToken, response.user)
+          this.router.navigate(['/main/home']);
+        },
+        error: async (err) => {
+          await closeLoading(this.loadingCtrl)
+          presentToast(this.toastController, 'VLE Login Failed', "danger", 2000);
+        }
+      });
+
+    } else if (role === 'forgot-password') {
+      console.log('User clicked "Lost password?". You can navigate to a reset page here.');
+    } else {
+      console.log('Modal was cancelled or dismissed.');
+    }
+  }
 
 
   navigateToConfirmEmail() {

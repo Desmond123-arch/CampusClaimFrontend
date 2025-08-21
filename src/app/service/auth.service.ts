@@ -31,6 +31,10 @@ export class AuthService {
     const response = this.http.post<AuthResponse>(`${APPURL}/auth/register`, data, {withCredentials: true});
     return response;
   }
+  loginVle(username: string, password: string) {
+    const response = this.http.post<AuthResponse>(`${APPURL}/auth/school-login`, {username, password}, {withCredentials: true});
+    return response;
+  }
   getNewTokens() {
     const response = this.http.get(`${APPURL}/auth/refresh-token`, { withCredentials: true ,
        context: new HttpContext().set(SKIP_AUTH, true)}

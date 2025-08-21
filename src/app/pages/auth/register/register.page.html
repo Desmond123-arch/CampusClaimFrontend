@@ -242,9 +242,17 @@
       >
         SIGN IN
       </ion-button>
-      <ion-button expand="block" fill="clear" shape="round" class="rounded-btn">
+      <ion-button expand="block" fill="clear" shape="round" class="rounded-btn" (click)="loginWithGoogle()">
         <img
           src="assets/icon/googleicon.svg"
+          alt="Google logo"
+          width="25"
+          height="25"
+        />
+      </ion-button>
+      <ion-button (click)="loginWithUmat()" expand="block" fill="clear" shape="round" class="rounded-btn">
+        <img
+          src="assets/icon/umat-logo-small.webp"
           alt="Google logo"
           width="25"
           height="25"

@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { Keyboard, KeyboardResize } from '@capacitor/keyboard';
 import { ThemeService } from './service/theme.service';
 import { GoogleSSOService } from './service/google-sso.service';
+import { NotificationService } from './service/notification.service';
 
 @Component({
   selector: 'app-root',
@@ -19,11 +20,14 @@ export class AppComponent {
     private renderer: Renderer2,
     private router: Router,
     private themeService: ThemeService,
+    private notificationService: NotificationService,
     private googleService: GoogleSSOService
   ) {
     this.initializeApp();
     if (this.platform.is('hybrid')) {
       this.platform.ready().then(() => {
+        this.notificationService.initPush();
+
         Keyboard.setResizeMode({ mode: KeyboardResize.Native });
       });
     }
@@ -35,7 +39,6 @@ export class AppComponent {
     }
 
   }
-
 
   async initializeApp() {
     await SafeArea.removeAllListeners();
@@ -52,6 +55,7 @@ export class AppComponent {
 
     App.addListener('appUrlOpen', data => {
       try {
+        console.log(data);
         const url = new URL(data.url);
         const token = url.searchParams.get('token');
         if (token) {
