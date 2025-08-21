@@ -1,6 +1,6 @@
-import { ToastController, ToastOptions } from "@ionic/angular";
+import { ModalController, ToastController, ToastOptions } from "@ionic/angular";
 
-export async function presentToast(toastController: ToastController,  message: string, color: ToastOptions["color"], duration: number) {
+export async function presentToast(toastController: ToastController, message: string, color: ToastOptions["color"], duration: number) {
   const existingToast = await toastController.getTop();
   if (existingToast) {
     await existingToast.dismiss();
@@ -20,5 +20,17 @@ export async function closeAllToasts(toastController: ToastController) {
   while (toast) {
     await toast.dismiss();
     toast = await toastController.getTop();
+  }
+}
+
+
+export async function dismissAllModals(modalController: ModalController) {
+  while (await modalController.getTop()) {
+    try {
+      await modalController.dismiss();
+    } catch (e) {
+      console.error('Error dismissing modal:', e);
+      break;
+    }
   }
 }

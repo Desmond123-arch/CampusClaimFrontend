@@ -1,6 +1,6 @@
 // src/app/service/notification.service.ts
 
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   PushNotifications,
@@ -24,10 +24,10 @@ export class NotificationService {
     private itemsService: ItemsService,
     private modalController: ModalController,
     private toastController: ToastController,
+    private zone: NgZone
   ) { }
 
   public initPush() {
-    // Only initialize on a real device
     if (!this.platform.is('hybrid')) {
       return;
     }
@@ -37,58 +37,59 @@ export class NotificationService {
   private registerPush() {
     PushNotifications.requestPermissions().then(result => {
       if (result.receive === 'granted') {
-        // Register with Apple / Google to receive push via APNS/FCM
         PushNotifications.register();
       } else {
-        // Show some notice to the user
         console.warn('Push notification permission not granted.');
       }
     });
 
-    // On success, we should be able to receive notifications
     PushNotifications.addListener('registration', (token: Token) => {
       console.log('Push registration success, token: ' + token.value);
       // TODO: Send the token to your backend to store it
     });
 
-    // Some error occurred
     PushNotifications.addListener('registrationError', (error: any) => {
       console.error('Error on registration: ' + JSON.stringify(error));
     });
 
-    // Show us the notification payload if the app is open on our device
     PushNotifications.addListener('pushNotificationReceived', (notification: PushNotificationSchema) => {
       console.log('Push received: ' + JSON.stringify(notification));
     });
 
-    // THIS IS THE KEY PART: Method called when user taps on a notification
     PushNotifications.addListener('pushNotificationActionPerformed', (notification: ActionPerformed) => {
       const data = notification.notification.data;
-      console.log('Push action performed: ' + JSON.stringify(notification));
+      console.log('Push action performed: ' + data);
       if (data.item_id) {
-        // We have an item_id, let's open it.
+
         this.openItemFromNotification(data.item_id);
       }
     });
   }
 
-  // New method to fetch and open the item
   async openItemFromNotification(itemId: string) {
     this.itemsService.getItemById(itemId).subscribe({
-      next: async (item) => {
-        const modal = await this.modalController.create({
-          component: ItemDetailModalComponent,
-          componentProps: {
-            item: item
-          },
-          breakpoints: [0, 0.5, 0.8],
-          initialBreakpoint: 1.2,
+      next: (response) => {
+
+        console.log('Received item data from API:', response);
+
+        this.zone.run(async () => {
+          const item = response;
+          const modal = await this.modalController.create({
+            component: ItemDetailModalComponent,
+            componentProps: {
+              item: item.item
+            },
+            breakpoints: [0, 0.5, 0.8],
+            initialBreakpoint: 1.2,
+          });
+          await modal.present();
         });
-        await modal.present();
       },
       error: async (err) => {
-        console.error('Failed to fetch item details from notification:', err);
-        await presentToast(this.toastController, "Could not open the item.", 'danger', 2000);
+        this.zone.run(async () => {
+          console.error('Failed to fetch item details from notification:', err);
+          await presentToast(this.toastController, "Could not open the item.", 'danger', 2000);
+        });
       }
     });
   }

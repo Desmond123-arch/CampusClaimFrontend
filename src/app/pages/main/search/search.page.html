@@ -7,9 +7,7 @@
   </div>
   <div class="w-[90%] mx-auto mt-4 mb-4 flex items-center">
     <div class="w-full">
-      <app-search-bar
-      (Results)="setItems($event)"
-      ></app-search-bar>
+      <app-search-bar (Results)="setItems($event)"></app-search-bar>
     </div>
   </div>
   <div
@@ -29,7 +27,7 @@
     <app-item-images
       *ngFor="let item of items"
       [item]="item"
-      (click)="openItemDetail(item.item_id, $event)"
+      (click)="showItemDetailModalById(item.item_id)"
     ></app-item-images>
     }
   </div>

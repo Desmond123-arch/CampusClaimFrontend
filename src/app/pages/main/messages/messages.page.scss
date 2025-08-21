@@ -1,4 +1,4 @@
-/* 
+/*
   Define our new color palette using CSS variables for easy changes.
   You can replace these colors with your own brand colors.
 */
@@ -17,6 +17,7 @@
 /* Base layout setup */
 .chat-content {
   --background: var(--chat-background-color);
+  --color: var(--ion-text-color);
 }
 
 .chat-container {
@@ -121,7 +122,7 @@
   padding: 8px 12px;
   max-width: 80%;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
-  
+
   &.sent .message-bubble {
     background-color: var(--sent-bubble-color);
     color: var(--sent-bubble-text-color);
@@ -132,7 +133,7 @@
     color: var(--received-bubble-text-color);
     border-radius: 12px 12px 12px 0;
   }
-  
+
   .message-content { margin: 0; word-wrap: break-word; }
   .message-time {
     margin: 4px 0 0;
@@ -175,7 +176,7 @@
   background-color: var(--chat-background-color);
   color: #41525d;
   text-align: center;
-  
+
   ion-icon { font-size: 64px; color: #aab8c2; }
   h2 { margin-top: 20px; }
   p { max-width: 350px; color: var(--text-color-light); }

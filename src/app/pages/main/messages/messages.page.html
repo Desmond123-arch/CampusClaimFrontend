@@ -10,7 +10,7 @@
 <ion-content [fullscreen]="true" class="chat-content">
   <div class="chat-container">
 
-    <div class="conversations-panel" *ngIf="isDesktopOrTablet || !selectedConversation">
+    <div class="conversations-panel text-black dark:text-white" *ngIf="isDesktopOrTablet || !selectedConversation">
       <ion-list class="conversation-list">
         <ion-item *ngFor="let conversation of conversations" (click)="selectConversation(conversation)"
           [class.selected]="selectedConversation?.channel_id === conversation.channel_id" button detail="false">
@@ -18,19 +18,19 @@
             <img src="https://ionicframework.com/docs/img/demos/avatar.svg" />
           </ion-avatar>
           <ion-label>
-            <h2>{{ conversation.other_user_name || 'Unknown User' }}</h2>
-            <p>{{ conversation.last_message || '...' }}</p>
+            <h2 class="text-black dark:text-white">{{ conversation.other_user_name || 'Unknown User' }}</h2>
+            <p class="text-black dark:text-white">{{ conversation.last_message || '...' }}</p>
           </ion-label>
         </ion-item>
         <!-- Show if no conversations exist -->
-        <ion-item *ngIf="conversations.length === 0" lines="none">
-          <ion-label class="ion-text-center">No conversations found.</ion-label>
+        <ion-item *ngIf="conversations.length === 0" lines="none" style="color: var(--ion-text-color)">
+          <ion-label class="ion-text-center" color="text">No conversations found.</ion-label>
         </ion-item>
       </ion-list>
     </div>
 
     <div class="messages-panel" *ngIf="isDesktopOrTablet || selectedConversation">
-      
+
       <div *ngIf="selectedConversation" class="chat-view">
         <div class="chat-header">
           <ion-button fill="clear" class="back-button" *ngIf="!isDesktopOrTablet" (click)="backToConversations()">

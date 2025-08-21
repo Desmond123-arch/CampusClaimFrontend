@@ -53,6 +53,7 @@ export class LoginPage implements OnInit {
         next: async (res) => {
           await closeLoading(this.loadingCtrl)
           console.log(res.accessToken, res.user)
+          this.fcmService.initPush()
           await this.authService.saveLoginDetails(res.accessToken, res.user)
           presentToast(this.toastController, "Login Successfull", "success", 2000)
 
@@ -63,7 +64,7 @@ export class LoginPage implements OnInit {
 
                 const success = await this.router.navigate(['/main/home'], { replaceUrl: true });
                 console.log('Navigation success:', success);
-
+                this.fcmService.initPush()
                 if (!success) {
                   console.log('Using fallback navigation');
                   window.location.assign('/main/home');
@@ -160,7 +161,8 @@ export class LoginPage implements OnInit {
       this.authService.loginVle(data.username, data.password).subscribe({
 
         next: async (response) => {
-          await closeLoading(this.loadingCtrl)
+          await closeLoading(this.loadingCtrl);
+          this.fcmService.initPush()
           presentToast(this.toastController, 'VLE Login Successful!', 'success', 2000);
           await this.authService.saveLoginDetails(response.accessToken, response.user)
           this.router.navigate(['/main/home']);

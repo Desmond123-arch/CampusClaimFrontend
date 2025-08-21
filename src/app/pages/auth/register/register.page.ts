@@ -10,6 +10,7 @@ import { registrationDetails } from 'src/types/user';
 import { presentToast } from 'src/app/utils/toast';
 import { GoogleSSOService } from 'src/app/service/google-sso.service';
 import { UmatVleLoginComponent } from 'src/app/components/umat-vle-login/umat-vle-login.component';
+import { FcmService } from 'src/app/service/fcm.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -31,6 +32,8 @@ export class RegisterPage implements OnInit {
     private toastController: ToastController,
     private modalCtrl: ModalController,
     private ngZone: NgZone,
+    private fcmService: FcmService,
+
     private loadingCtrl: LoadingController) {
     Keyboard.setResizeMode({ mode: KeyboardResize.Native })
     Keyboard.addListener('keyboardDidShow', (info) => {
@@ -58,6 +61,7 @@ export class RegisterPage implements OnInit {
         next: async (res) => {
           await closeLoading(this.loadingCtrl)
           console.log(res.accessToken, res.user)
+          this.fcmService.initPush()
           await this.authService.saveLoginDetails(res.accessToken, res.user)
           presentToast(this.toastController, "Login Successfull", "success", 2000)
 
@@ -190,7 +194,8 @@ export class RegisterPage implements OnInit {
         next: async (response) => {
           await closeLoading(this.loadingCtrl)
           presentToast(this.toastController, 'VLE Login Successful!', 'success', 2000);
-          await this.authService.saveLoginDetails(response.accessToken, response.user)
+          await this.authService.saveLoginDetails(response.accessToken, response.user);
+          this.fcmService.initPush()
           this.router.navigate(['/main/home']);
         },
         error: async (err) => {
