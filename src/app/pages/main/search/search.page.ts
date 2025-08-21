@@ -53,6 +53,12 @@ export class SearchPage implements OnInit {
     this.isLoading = false; 
   }
 
+  handleSearchStart() {
+    this.isLoading = true;
+    this.searchAttempted = true; 
+    this.items = [];
+  }
+
   async showItemDetailModalById(itemId: string): Promise<void> {
 
     this.zone.run(async () => {

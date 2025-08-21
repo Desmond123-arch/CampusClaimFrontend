@@ -17,7 +17,7 @@ import { presentToast } from 'src/app/utils/toast';
   imports: [IonicModule, CommonModule, ReactiveFormsModule, FormsModule]
 })
 export class SearchBarComponent implements OnInit {
-
+  @Output() searchStarted = new EventEmitter<void>();
   @Output() Results = new EventEmitter<any>();
 
   public searchForm: FormGroup = new FormGroup({});
@@ -41,6 +41,7 @@ export class SearchBarComponent implements OnInit {
     if (!text.trim()) {
       return;
     }
+    this.searchStarted.emit(); 
     showLoading(this.loadingCtrl);
     this.searchService.searchByText(text).subscribe(
       {
@@ -70,7 +71,8 @@ export class SearchBarComponent implements OnInit {
     })
     const response = await fetch(capturedPhoto.webPath!);
     const blob = await response.blob();
-    await showLoading(this.loadingCtrl)
+    this.searchStarted.emit(); 
+    await showLoading(this.loadingCtrl);
     this.searchService.searchByImage(blob).subscribe(
       {
         next: async (response) => {
