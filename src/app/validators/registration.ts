@@ -96,3 +96,4 @@ export function passwordsMatchValidator(controlName: string, matchingControlName
     return null;
   }
 }
+

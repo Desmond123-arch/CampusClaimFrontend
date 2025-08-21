@@ -45,16 +45,14 @@ export class UserService {
   }
 
   sendDeviceToken(deviceToken: string): Observable<any> {
+    console.log("The device token is", deviceToken)
     return from(Preferences.get({key: 'auth-token'})).pipe(
       switchMap(token => {
-        if (!token.value) {
-          return throwError(() => new Error('No token found'));
-        }
         const headers = new HttpHeaders().set('Authorization', `Bearer ${token.value}`);
         const body = { token: deviceToken};
         return this.http.put(`${APPURL}/profile/token`, body, {headers})
       })
     )
   }
-  
+
 }

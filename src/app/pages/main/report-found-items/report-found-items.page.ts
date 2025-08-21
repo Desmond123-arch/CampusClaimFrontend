@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { ItemsService } from 'src/app/service/items.service';
 import { presentToast } from 'src/app/utils/toast';
+import { IonicModule, LoadingController } from '@ionic/angular';
+import { closeLoading, showLoading } from 'src/app/utils/loading';
+
 
 @Component({
   selector: 'app-report-found-items',
@@ -12,19 +15,20 @@ import { presentToast } from 'src/app/utils/toast';
   standalone: false
 })
 export class ReportFoundItemsPage implements OnInit {
-
   reportType: string = "Lost"
+  formSubmitSuccess: boolean = false;
   constructor(
     private router: Router,
     private toastCtrl: ToastController,
-    private itemService: ItemsService
+    private itemService: ItemsService,
+    private loadingCtrl: LoadingController
   ) { }
 
 
   ngOnInit() {
   }
 
-  onReportSubmit(formData: any) {
+  async onReportSubmit(formData: any) {
 
     const postData = new FormData();
 
@@ -46,17 +50,23 @@ export class ReportFoundItemsPage implements OnInit {
         postData.append('images', file.file, file.name);
       });
     }
+    await showLoading(this.loadingCtrl)
     this.itemService.postItem(postData).subscribe({
-      next: (response => {
+      next: (async response => {
+        await closeLoading(this.loadingCtrl)
+        this.formSubmitSuccess = true;
+        await this.router.navigate(['/main/home']);
+        setTimeout(async () => {
+          await this.router.navigate(['/main/home']);
+        }, 1500);
         console.log(response)
       }),
-      error: (error => {
+      error: (async error => {
+        await closeLoading(this.loadingCtrl)
+        await presentToast(this.toastCtrl, "Error occured while adding item", 'danger', 3000)
         console.log(error)
       })
     })
-    presentToast(this.toastCtrl, "Item reported successfully", 'success', 3000)
-    this.router.navigate(['/main/home']);
-
   }
   changeReportType(type: string) {
     this.reportType = type;

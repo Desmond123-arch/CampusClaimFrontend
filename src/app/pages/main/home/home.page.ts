@@ -1,8 +1,9 @@
 import { HttpParams } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { Preferences } from '@capacitor/preferences';
 import { ModalController, ToastController } from '@ionic/angular';
+import { filter, Subscription } from 'rxjs';
 import { ItemDetailModalComponent } from 'src/app/components/item-detail-modal/item-detail-modal.component';
 import { ItemsService } from 'src/app/service/items.service';
 import { presentToast } from 'src/app/utils/toast';
@@ -16,11 +17,12 @@ register();
   styleUrls: ['./home.page.scss'],
   standalone: false
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, OnDestroy {
   Lostitems: Item[] = [];
   FoundItems: Item[] = [];
   name: any = ""
-
+  private routerSub!: Subscription;
+  logo_image = localStorage.getItem('theme') === 'light'? 'assets/icon/icon.svg':'assets/icon/icon.dark.svg'
   async getName(): Promise<string | null> {
     const { value } = await Preferences.get({ key: 'name' });
     return value;
@@ -29,10 +31,15 @@ export class HomePage implements OnInit {
   constructor(private modalController: ModalController, private router: Router, private itemService: ItemsService, private toastController: ToastController) { }
 
   async ngOnInit() {
-    this.getLostItems();
-    this.getFountItems()
-    this.name = await this.getName()
+    this.routerSub = this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(async () => {
+        await this.getLostItems();
+        await this.getFountItems();
+        this.name = (await this.getName())?.split(' ')[0];
+      });
   }
+
 
   async openItemDetail(item: Item, event: MouseEvent) {
     const target = event.target as HTMLElement;
@@ -48,6 +55,10 @@ export class HomePage implements OnInit {
       return;
     }
     await modal.present();
+  }
+
+  ngOnDestroy() {
+    this.routerSub.unsubscribe();
   }
 
   async navigateToFound(status: string) {

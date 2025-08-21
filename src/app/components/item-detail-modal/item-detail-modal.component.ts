@@ -4,6 +4,7 @@ import { IonicModule, ModalController } from '@ionic/angular';
 import { Item } from 'src/types/item';
 import { SuccesfulClaimComponent } from '../succesful-claim/succesful-claim.component';
 import { ClaimFormComponent } from '../claim-form/claim-form.component';
+import { dismissAllModals } from 'src/app/utils/toast';
 
 @Component({
   selector: 'app-item-detail-modal',
@@ -29,7 +30,8 @@ export class ItemDetailModalComponent  implements OnInit {
 
   async handleClaim(event: Event) {
     event.stopPropagation();
-  
+    event.stopPropagation();
+    await dismissAllModals(this.modalCtrl)
     const modal = await this.modalCtrl.create({
       component: ClaimFormComponent, 
       componentProps: this.item

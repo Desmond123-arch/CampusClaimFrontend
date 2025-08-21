@@ -1,0 +1,72 @@
+<ion-content>
+  <div class="login-container">
+    <div class="login-card">
+      <div class="flex items-center">
+        <img
+          src="assets/icon/vle-logo.png"
+          alt="University Logo"
+          class="login-logo"
+        />
+      </div>
+      Login into your umat vle account
+      <!-- Login Form -->
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+        <div class="mb-4 w-full mx-auto">
+          <label
+            class="block text-neutral-800 text-base font-light mb-2 ml-2 text-start"
+          >
+            Username
+          </label>
+          <input
+            id="email"
+            formControlName="username"
+            type="text"
+            placeholder="Username"
+            class="w-full px-4 py-3 bg-white border border-gray-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-neutral-600 dark:placeholder-neutral-500"
+          />
+        </div>
+        <div class="mb-4 w-full mx-auto">
+          <label
+            class="block text-neutral-800 text-base font-light mb-2 ml-2 text-start"
+          >
+            Enter Password
+          </label>
+          <div class="relative w-full">
+            <input
+              id="password"
+              formControlName="password"
+              [type]="showPassword ? 'text' : 'password'"
+              placeholder="**************"
+              autocomplete="off"
+              class="w-full px-4 py-3 bg-white border border-gray-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-neutral-600 dark:placeholder-neutral-500"
+            />
+            <button
+              (click)="togglePasswordVisibility()"
+              class="absolute inset-y-0 right-0 flex items-center px-4 text-gray-500"
+              type="button"
+            >
+              <ion-icon
+                slot="icon-only"
+                [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+              ></ion-icon>
+            </button>
+          </div>
+        </div>
+        <div class="flex gap-2">
+          <button
+            (click)="cancel()"
+            class="text-center bg-primary w-full py-2 px-1 rounded-md shadow-sm"
+          >
+            Cancel
+          </button>
+          <button
+            (click)="onLogin()"
+            class="text-center bg-primary w-full py-2 px-1 rounded-md shadow-sm"
+          >
+            Login
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ion-content>

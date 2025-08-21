@@ -18,18 +18,24 @@ const routes: Routes = [
       },
       {
         path: 'report',
-        loadChildren: () => import('./report-found-items/report-found-items.module').then( m => m.ReportFoundItemsPageModule)
+        loadChildren: () => import('./report-found-items/report-found-items.module').then(m => m.ReportFoundItemsPageModule)
       },
       {
         path: 'search',
-        loadChildren: () => import('./search/search.module').then( m => m.SearchPageModule)
+        loadChildren: () => import('./search/search.module').then(m => m.SearchPageModule)
       },
       {
         path: 'profile',
-        loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
+        loadChildren: () => import('./profile/profile.module').then(m => m.ProfilePageModule)
+      },
+      {
+        path: 'messages',
+        loadChildren: () => import('./messages/messages.module').then( m => m.MessagesPageModule)
       },
     ],
   },
+
+
 
 ];
 

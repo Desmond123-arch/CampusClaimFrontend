@@ -113,29 +113,29 @@
     </form>
 
     <div class="p-4 space-y-6">
-      <div class="bg-white rounded-xl shadow-sm w-full">
-        <h2 class="text-lg font-semibold text-gray-800 mb-4">
+      <div class="bg-white dark:bg-black dark:text-white rounded-xl shadow-sm w-full">
+        <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">
           Activity Overview
         </h2>
 
-        <div class="bg-gray-100 rounded-full p-1 flex mb-4">
+        <div class="bg-gray-100 dark:bg-black rounded-full p-1 flex mb-4">
           <button
             class="flex-1 py-2 px-1 text-sm font-medium text-gray-700 rounded-full shadow-sm"
-            [ngClass]="{'bg-white shadow-sm text-gray-800': currentStatus === 'Lost'}"
+            [ngClass]="{'bg-white dark:bg-[#818181] dark:text-white shadow-sm text-gray-800': currentStatus === 'Lost'}"
             (click)="changeCurrentStatus('Lost')"
           >
             Lost
           </button>
           <button
             class="flex-1 py-2 px-1 text-sm font-medium text-gray-500 rounded-full"
-            [ngClass]="{'bg-white shadow-sm text-gray-800': currentStatus === 'Found'}"
+            [ngClass]="{'bg-white dark:bg-[#818181] dark:text-white shadow-sm text-gray-800': currentStatus === 'Found'}"
             (click)="changeCurrentStatus('Found')"
           >
             Found
           </button>
           <button
             class="flex-1 py-2 px-1 text-sm font-medium text-gray-500 rounded-full"
-            [ngClass]="{'bg-white shadow-sm text-gray-800': currentStatus === 'Claimed'}"
+            [ngClass]="{'bg-white dark:bg-[#818181] dark:text-white shadow-sm text-gray-800': currentStatus === 'Claimed'}"
             (click)="changeCurrentStatus('Claimed')"
           >
             Claimed
@@ -144,35 +144,35 @@
 
         <div class="space-y-3">
           <!-- NGFOR HERE -->
-          <div class="flex items-center bg-gray-50 rounded-lg p-3" *ngFor="let item of items">
+          <div class="flex items-center bg-gray-50 dark:bg-black rounded-lg p-3" *ngFor="let item of items">
             <img
-              [src]="item.image_urls[0]"
+              [src]="item.image_urls[0] || 'https://campusclaim.nyc3.cdn.digitaloceanspaces.com/icons8-placeholder-thumbnail-document-100.png'"
               alt="Wallet"
               class="w-10 h-10 rounded-md object-cover"
             />
             <div class="ml-3 flex-grow">
-              <p class="font-semibold text-sm text-gray-800">{{item.title}}</p>
-              <span class="text-xs text-gray-400 font-medium">View</span>
+              <p class="font-semibold text-sm text-gray-800 dark:text-white">{{item.title}}</p>
+              <span class="text-xs text-gray-400 dark:text-white font-medium">View</span>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="bg-white rounded-xl shadow-sm p-4">
-        <h2 class="text-lg font-semibold text-gray-800 mb-4">
+      <div class="bg-white dark:bg-black rounded-xl shadow-sm p-4">
+        <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">
           Security & Preferences
         </h2>
         <div class="divide-y divide-gray-100">
           <button class="flex items-center mb-4" (click)="changeTheme()">
             <ion-icon name="moon-outline"></ion-icon>
-            <span class="ml-3 text-sm font-medium text-gray-700"
-              >{{mode}} Mode</span
+            <span class="ml-3 text-sm font-medium text-gray-700 dark:text-white"
+              >{{mode == 'light'? 'Light': 'Dark'}} Mode</span
             >
           </button>
           <div class="flex items-center justify-between py-3">
             <div class="flex items-center">
               <ion-icon name="lock-closed-outline"></ion-icon>
-              <span class="ml-3 text-sm font-medium text-gray-700"
+              <span class="ml-3 text-sm font-medium text-gray-700 dark:text-white"
                 >Change Password</span
               >
             </div>
@@ -186,7 +186,7 @@
         </div>
       </div>
 
-      <div class="bg-white rounded-xl shadow-sm p-4">
+      <div class="bg-white dark:bg-black rounded-xl shadow-sm p-4">
         <div class="divide-y divide-gray-100">
           <button
             class="w-full flex items-center text-left py-3"

@@ -26,11 +26,22 @@
           placeholder="e.g. iPhone 13"
         />
       </ion-item>
+      <div class="ml-5">
+        <ion-text
+          color="danger"
+          *ngIf="
+            foundItemForm.get('itemName')?.touched &&
+            foundItemForm.get('itemName')?.invalid
+          "
+        >
+          {{ getErrorMessage("itemName") }}
+        </ion-text>
+      </div>
 
       <ion-item class="item-label">
         <ion-label>Category</ion-label>
       </ion-item>
-      <div>
+      <div class="text-black dark:text-white">
         <ion-item class="item-control item-select">
           <ion-select
             formControlName="category"
@@ -51,6 +62,17 @@
             </ion-select-option>
           </ion-select>
         </ion-item>
+      </div>
+      <div class="ml-5">
+        <ion-text
+          color="danger"
+          *ngIf="
+            foundItemForm.get('category')?.touched &&
+            foundItemForm.get('category')?.invalid
+          "
+        >
+          {{ getErrorMessage("category") }}
+        </ion-text>
       </div>
 
       <ion-item class="item-label">
@@ -81,6 +103,17 @@
           </ng-template>
         </ion-popover>
       </ion-item>
+      <div class="ml-5">
+        <ion-text
+          color="danger"
+          *ngIf="
+            foundItemForm.get('foundDateTime')?.touched &&
+            foundItemForm.get('foundDateTime')?.invalid
+          "
+        >
+          {{ getErrorMessage("foundDateTime") }}
+        </ion-text>
+      </div>
 
       <ion-item class="item-label">
         <ion-label>Where did you find it?</ion-label>
@@ -91,6 +124,17 @@
           placeholder="e.g. Main Auditorium"
         />
       </ion-item>
+      <div class="ml-5">
+        <ion-text
+          color="danger"
+          *ngIf="
+            foundItemForm.get('foundLocation')?.touched &&
+            foundItemForm.get('foundLocation')?.invalid
+          "
+        >
+          {{ getErrorMessage("foundLocation") }}
+        </ion-text>
+      </div>
 
       <ion-item class="item-label">
         <ion-label>Visible feature</ion-label>
@@ -101,6 +145,17 @@
           placeholder="e.g. Small crack on the top-left corner"
         />
       </ion-item>
+      <div class="ml-5">
+        <ion-text
+          color="danger"
+          *ngIf="
+            foundItemForm.get('visibleFeature')?.touched &&
+            foundItemForm.get('visibleFeature')?.invalid
+          "
+        >
+          {{ getErrorMessage("visibleFeature") }}
+        </ion-text>
+      </div>
 
       <ion-item class="item-label">
         <ion-label>Contact Number</ion-label>
@@ -112,6 +167,17 @@
           placeholder="0246908585"
         />
       </ion-item>
+      <div class="ml-5">
+        <ion-text
+          color="danger"
+          *ngIf="
+            foundItemForm.get('contactNumber')?.touched &&
+            foundItemForm.get('contactNumber')?.invalid
+          "
+        >
+          {{ getErrorMessage("contactNumber") }}
+        </ion-text>
+      </div>
 
       <ion-item class="item-label">
         <ion-label>{{
@@ -170,8 +236,12 @@
         </div>
       </div>
 
-      <div class="upload-placeholder" *ngIf="selectedImages.length === 0">
-        <p>Add images to help identify the item</p>
+      <div class="upload-placeholder">
+        <ion-text
+          [color]="selectedImages.length == 0 ? 'danger' : ''"
+        >
+          Add images to help identify the item
+        </ion-text>
       </div>
 
       <ion-button fill="outline" shape="round" class="upload-btn">
@@ -187,6 +257,13 @@
         (change)="onFileSelected($event)"
         hidden
       />
+    </div>
+    <div class="ml-5" color="danger">
+      <!-- {{selectedImages.length}} -->
+      <ion-text color="danger" *ngIf="">
+        I am required
+        {{ getErrorMessage("default") }}
+      </ion-text>
     </div>
     <ion-button
       expand="block"

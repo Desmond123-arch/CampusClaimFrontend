@@ -17,6 +17,7 @@ export class AuthGuardService implements CanActivate {
     state: RouterStateSnapshot
   ): Promise<boolean | UrlTree> {
     const { value: token } = await Preferences.get({ key: 'auth-token' });
+    console.log("Token is here", token)
     if (token) {
       return true;
     } else {

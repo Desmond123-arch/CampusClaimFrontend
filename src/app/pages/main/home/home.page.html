@@ -1,10 +1,12 @@
 <ion-content [fullscreen]="true" color="white">
-  <div color="primary" class="main-toolbar bg-primary">
+  <div  class="main-toolbar bg-primary text-white dark:text-black">
     <ion-row>
       <div class="w-14 h-14">
-        <ion-img src="assets/icon/icon.svg"> </ion-img>
+        <ion-img [src]="logo_image"> </ion-img>
       </div>
-      <ion-title>Hi {{name}}</ion-title>
+      <ion-title>
+        <h1 class="md:text-2xl">Hi {{name}}</h1>
+      </ion-title>
       <div
         class="relative bg-indigo-200/20 px-4 rounded-md flex items-center shadow-md"
       >
@@ -13,24 +15,9 @@
     </ion-row>
   </div>
   <div class="floating-card">
-    <p class="font-bold self-start text-start w-full">Lost Something?</p>
-
-    <div class="search-container">
-      <div class="search-input-wrapper">
-        <ion-icon name="search-outline" class="search-icon"></ion-icon>
-        <input
-          class="text-lg w-[85%] md:w-full border-none outline-none focus:border-none text-black"
-          placeholder="Search for Items"
-          type="text"
-          enterkeyhint="search"
-          style="outline: none"
-        />
-      </div>
-
-      <div class="action-icons">
-        <ion-icon src="assets/icon/upload.svg"> </ion-icon>
-        <ion-icon name="filter-outline" class="action-icon"></ion-icon>
-      </div>
+    <p class="font-bold self-start text-start w-full text-white dark:text-black">Lost Something?</p>
+    <div class="w-full">
+      <app-search-bar></app-search-bar>
     </div>
   </div>
 
@@ -56,7 +43,9 @@
       <section class="items-carousel-section">
         <div class="carousel-header">
           <h2 class="section-title">Found Items</h2>
-          <button (click)="navigateToFound('Found')" class="view-all-link">view all›</button>
+          <button  (click)="navigateToFound('Found')" class="view-all-link">
+            view all›
+          </button>
         </div>
 
         <div class="items-carousel-container">
@@ -64,7 +53,7 @@
             *ngFor="let item of FoundItems"
             [item]="item"
             (click)="openItemDetail(item, $event)"
-            style="cursor: pointer;"
+            style="cursor: pointer"
           ></app-item-card>
         </div>
       </section>
@@ -94,15 +83,17 @@
       <section class="items-carousel-section">
         <div class="carousel-header">
           <h2 class="section-title">Lost Items</h2>
-          <button (click)="navigateToFound('Lost')" class="view-all-link">view all ›</button>
+          <button (click)="navigateToFound('Lost')" class="view-all-link">
+            view all ›
+          </button>
         </div>
 
         <div class="items-carousel-container">
           <app-item-card
             *ngFor="let item of Lostitems"
             [item]="item"
-             (click)="openItemDetail(item, $event)"
-              style="cursor: pointer;"
+            (click)="openItemDetail(item, $event)"
+            style="cursor: pointer"
           ></app-item-card>
         </div>
       </section>

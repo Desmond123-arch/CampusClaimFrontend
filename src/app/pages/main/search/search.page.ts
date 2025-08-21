@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { Component, NgZone, OnInit } from '@angular/core';
+import { ModalController, ToastController } from '@ionic/angular';
+import { firstValueFrom, Subscription } from 'rxjs';
 import { ItemDetailModalComponent } from 'src/app/components/item-detail-modal/item-detail-modal.component';
+import { ItemsService } from 'src/app/service/items.service';
+import { SearchService } from 'src/app/service/search.service';
+import { presentToast } from 'src/app/utils/toast';
 import { ImageSearchResult, Item } from 'src/types/item';
 
 @Component({
@@ -11,79 +15,78 @@ import { ImageSearchResult, Item } from 'src/types/item';
 })
 export class SearchPage implements OnInit {
 
-  results: ImageSearchResult = {
-    items: [
-      // {
-      //   "description": "Plane bag",
-      //   "image_url": "https://campusclaim.nyc3.digitaloceanspaces.com/items/14-bag.png",
-      //   "item_id": "67471d77-b643-4607-b883-f12e2f575cfa",
-      //   "score": 0.8792431354522705
-      // },
-      // {
-      //   "description": "Plane bag",
-      //   "image_url": "https://campusclaim.nyc3.digitaloceanspaces.com/items/14-bag.png",
-      //   "item_id": "67471d77-b643-4607-b883-f12e2f575cfa",
-      //   "score": 0.8792431354522705
-      // },
-      // {
-      //   "description": "Plane bag",
-      //   "image_url": "https://campusclaim.nyc3.digitaloceanspaces.com/items/14-bag.png",
-      //   "item_id": "67471d77-b643-4607-b883-f12e2f575cfa",
-      //   "score": 0.8792431354522705
-      // },
-      // {
-      //   "description": "Plane bag",
-      //   "image_url": "https://campusclaim.nyc3.digitaloceanspaces.com/items/14-bag.png",
-      //   "item_id": "67471d77-b643-4607-b883-f12e2f575cfa",
-      //   "score": 0.8792431354522705
-      // },
-      // {
-      //   "description": "Plane bag",
-      //   "image_url": "https://campusclaim.nyc3.digitaloceanspaces.com/items/2-109918035.jpg",
-      //   "item_id": "67471d77-b643-4607-b883-f12e2f575cfa",
-      //   "score": 0.8792431354522705
-      // }
-    ],
-    "total_items_in_index": 8,
-  }
-  constructor(private modalController: ModalController) { }
+  items: ImageSearchResult[] = [];
+  isLoading: boolean = false;
+  searchAttempted: boolean = false;
 
-  ngOnInit() {
+  private subscription: Subscription = new Subscription()
+
+  constructor(
+    private searchService: SearchService,
+    private modalController: ModalController,
+    private itemService: ItemsService,
+    private toastController: ToastController,
+    private zone: NgZone
+  ) {
+
   }
 
-  getItem(id: string): Item {
-    const item: Item = {
-      "item_uuid": "5fa8e1d7-9d93-4d51-88d0-b83ad02db64a",
-      "title": "White Backpack",
-      "description": "Plane bag",
-      "bounty": 50,
-      "status": "FOUND",
-      "category": "Electronics",
-      "posted_by": "Desmond",
-      "created_at": "2025-07-27T02:19:39.425721Z",
-      "image_urls": [
-        "https://campusclaim.nyc3.digitaloceanspaces.com/items/2-109918035.jpg"
-      ],
-      "found_at": "FIMMS"
-    } //get item here
-
-    return item;
-  }
-
-  async openItemDetail(id: string, event: MouseEvent) {
-    const item = await this.getItem(id);
-    const target = event.target as HTMLElement;
-    const modal = await this.modalController.create({
-      component: ItemDetailModalComponent,
-      componentProps: {
-        item: item
-      },
-      breakpoints: [0, 0.5, 0.8],
-      initialBreakpoint: 1.2,
-    })
-    if (target.closest('.no-bubble')) {
-      return;
+  async ngOnInit() {
+    const storedResults = await this.searchService.getStoredSearchResults();
+    if (storedResults) {
+      this.setItems(storedResults);
     }
-    await modal.present();
+    this.subscription.add(
+      this.searchService.searchResults$.subscribe(results => {
+        if (results) {
+          this.setItems(results);
+        }
+      })
+    );
+  }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
+  setItems(items: any) {
+    this.items = items.result.results;
+    this.isLoading = false; 
+  }
+
+  handleSearchStart() {
+    this.isLoading = true;
+    this.searchAttempted = true; 
+    this.items = [];
+  }
+
+  async showItemDetailModalById(itemId: string): Promise<void> {
+
+    this.zone.run(async () => {
+      try {
+
+        const response = await firstValueFrom(this.itemService.getItemById(itemId));
+        console.log('Received item data from API:', response);
+  
+        const itemToShow = response?.item;
+        if (!itemToShow) {
+          throw new Error('Item data is missing in the API response.');
+        }
+  
+        const modal = await this.modalController.create({
+          component: ItemDetailModalComponent,
+          componentProps: {
+            item: itemToShow
+          },
+          breakpoints: [0, 0.5, 0.8],
+          initialBreakpoint: 1.2,
+        });
+  
+        await modal.present();
+  
+      } catch (err) {
+        console.error('Failed to show item from notification:', err);
+        await presentToast(this.toastController, "Could not open the item.", 'danger', 2000);
+      }
+    });
   }
 }

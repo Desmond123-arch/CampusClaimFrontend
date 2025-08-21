@@ -11,8 +11,8 @@
       <ion-label>Search</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button class="fab-placeholder" disabled>
-      <ion-label >Report</ion-label>
+    <ion-tab-button tab="report" class="fab-placeholder" color="primary">
+      <p class="text-black dark:text-gray-600 mt-6 ">Report</p>
     </ion-tab-button>
 
     <ion-tab-button tab="messages" href="/main/messages" color="primary">
@@ -32,7 +32,7 @@
     slot="fixed"
     class="report-fab"
   >
-    <ion-fab-button color="primary" href="/main/report">
+    <ion-fab-button color="primary" (click)="goToAdd()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

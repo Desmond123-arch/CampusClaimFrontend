@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Config } from '@ionic/angular';
 import { registrationDetails, User } from 'src/types/user';
@@ -6,8 +6,11 @@ import { Preferences } from '@capacitor/preferences';
 import { AuthResponse } from 'src/types/responses';
 import { from, switchMap } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { jwtDecode } from 'jwt-decode'; // Corrected import for jwt-decode
+import { HttpContextToken } from '@angular/common/http';
 
-export const APPURL = environment.api_url;
+const APPURL = environment.api_url;
+export const SKIP_AUTH = new HttpContextToken<boolean>(() => false);
 @Injectable({
   providedIn: 'root',
 })
@@ -18,16 +21,27 @@ export class AuthService {
 
   private http = inject(HttpClient);
   login(email: string, password: string) {
-    const response = this.http.post<AuthResponse>(`${APPURL}/auth/login`, { email, password }, {withCredentials: true});
+    const response = this.http.post<AuthResponse>(`${APPURL}/auth/login`, { email, password }, {
+      withCredentials: true
+      , context: new HttpContext().set(SKIP_AUTH, true)
+    });
     return response;
   }
 
   register(data: registrationDetails) {
-    const response = this.http.post<AuthResponse>(`${APPURL}/auth/register`, data, {withCredentials: true});
+    const response = this.http.post<AuthResponse>(`${APPURL}/auth/register`, data, { withCredentials: true });
+    return response;
+  }
+  loginVle(username: string, password: string) {
+    const response = this.http.post<AuthResponse>(`${APPURL}/auth/school-login`, { username, password }, { withCredentials: true });
     return response;
   }
   getNewTokens() {
-    const response = this.http.get(`${APPURL}/auth/refresh-token`, { withCredentials: true })
+    const response = this.http.get(`${APPURL}/auth/refresh-token`, {
+      withCredentials: true,
+      context: new HttpContext().set(SKIP_AUTH, true)
+    }
+      ,)
     return response
   }
 
@@ -65,23 +79,23 @@ export class AuthService {
       )
   }
   resendOtp() {
-    return from(Preferences.get({key: 'auth-token'}))
-    .pipe(
-      switchMap(tokenResult => {
-        const token = tokenResult.value;
-        return this.http.post(`${APPURL}/auth/reset-password-resend`,{}, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          },
-          responseType: 'text',
+    return from(Preferences.get({ key: 'auth-token' }))
+      .pipe(
+        switchMap(tokenResult => {
+          const token = tokenResult.value;
+          return this.http.post(`${APPURL}/auth/reset-password-resend`, {}, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            },
+            responseType: 'text',
+          })
         })
-      })
-    )
+      )
   }
-
 
   async saveLoginDetails(accessToken: string, user: User) {
     //FIXME: This can be made cleaner
+    console.log("Storing login details")
     await Preferences.set({
       key: 'auth-token',
       value: accessToken
@@ -103,6 +117,23 @@ export class AuthService {
       key: 'profile_image',
       value: user.profile_image,
     })
+
+    // Decode JWT to extract user ID and save it
+    try {
+      const decodedToken: any = jwtDecode(accessToken);
+      const userId = decodedToken.sub || decodedToken.id; // Assuming 'sub' or 'id' claim for user ID
+      if (userId) {
+        await Preferences.set({
+          key: 'user-id',
+          value: userId
+        });
+        console.log('User ID saved to preferences:', userId);
+      } else {
+        console.warn('User ID not found in JWT token claims (sub or id).');
+      }
+    } catch (error) {
+      console.error('Error decoding JWT token:', error);
+    }
   }
 
 }

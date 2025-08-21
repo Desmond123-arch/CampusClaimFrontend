@@ -8,6 +8,7 @@ import { SearchPageRoutingModule } from './search-routing.module';
 
 import { SearchPage } from './search.page';
 import { ItemImagesComponent } from "src/app/components/item-images/item-images.component";
+import { SearchBarComponent } from "src/app/components/search-bar/search-bar.component";
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { ItemImagesComponent } from "src/app/components/item-images/item-images.
     FormsModule,
     IonicModule,
     SearchPageRoutingModule,
-    ItemImagesComponent
+    ItemImagesComponent,
+    SearchBarComponent
 ],
   declarations: [SearchPage],
 })

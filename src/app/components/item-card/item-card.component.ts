@@ -61,25 +61,11 @@ export class ItemCardComponent implements OnInit, OnDestroy {
       componentProps: {
         item: this.item
       },
-      cssClass: 'claim-card'
+      cssClass: 'claim-card',
     })
     await modal.present()
 
     const { data, role } = await modal.onWillDismiss();
-
-    if (role === 'claim-submitted') {
-      const successModal = await this.modalController.create({
-        component: SuccesfulClaimComponent,
-        backdropDismiss: false,
-         cssClass: 'success-modal'
-      });
-      await successModal.present();
-
-      await successModal.onDidDismiss();
-      this.router.navigateByUrl("/main/home");
-    } else if (role === 'claim-cancelled') {
-      console.log('Claim was cancelled');
-    }
   }
 
   handleClaimCancel() {

@@ -9,6 +9,7 @@
     <app-found-item-form
       (formSubmitted)="onReportSubmit($event)"
       (ReportType)="changeReportType($event)"
+      [isValid]="formSubmitSuccess"
     ></app-found-item-form>
   </div>
 </ion-content>

@@ -1,0 +1,73 @@
+// This ensures the modal content can be centered vertically
+:host {
+  display: flex;
+  height: 100%;
+  border-radius: 18px;
+}
+
+.modal-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  background: #a2e488;
+}
+
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  border-radius: 18px;
+  background: #a2e488;
+
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.login-card {
+  padding: 32px 24px;
+
+  width: 100%;
+  max-width: 400px; // Prevents the card from being too wide on tablets/desktops
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-logo {
+  height: 60px;
+  margin-bottom: 24px;
+}
+
+form {
+  width: 100%;
+}
+
+// Style the input fields
+ion-item {
+  --border-radius: 8px;
+  --padding-start: 12px;
+  --inner-padding-end: 12px;
+}
+
+// Style the main login button
+.login-button {
+  margin-top: 16px;
+  height: 48px;
+  --border-radius: 8px;
+  font-weight: 600;
+  text-transform: none; // Keep text as "Log in" not "LOG IN"
+}
+
+// Style the "Lost password?" link
+.lost-password-button {
+  margin-top: 8px;
+  --color: var(--ion-color-medium-shade);
+  font-weight: normal;
+  text-transform: none;
+}

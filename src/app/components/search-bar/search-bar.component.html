@@ -1,0 +1,20 @@
+<div class="search-container">
+  <form [formGroup]="searchForm" (ngSubmit)="onSearchByText()"  class="search-input-wrapper">
+    <ion-icon name="search-outline" class="search-icon"></ion-icon>
+    <input
+      class="text-lg w-[85%] md:w-full border-none outline-none focus:outline-none focus:border-none text-black dark:text-white"
+      placeholder="Search for Items"
+      type="text"
+      enterkeyhint="search"
+      style="outline: none"
+      formControlName="text"
+    />
+  </form>
+
+  <div class="action-icons">
+    <ion-button (click)="getNewPhoto()">
+      <ion-icon src="assets/icon/upload.svg"> </ion-icon>
+    </ion-button>
+    <ion-icon name="filter-outline" class="action-icon"></ion-icon>
+  </div>
+</div>
