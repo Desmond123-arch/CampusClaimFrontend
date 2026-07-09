@@ -55,14 +55,12 @@ export class AppComponent {
 
     App.addListener('appUrlOpen', data => {
       try {
-        console.log(data);
         const url = new URL(data.url);
         const token = url.searchParams.get('token');
         if (token) {
-          console.log(token);
           this.router.navigate(['/auth/reset-password'], { queryParams: { token } });
         } else {
-          console.log("No token found");
+          console.error("No token found");
         }
 
       } catch (err) {

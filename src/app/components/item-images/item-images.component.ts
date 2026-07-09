@@ -18,7 +18,6 @@ export class ItemImagesComponent  implements OnInit {
   }
 
   ngOnInit() {
-    // console.log(this.item)
   }
 
 }

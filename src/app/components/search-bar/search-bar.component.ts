@@ -47,7 +47,6 @@ export class SearchBarComponent implements OnInit {
       {
         next: async (response) => {
           await closeLoading(this.loadingCtrl);
-          console.log(response)
           await this.searchService.storeSearchResults(response);
           if (this.router.url !== '/main/search') {
             this.router.navigateByUrl('/main/search');
@@ -57,7 +56,6 @@ export class SearchBarComponent implements OnInit {
         error: async (err) => {
           await closeLoading(this.loadingCtrl);
           presentToast(this.toastContrl, "An error occured while searching", 'danger', 3000)
-          console.log(err);
         }
       }
     )
@@ -77,7 +75,6 @@ export class SearchBarComponent implements OnInit {
       {
         next: async (response) => {
           await closeLoading(this.loadingCtrl);
-          console.log(response)
           await this.searchService.storeSearchResults(response);
           if (this.router.url !== '/main/search') {
             this.router.navigateByUrl('/main/search');
@@ -87,7 +84,6 @@ export class SearchBarComponent implements OnInit {
         error: async (err) => {
           await closeLoading(this.loadingCtrl);
           presentToast(this.toastContrl,"An error occured while searching. Please try again",'danger', 200)
-          console.log(err);
         }
       }
     )

@@ -28,7 +28,6 @@ export class UserService {
   }
 
   changePassword(currentPassword: string, newPassword: string): Observable<any> {
-    // console.log(currentPassword, newPassword)
     return from(Preferences.get({ key: 'auth-token' })).pipe(
       switchMap(token => {
         if (!token.value) {
@@ -45,7 +44,6 @@ export class UserService {
   }
 
   sendDeviceToken(deviceToken: string): Observable<any> {
-    console.log("The device token is", deviceToken)
     return from(Preferences.get({key: 'auth-token'})).pipe(
       switchMap(token => {
         const headers = new HttpHeaders().set('Authorization', `Bearer ${token.value}`);

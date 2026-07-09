@@ -76,7 +76,7 @@ export class HomePage implements OnInit, OnDestroy {
         this.isLoading = false;
       },
       error: async (error: any) => {
-        console.log(error)
+        // console.log(error)
         await presentToast(this.toastController, "Error while fetching items, please try again", 'primary', 1500);
       }
     })
@@ -93,7 +93,7 @@ export class HomePage implements OnInit, OnDestroy {
         this.isLoading = false;
       },
       error: async (error: any) => {
-        console.log(error);
+        // console.log(error);
         await presentToast(this.toastController, "Error while fetching items, please try again", 'primary', 1500);
       }
     })

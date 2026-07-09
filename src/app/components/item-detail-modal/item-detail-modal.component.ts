@@ -21,7 +21,6 @@ export class ItemDetailModalComponent  implements OnInit {
   constructor(private modalCtrl: ModalController) {}
 
   ngOnInit(): void {
-    // console.log('Modal opened for ', this.item);
   }
 
   dismiss() {

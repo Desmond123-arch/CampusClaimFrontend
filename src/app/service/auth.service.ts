@@ -95,7 +95,6 @@ export class AuthService {
 
   async saveLoginDetails(accessToken: string, user: User) {
     //FIXME: This can be made cleaner
-    console.log("Storing login details")
     await Preferences.set({
       key: 'auth-token',
       value: accessToken
@@ -127,9 +126,6 @@ export class AuthService {
           key: 'user-id',
           value: userId
         });
-        console.log('User ID saved to preferences:', userId);
-      } else {
-        console.warn('User ID not found in JWT token claims (sub or id).');
       }
     } catch (error) {
       console.error('Error decoding JWT token:', error);

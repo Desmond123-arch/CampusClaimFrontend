@@ -45,7 +45,7 @@ export class MessagesPage implements OnInit, OnDestroy, AfterViewChecked {
     this._getCurrentUserId();
     this.webSocketService.getConnectionState().subscribe(state => {
       this.connectionState = state;
-      console.log('Connection state:', state);
+      // console.log('Connection state:', state);
     });
     this.loadConversations();
   }
@@ -87,7 +87,7 @@ export class MessagesPage implements OnInit, OnDestroy, AfterViewChecked {
     (await this.conversationService.getConversations()).subscribe({
       next: (response) => {
         this.conversations = response?.conversations || [];
-        console.log(this.conversations)
+        // console.log(this.conversations)
       },
       error: (err) => {
         console.error('Error loading conversations:', err);
@@ -112,7 +112,7 @@ export class MessagesPage implements OnInit, OnDestroy, AfterViewChecked {
     (await this.conversationService.getMessages(userId)).subscribe({
       next: (response) => {
         this.messages = response?.messages || [];
-        console.log(this.messages)
+        // console.log(this.messages)
       },
       error: (err) => {
         console.error('Error loading messages:', err);

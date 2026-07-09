@@ -39,10 +39,8 @@ export class UmatVleLoginComponent implements OnInit {
 
   onLogin() {
     if (this.loginForm.invalid) {
-      console.log('Form is invalid');
       return;
     }
-    console.log(this.loginForm.value)
     this.modalCtrl.dismiss(this.loginForm.value, 'confirm');
   }
 
@@ -51,7 +49,6 @@ export class UmatVleLoginComponent implements OnInit {
   }
 
   onForgotPassword() {
-    console.log('Forgot password clicked');
     this.modalCtrl.dismiss(null, 'forgot-password');
   }
 

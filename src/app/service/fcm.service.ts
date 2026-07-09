@@ -33,10 +33,10 @@ export class FcmService {
     await PushNotifications.addListener('registration', token => {
       this.userService.sendDeviceToken(token.value).subscribe({
         next: (response) => {
-          console.log(response)
+          // console.log(response)
         },
         error: (err) => {
-          console.log(err);
+          // console.log(err);
         }
       })
       console.info('Registration token: ', token.value);
@@ -47,17 +47,16 @@ export class FcmService {
     });
 
     await PushNotifications.addListener('pushNotificationReceived', notification => {
-      console.log('Push notification received: ', notification);
+      // console.log('Push notification received: ', notification);
     });
 
     await PushNotifications.addListener('pushNotificationActionPerformed', notification => {
-      console.log('Push notification action performed', notification.actionId, notification.inputValue);
+      // console.log('Push notification action performed', notification.actionId, notification.inputValue);
     });
   }
 
   getDeliveredNotifications = async () => {
     const notificationList = await PushNotifications.getDeliveredNotifications();
-    console.log('delivered notifications', notificationList);
   }
 }
 

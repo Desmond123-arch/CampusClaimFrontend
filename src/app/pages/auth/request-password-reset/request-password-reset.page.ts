@@ -46,7 +46,6 @@ export class RequestPasswordResetPage implements OnInit {
         this.loadingCtrl.dismiss()
       },
       error: error => {
-        console.log(error);
         this.loadingCtrl.dismiss()
       }
     })

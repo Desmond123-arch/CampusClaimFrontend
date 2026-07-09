@@ -65,7 +65,6 @@ export class SearchPage implements OnInit {
       try {
 
         const response = await firstValueFrom(this.itemService.getItemById(itemId));
-        console.log('Received item data from API:', response);
   
         const itemToShow = response?.item;
         if (!itemToShow) {

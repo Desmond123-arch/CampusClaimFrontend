@@ -59,12 +59,12 @@ export class ReportFoundItemsPage implements OnInit {
         setTimeout(async () => {
           await this.router.navigate(['/main/home']);
         }, 1500);
-        console.log(response)
+        // console.log(response)
       }),
       error: (async error => {
         await closeLoading(this.loadingCtrl)
         await presentToast(this.toastCtrl, "Error occured while adding item", 'danger', 3000)
-        console.log(error)
+        // console.log(error)
       })
     })
   }

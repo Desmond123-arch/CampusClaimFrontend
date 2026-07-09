@@ -144,7 +144,6 @@ export class FoundItemFormComponent implements OnInit {
 
   onFileSelected(event: any): void {
     const files = event.target.files;
-    // console.log(files)
     if (files) {
       for (const file of files) {
         const reader = new FileReader();
@@ -173,7 +172,6 @@ export class FoundItemFormComponent implements OnInit {
 
   submitForm() {
     if (this.foundItemForm.valid && this.selectedImages.length !== 0) {
-      console.log('Form is valid. Emitting data:', this.foundItemForm.value);
       this.foundItemForm.value["images"] = this.selectedImages;
       this.formSubmitted.emit(this.foundItemForm.value);
       if (this.isValid) {

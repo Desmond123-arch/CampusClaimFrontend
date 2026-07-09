@@ -60,7 +60,6 @@ export class RegisterPage implements OnInit {
       this.google.handleGoogleCallback().subscribe({
         next: async (res) => {
           await closeLoading(this.loadingCtrl)
-          console.log(res.accessToken, res.user)
           this.fcmService.initPush()
           await this.authService.saveLoginDetails(res.accessToken, res.user)
           presentToast(this.toastController, "Login Successfull", "success", 2000)
@@ -71,10 +70,8 @@ export class RegisterPage implements OnInit {
                 window.history.replaceState({}, document.title, '/auth/login');
 
                 const success = await this.router.navigate(['/main/home'], { replaceUrl: true });
-                console.log('Navigation success:', success);
 
                 if (!success) {
-                  console.log('Using fallback navigation');
                   window.location.assign('/main/home');
                 }
               } catch (error) {
@@ -85,7 +82,6 @@ export class RegisterPage implements OnInit {
           }, 500);
         },
         error: async (err) => {
-          console.log("An error occured")
           await closeLoading(this.loadingCtrl);
           presentToast(this.toastController, err.error.errors, "danger", 2000)
           console.error("Google login error:", err);
@@ -205,9 +201,9 @@ export class RegisterPage implements OnInit {
       });
 
     } else if (role === 'forgot-password') {
-      console.log('User clicked "Lost password?". You can navigate to a reset page here.');
+      // console.log('User clicked "Lost password?". You can navigate to a reset page here.');
     } else {
-      console.log('Modal was cancelled or dismissed.');
+      // console.log('Modal was cancelled or dismissed.');
     }
   }
 

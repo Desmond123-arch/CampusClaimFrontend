@@ -15,7 +15,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       if (req.context.get(SKIP_AUTH)) {
         return next(req).pipe(
           catchError((error: HttpErrorResponse) => {
-            console.log('SKIP_AUTH route failed:', error);
             authService.logout();
             return throwError(() => error);
           })
@@ -35,7 +34,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
             )
           }),
           catchError(refreshError => {
-            console.log("authInterceptor ran")
             authService.logout();
             return throwError(() => refreshError);
           })

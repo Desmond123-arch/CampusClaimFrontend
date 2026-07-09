@@ -67,12 +67,9 @@ export class ChangePasswordComponent {
   }
 
   async onSubmit() {
-    console.log("Hello")
     if (this.changePasswordForm.invalid) {
-      console.log(this.changePasswordForm)
       return;
     }
-    console.log(this.changePasswordForm.value)
     const { currentPassword, newPassword, confirmPassword } = this.changePasswordForm.value;
 
     if (newPassword !== confirmPassword) {
@@ -89,13 +86,11 @@ export class ChangePasswordComponent {
     this.userService.changePassword(currentPassword, newPassword).subscribe(
       {
         next: (async response => {
-          console.log(response)
           await loading.dismiss();
           presentToast(this.toastController, 'Password changed successfully!', 'success', 2000);
           this.dismiss();
         }),
         error: (async error => {
-          console.log(error);
           presentToast(this.toastController, error.error.errors, 'danger', 2000);
           await loading.dismiss()
         })

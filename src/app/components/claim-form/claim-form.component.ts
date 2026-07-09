@@ -50,7 +50,6 @@ export class ClaimFormComponent implements OnInit {
 
 
     this.claimForm.get('lostDateTime')?.valueChanges.subscribe(value => {
-      // console.log(value)
       this.formattedDateString = format(new Date(value), 'MMM d, y, h:mm a') || '';
     });
   }
@@ -58,11 +57,9 @@ export class ClaimFormComponent implements OnInit {
   async submitClaim() {
     if (this.claimForm.valid) {
       await showLoading(this.loadingCtrl)
-      console.log(this.claimForm.value)
       this.modalController.dismiss(this.claimForm.value, 'claim-submitted');
       this.claimService.submitClaim(this.claimForm.value, this.item.item_uuid).subscribe({
         next: async (response) => {
-          console.log(response)
           await closeLoading(this.loadingCtrl)
           // await presentToast(this.toastCtrl, "Claimed submitted to the poster", 'success', 2000)
           await this.showSuccessModal();

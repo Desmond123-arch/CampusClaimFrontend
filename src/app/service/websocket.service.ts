@@ -56,13 +56,11 @@ export class WebsocketService {
         .replace('http://', 'ws://')
         .replace('https://', 'wss://') + `/ws?token=${token}`;
 
-      console.log('🔄 Connecting to WebSocket:', wsUrl);
 
       this.socket$ = webSocket({
         url: wsUrl,
         openObserver: {
           next: () => {
-            console.log("✅ WebSocket connection opened");
             this.connectionState$.next(WebSocketState.CONNECTED);
             this.reconnectAttempts = 0;
             
@@ -71,7 +69,6 @@ export class WebsocketService {
         },
         closeObserver: {
           next: (event) => {
-            console.log('🔒 WebSocket connection closed', event.code, event.reason);
             this.connectionState$.next(WebSocketState.DISCONNECTED);
             
             if (event.code !== 1000 && event.code !== 1001) {
@@ -83,7 +80,6 @@ export class WebsocketService {
 
       this.socket$.subscribe({
         next: (message) => {
-          console.log('📨 Message received from socket:', message);
           this.messagesSubject.next(message); // Broadcast the message
         },
         error: (err) => {
@@ -108,7 +104,6 @@ export class WebsocketService {
     }
 
     this.reconnectAttempts++;
-    console.log(`🔄 Attempting to reconnect (${this.reconnectAttempts}/${this.maxReconnectAttempts})...`);
     
     setTimeout(() => {
       this.connectWebSocket();
@@ -117,7 +112,6 @@ export class WebsocketService {
 
   private processMessageQueue() {
     if (this.messageQueue.length > 0) {
-      console.log(`📤 Sending ${this.messageQueue.length} queued messages`);
       
       this.messageQueue.forEach(message => {
         this.sendMessageNow(message);
@@ -131,7 +125,6 @@ export class WebsocketService {
     if (this.socket$ && this.isConnected()) {
       try {
         this.socket$.next(message);
-        console.log('📤 Message sent:', message);
         return true;
       } catch (error) {
         console.error('❌ Failed to send message:', error);
@@ -153,7 +146,6 @@ export class WebsocketService {
         const success = this.sendMessageNow(message);
         resolve(success);
       } else if (this.connectionState$.value === WebSocketState.CONNECTING) {
-        console.log('⏳ Queueing message while connecting...');
         this.messageQueue.push(message);
         
         const subscription = this.connectionState$.subscribe(state => {
@@ -179,7 +171,7 @@ export class WebsocketService {
 
   // Get messages observable
   getMessages(): Observable<any> {
-    console.log('WebSocketService: getMessages() called. Socket available:', !!this.socket$);
+    // console.log('WebSocketService: getMessages() called. Socket available:', !!this.socket$);
     return this.messagesSubject.asObservable();
   }
 
@@ -192,7 +184,7 @@ export class WebsocketService {
   }
 
   async reconnect() {
-    console.log('🔄 Manual reconnect requested');
+    // console.log('🔄 Manual reconnect requested');
     this.closeConnection();
     this.reconnectAttempts = 0;
     await this.connectWebSocket();

@@ -44,7 +44,6 @@ export class NotificationService {
     });
 
     PushNotifications.addListener('registration', (token: Token) => {
-      console.log('Push registration success, token: ' + token.value);
       // TODO: Send the token to your backend to store it
     });
 
@@ -53,12 +52,11 @@ export class NotificationService {
     });
 
     PushNotifications.addListener('pushNotificationReceived', (notification: PushNotificationSchema) => {
-      console.log('Push received: ' + JSON.stringify(notification));
+      // console.log('Push received: ' + JSON.stringify(notification));
     });
 
     PushNotifications.addListener('pushNotificationActionPerformed', (notification: ActionPerformed) => {
       const data = notification.notification.data;
-      console.log('Push action performed: ' + data);
       if (data.item_id) {
 
         this.openItemFromNotification(data.item_id);
@@ -70,7 +68,6 @@ export class NotificationService {
     this.itemsService.getItemById(itemId).subscribe({
       next: (response) => {
 
-        console.log('Received item data from API:', response);
 
         this.zone.run(async () => {
           const item = response;
